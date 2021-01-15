@@ -1,6 +1,5 @@
 # karvis-space-game-telegram-bot
 
-[![Build Status](https://travis-ci.com/EdJoPaTo/karvis-space-game-telegram-bot.svg?branch=master)](https://travis-ci.com/EdJoPaTo/karvis-space-game-telegram-bot)
 [![Dependency Status](https://david-dm.org/EdJoPaTo/karvis-space-game-telegram-bot/status.svg)](https://david-dm.org/EdJoPaTo/karvis-space-game-telegram-bot)
 [![Dev Dependency Status](https://david-dm.org/EdJoPaTo/karvis-space-game-telegram-bot/dev-status.svg)](https://david-dm.org/EdJoPaTo/karvis-space-game-telegram-bot?type=dev)
 
