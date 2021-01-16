@@ -1,7 +1,12 @@
 import {ObjectInSpace} from './object-in-space';
 
+export const MINIMUM_WEAPON_DAMAGE_POTENTIAL = 0.001;
+
 export type WeaponInSpace = Missile | Projectile;
 interface WeaponInSpaceBase extends ObjectInSpace {
+	// Override base to be non nullable as it has to go somewhere
+	readonly direction: NonNullable<ObjectInSpace['direction']>;
+
 	readonly playerId: string;
 
 	/**
