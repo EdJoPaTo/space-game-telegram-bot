@@ -1,5 +1,6 @@
 import {existsSync, readFileSync} from 'fs';
 
+import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
 import {I18n as TelegrafI18n} from '@edjopato/telegraf-i18n';
 import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
@@ -31,6 +32,10 @@ const i18n = new TelegrafI18n({
 });
 
 bot.use(i18n.middleware());
+
+if (process.env.NODE_ENV !== 'production') {
+	bot.use(generateUpdateMiddleware());
+}
 
 bot.command('help', async context => context.reply(context.i18n.t('help')));
 
