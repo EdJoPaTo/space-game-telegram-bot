@@ -14,13 +14,6 @@ function menuBody(context: MyContext, path: string): Body {
 
 	let text = '';
 	text += moduleHeader(context, module, all.length);
-	text += format.bold(context.i18n.t('ship.module.' + module + '.title'));
-	text += ' (';
-	text += all.length;
-	text += ')';
-	text += '\n\n';
-
-	text += context.i18n.t('ship.module.' + module + '.description');
 
 	return {text, parse_mode: format.parse_mode};
 }

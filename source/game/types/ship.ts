@@ -45,10 +45,14 @@ export interface Printer {
 	readonly module: 'Printer';
 }
 
+export const PDC_PROJECTILE_STORAGE = 100;
+
 export interface PointDefenseCannon {
 	readonly module: 'PointDefenseCannon';
 	readonly projectiles: number;
 }
+
+export const RAILGUN_SLUG_STORAGE = 3;
 
 export interface Railgun {
 	readonly module: 'Railgun';

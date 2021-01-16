@@ -2,11 +2,12 @@ import {Body, MenuTemplate} from 'telegraf-inline-menu';
 import {markdown as format} from 'telegram-format';
 
 import {backButtons} from '../general';
-import {Module, ModuleName, MODULES} from '../../../game/types';
+import {ModuleName, MODULES} from '../../../game/types';
 import {MyContext} from '../../my-context';
 
 import {getShip, saveShipWithModules} from './helper';
 import {menu as genericMenu} from './generic';
+import {menu as railgunMenu} from './railgun';
 
 function buttonText(module: ModuleName): (context: MyContext) => string {
 	return context => context.i18n.t('ship.module.' + module + '.title');
@@ -15,7 +16,7 @@ function buttonText(module: ModuleName): (context: MyContext) => string {
 function menuBody(context: MyContext): Body {
 	const ship = getShip(context.from!.id);
 
-	let text = context.i18n.t('ship.overview');
+	let text = format.bold(context.i18n.t('ship.overview'));
 
 	text += '\n\n';
 
@@ -38,20 +39,12 @@ menu.submenu(buttonText('Miner'), 'Miner', genericMenu);
 menu.submenu(buttonText('Printer'), 'Printer', genericMenu);
 
 menu.submenu(buttonText('PointDefenseCannon'), 'PointDefenseCannon', genericMenu);
-menu.submenu(buttonText('Railgun'), 'Railgun', genericMenu, {joinLastRow: true});
+menu.submenu(buttonText('Railgun'), 'Railgun', railgunMenu, {joinLastRow: true});
 menu.submenu(buttonText('MissileBay'), 'MissileBay', genericMenu, {joinLastRow: true});
 
-menu.interact('create-storage', 'create-storage', {
+menu.interact('CHEAT destroy all modules', 'cheat-module-destroy', {
 	do: async context => {
-		const ship = getShip(context.from!.id);
-
-		const newModules: Module[] = [...ship.modules, {
-			module: 'Storage',
-			storedMass: 0
-		}];
-
-		await saveShipWithModules(context.from!.id, newModules);
-
+		await saveShipWithModules(context.from!.id, []);
 		return true;
 	}
 });

@@ -14,3 +14,34 @@ settings:
     Or as the developer:
     Feel free to add the things you want users to adjust.
   language: Select your language
+map:
+  button: Map
+  overview: Map Overview
+ship:
+  button: Ship
+  overview: Ship Overview
+  module:
+    Engine:
+      title: Engine
+      description: The thing that propels you into a direction.
+    Storage:
+      title: Storage
+      description: With the storage you can take mass with you.
+    Miner:
+      title: Miner
+      description: Mine mass from asteroids.
+    Printer:
+      title: 3D Printer
+      description: You can try to shoot raw mass but projectiles are way more effective at penetrating the hull of other ships. The 3D Printer can print all kinds of goods from mass.
+    PointDefenseCannon:
+      title: Point Defense Cannon
+      description: Multi Barrel Machinegun which fires a lot of projectiles at enemy ships or missiles in close combat. Too inaccurate to hit anything intended over longer distances.
+    Railgun:
+      title: Railgun
+      description: >
+        Can fire heavy slugs which will hit someone at some point of time very hard.
+        Good weapon at medium distances but relatively easy to evade over longer distances.
+      slugs: Slugs
+    MissileBay:
+      title: Missile Bay
+      description: Hangar for storing missiles. Missiles can be effective at attacking enemies over long ranges but they are easy targets for Point Defense Cannons.

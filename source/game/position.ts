@@ -1,4 +1,5 @@
 export type Direction = 'N' | 'NE' | 'E' | 'SE' | 'S' | 'SW' | 'W' | 'NW';
+export const DIRECTIONS: readonly Direction[] = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 export interface Coordinates {
 	readonly x: number;
@@ -43,4 +44,8 @@ export function applyDirectionalMove(start: Coordinates, direction: Direction | 
 	}
 
 	return {x, y};
+}
+
+export function isDirection(direction: unknown): direction is Direction {
+	return typeof direction === 'string' && Boolean(direction) && DIRECTIONS.includes(direction as any);
 }

@@ -25,8 +25,8 @@ export function moduleHeader(context: MyContext, module: ModuleName, amount: num
 	text += format.bold(context.i18n.t('ship.module.' + module + '.title'));
 	text += ' (';
 	text += amount;
-	text += ')';
-	text += '\n\n';
+	text += 'x)';
+	text += '\n';
 
 	text += context.i18n.t('ship.module.' + module + '.description');
 	text += '\n\n';
