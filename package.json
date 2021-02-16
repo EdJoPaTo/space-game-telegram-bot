@@ -2,20 +2,9 @@
 	"name": "karvis-space-game-telegram-bot",
 	"private": true,
 	"version": "0.0.0",
-	"description": "",
-	"keywords": [
-		""
-	],
 	"license": "MIT",
-	"repository": "EdJoPaTo/karvis-space-game-telegram-bot",
-	"author": {
-		"name": "EdJoPaTo",
-		"email": "karvis-space-game@edjopato.de",
-		"url": "https://edjopato.de"
-	},
 	"scripts": {
 		"build": "del-cli dist && tsc",
-		"prepack": "npm run build",
 		"start": "tsc --sourceMap && node --unhandled-rejections=strict -r source-map-support/register dist/source/index.js",
 		"test": "tsc --sourceMap && xo && nyc ava"
 	},
@@ -43,12 +32,6 @@
 		"typescript": "^4.1.2",
 		"xo": "^0.37.1"
 	},
-	"files": [
-		"dist/source",
-		"!*.test.*"
-	],
-	"main": "dist/source",
-	"types": "dist/source",
 	"nyc": {
 		"all": true,
 		"extension": [
