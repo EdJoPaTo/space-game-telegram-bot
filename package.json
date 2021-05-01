@@ -30,7 +30,7 @@
 		"del-cli": "^3.0.0",
 		"nyc": "^15.0.0",
 		"typescript": "^4.1.2",
-		"xo": "^0.38.2"
+		"xo": "^0.39.1"
 	},
 	"nyc": {
 		"all": true,
@@ -52,6 +52,7 @@
 	},
 	"xo": {
 		"rules": {
+			"@typescript-eslint/no-non-null-assertion": "off",
 			"ava/no-ignored-test-files": "off"
 		}
 	}

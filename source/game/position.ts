@@ -47,5 +47,5 @@ export function applyDirectionalMove(start: Coordinates, direction: Direction | 
 }
 
 export function isDirection(direction: unknown): direction is Direction {
-	return typeof direction === 'string' && Boolean(direction) && DIRECTIONS.includes(direction as any);
+	return typeof direction === 'string' && Boolean(direction) && (DIRECTIONS as string[]).includes(direction);
 }
