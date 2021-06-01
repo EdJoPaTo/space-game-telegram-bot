@@ -20,6 +20,9 @@ VOLUME /app/persist
 
 ENV NODE_ENV=production
 
+RUN apk upgrade --no-cache
+
+COPY package.json ./
 COPY --from=packages /build/node_modules ./node_modules
 COPY locales locales
 COPY --from=builder /build/dist ./
