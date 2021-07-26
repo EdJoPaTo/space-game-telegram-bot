@@ -1,17 +1,13 @@
-import {existsSync, readFileSync} from 'fs';
-
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
 import {I18n as TelegrafI18n} from '@edjopato/telegraf-i18n';
 import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
 import * as TelegrafSessionLocal from 'telegraf-session-local';
 
-import {MyContext} from './my-context';
-import {menu} from './menu';
+import {MyContext} from './my-context.js';
+import {menu} from './menu/index.js';
 
-const token = (existsSync('/run/secrets/bot-token.txt') && readFileSync('/run/secrets/bot-token.txt', 'utf8').trim()) ||
-	(existsSync('bot-token.txt') && readFileSync('bot-token.txt', 'utf8').trim()) ||
-	process.env['NODE_ENV'];
+const token = process.env['NODE_ENV'];
 if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)');
 }
@@ -19,7 +15,7 @@ if (!token) {
 const bot = new Telegraf<MyContext>(token);
 
 const localSession = new TelegrafSessionLocal({
-	database: 'persist/sessions.json'
+	database: 'persist/sessions.json',
 });
 
 bot.use(localSession.middleware());
@@ -28,7 +24,7 @@ const i18n = new TelegrafI18n({
 	directory: 'locales',
 	defaultLanguage: 'en',
 	defaultLanguageOnMissing: true,
-	useSession: true
+	useSession: true,
 });
 
 bot.use(i18n.middleware());
@@ -52,7 +48,7 @@ export async function start(): Promise<void> {
 	await bot.telegram.setMyCommands([
 		{command: 'start', description: 'open the menu'},
 		{command: 'help', description: 'show the help'},
-		{command: 'settings', description: 'open the settings'}
+		{command: 'settings', description: 'open the settings'},
 	]);
 
 	await bot.launch();

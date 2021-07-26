@@ -5,17 +5,16 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "del-cli dist && tsc",
-		"start": "ts-node source/index.ts",
-		"test": "tsc --sourceMap && xo && nyc ava"
+		"start": "node --loader ts-node/esm source/index.ts",
+		"test": "tsc --sourceMap && xo && ava"
 	},
-	"type": "commonjs",
+	"type": "module",
 	"engines": {
-		"node": ">=14"
+		"node": ">=16"
 	},
 	"dependencies": {
-		"@edjopato/datastore": "^0.3.4",
+		"@edjopato/datastore": "^0.4.0",
 		"@edjopato/telegraf-i18n": "^0.2.0",
-		"node-schedule": "^1.3.2",
 		"source-map-support": "^0.5.19",
 		"telegraf": "^4.0.1",
 		"telegraf-inline-menu": "^6.0.0",
@@ -25,27 +24,21 @@
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^1.0.1",
-		"@types/node": "^15.0.1",
-		"@types/node-schedule": "^1.3.1",
+		"@types/node": "^16.0.0",
 		"ava": "^3.0.0",
 		"del-cli": "^4.0.0",
-		"nyc": "^15.0.0",
 		"ts-node": "^10.0.0",
 		"typescript": "^4.2.3",
-		"xo": "^0.40.1"
-	},
-	"nyc": {
-		"all": true,
-		"reporter": [
-			"lcov",
-			"text"
-		]
+		"xo": "^0.42.0"
 	},
 	"xo": {
 		"rules": {
-			"@typescript-eslint/no-non-null-assertion": "off",
+			"ava/no-ignored-test-files": "off",
 			"unicorn/prefer-node-protocol": "off",
-			"ava/no-ignored-test-files": "off"
+			"import/extensions": [
+				"error",
+				"ignorePackages"
+			]
 		}
 	}
 }
