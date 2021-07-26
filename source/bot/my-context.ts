@@ -3,6 +3,7 @@ import {I18nContext} from '@edjopato/telegraf-i18n';
 
 export interface Session {
 	page?: number;
+	planned?: string[];
 }
 
 export interface MyContext extends BaseContext {

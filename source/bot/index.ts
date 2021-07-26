@@ -2,12 +2,13 @@ import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
 import {I18n as TelegrafI18n} from '@edjopato/telegraf-i18n';
 import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
-import * as TelegrafSessionLocal from 'telegraf-session-local';
+import TelegrafSessionLocal from 'telegraf-session-local';
 
 import {MyContext} from './my-context.js';
 import {menu} from './menu/index.js';
+import {menu as settingsMenu} from './menu/settings/index.js';
 
-const token = process.env['NODE_ENV'];
+const token = process.env['BOT_TOKEN'];
 if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)');
 }
@@ -37,8 +38,11 @@ bot.command('help', async context => context.reply(context.i18n.t('help')));
 
 const menuMiddleware = new MenuMiddleware('/', menu);
 bot.command('start', async context => menuMiddleware.replyToContext(context));
-bot.command('settings', async context => menuMiddleware.replyToContext(context, '/settings/'));
 bot.use(menuMiddleware.middleware());
+
+const settingsMenuMiddleware = new MenuMiddleware('settings/', settingsMenu);
+bot.command('settings', async context => settingsMenuMiddleware.replyToContext(context));
+bot.use(settingsMenuMiddleware.middleware());
 
 bot.catch(error => {
 	console.error('telegraf error occured', error);
