@@ -2,7 +2,7 @@
 	"name": "karvis-space-game-telegram-bot",
 	"private": true,
 	"version": "0.0.0",
-	"license": "MIT",
+	"license": "AGPL-3.0-or-later",
 	"scripts": {
 		"build": "del-cli dist && tsc",
 		"start": "node --loader ts-node/esm source/index.ts",
