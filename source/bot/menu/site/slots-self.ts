@@ -4,9 +4,10 @@ import {backButtons} from '../general.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 
-export const menu = new MenuTemplate<MyContext>(ctx => menuBody(ctx, {shipstats: true,
-	menuPosition: ['Medium Slots'],
+export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
+	menuPosition: ['Self Slots'],
 	planned: true,
+	shipstats: true,
 }));
 
 menu.toggle('Shield Booster', 'sb', {

@@ -7,11 +7,10 @@ import {menuBody} from './body.js';
 import {menu as slotsSelfMenu} from './site/slots-self.js';
 import {menu as slotsTargetedMenu} from './site/slots-targeted.js';
 
-export const menu = new MenuTemplate<MyContext>(ctx => menuBody(ctx, {
+export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 	entities: true,
 	planned: true,
 	shipstats: true,
-	timer: true,
 }));
 
 async function answerCbNope(ctx: MyContext) {
@@ -19,9 +18,9 @@ async function answerCbNope(ctx: MyContext) {
 	return false;
 }
 
-menu.submenu('High Slots', 'slots-targeted', slotsTargetedMenu);
+menu.submenu('Targeted Slots', 'slots-targeted', slotsTargetedMenu);
 
-menu.submenu('Medium Slots', 'slots-self', slotsSelfMenu, {
+menu.submenu('Self Slots', 'slots-self', slotsSelfMenu, {
 	joinLastRow: true,
 });
 

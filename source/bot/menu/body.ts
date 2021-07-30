@@ -1,9 +1,11 @@
 import {html as format} from 'telegram-format';
 
+import {getPlayerlocation} from '../../game/get-playerstate.js';
+import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
+import {SOLARSYSTEMS} from '../../game/types/static/solarsystems.js';
 
 export interface Options {
-	readonly timer?: true;
 	readonly shipstats?: true;
 	readonly entities?: true;
 	readonly planned?: true;
@@ -13,30 +15,39 @@ export interface Options {
 	readonly text?: string;
 }
 
-export function menuBody(context: MyContext, options: Options = {}) {
+export async function menuBody(context: MyContext, options: Options = {}) {
+	const player = await getPlayerlocation();
 	let text = '';
+
+	const solarsystem = SOLARSYSTEMS[player.solarsystem]!;
 	text += format.italic('🪐Solarsystem');
 	text += ': ';
-	text += 'Karvis';
+	text += solarsystem.name;
 	text += ' ';
-	text += format.italic('0.92');
+	text += format.italic(solarsystem.security.toFixed(2));
 	text += '\n';
 
-	text += infoline('📍Site', 'K3 Asteroid Belt III');
-	if (options.timer) {
-		text += infoline('⏱Round Time', '30s');
+	if ('station' in player) {
+		text += infoline('📍Station', player.station.toString());
+	} else {
+		const {site} = player;
+		text += site ? infoline('📍Site', 'K3 Asteroid Belt III') : '📍In warp…\n';
 	}
 
 	text += '\n';
 
-	if (options.shipstats) {
-		text += infoline('🛡Armor', '75% 60/80');
-		text += infoline('🚀Hull', '100% 20/20');
-		text += infoline('🔋Energy', '50% 20/40 (+10/r)');
-		text += '\n';
+	if ('shipStatus' in player) {
+		const {shipFitting, shipStatus} = player;
+		if (options.shipstats) {
+			const ship = getShipQuickstats(shipFitting);
+			text += infoline('🛡Armor', quickstatsValue(shipStatus.armor, ship.armor));
+			text += infoline('🚀Structure', quickstatsValue(shipStatus.structure, ship.structure));
+			text += infoline('🔋Energy', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+			text += '\n';
+		}
 	}
 
-	if (options.entities) {
+	if ('site' in player && options.entities) {
 		text += entityLine('->', 'Rookie Ship', '🦔' + context.from!.first_name);
 		text += entityLine(' 1', 'Frigate', '🏴‍☠️Pirate');
 		text += entityLine(' 2', 'Asteroid');
@@ -66,6 +77,25 @@ export function menuBody(context: MyContext, options: Options = {}) {
 
 function infoline(title: string, value: string): string {
 	return format.italic(title) + ': ' + value + '\n';
+}
+
+function quickstatsValue(current: number, max: number, recharge?: number) {
+	const percentage = current / max;
+	const percentageHuman = (percentage * 100).toFixed(1) + '%';
+	let text = '';
+	text += percentageHuman;
+	text += ' ';
+	text += current.toFixed(0);
+	text += '/';
+	text += max.toFixed(0);
+
+	if (recharge) {
+		text += ' (+';
+		text += recharge.toFixed(0);
+		text += '/r)';
+	}
+
+	return text;
 }
 
 function entityLine(id: string, type: string, owner?: string): string {

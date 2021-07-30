@@ -4,12 +4,12 @@ import {backButtons} from '../general.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 
-export const moduleMenu = new MenuTemplate<MyContext>((ctx, path) => {
+export const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const module = path.split('m:')[1]!.split('/')[0]!;
 
 	return menuBody(ctx, {
 		entities: true,
-		menuPosition: ['High Slots', module],
+		menuPosition: ['Targeted Slots', module],
 		planned: true,
 		shipstats: true,
 	});
@@ -43,9 +43,9 @@ moduleMenu.choose('t', targets, {
 
 moduleMenu.manualRow(backButtons);
 
-export const menu = new MenuTemplate<MyContext>(ctx => menuBody(ctx, {
+export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 	entities: true,
-	menuPosition: ['High Slots'],
+	menuPosition: ['Targeted Slots'],
 	planned: true,
 	shipstats: true,
 }));
