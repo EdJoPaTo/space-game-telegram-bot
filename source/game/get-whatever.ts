@@ -1,7 +1,7 @@
 import {PlayerLocation, PlayerPretty} from './types/dynamic/player.js';
 import {Site, SiteIdentifier} from './types/dynamic/site.js';
 
-export async function getPlayerPretty(): Promise<PlayerPretty> {
+export async function getPlayerPretty(_playerId: unknown): Promise<PlayerPretty> {
 	return {
 		name: 'Bob',
 	};

@@ -1,22 +1,20 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons, choicesByArrayIndex} from '../general.js';
-import {getPlayerLocation, getSite} from '../../../game/get-whatever.js';
+import {getSite} from '../../../game/get-whatever.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/types/static/modules.js';
 import {MyContext} from '../../my-context.js';
 
-async function getModules() {
-	const info = await getPlayerLocation();
-	if (!('shipFitting' in info)) {
-		throw new Error('not in space');
-	}
+import {getPlayerInSite} from './helper.js';
 
+async function getModules(ctx: MyContext) {
+	const info = await getPlayerInSite(ctx);
 	return info.shipFitting.slotsTargeted;
 }
 
 export const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
-	const modules = await getModules();
+	const modules = await getModules(ctx);
 	const index = Number(path.split('m:')[1]!.split('/')[0]);
 	const moduleKey = modules[index]!;
 	const module = MODULE_TARGETED[moduleKey]!;
@@ -56,10 +54,14 @@ moduleMenu.choose('t', getTargets, {
 		}
 
 		const path = ctx.callbackQuery.data;
-		const index = Number(path.split('m:')[1]!.split('/')[0]);
+		const moduleId = Number(path.split('m:')[1]!.split('/')[0]);
 
-		ctx.session.planned ??= [];
-		ctx.session.planned.push(`Module Targeted ${index} -> ${Number(key) + 1}`);
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'module-targeted' || o.moduleId !== moduleId) ?? [];
+		ctx.session.planned.push({
+			type: 'module-targeted',
+			moduleId,
+			targetIdInSite: Number(key),
+		});
 
 		await ctx.answerCbQuery('added to planned actions');
 
@@ -77,7 +79,7 @@ export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 }));
 
 async function getModuleChoices(ctx: MyContext) {
-	const modules = await getModules();
+	const modules = await getModules(ctx);
 	const names = modules.map(m => ctx.i18n.t(`static.${m}.title`));
 	return choicesByArrayIndex(names);
 }

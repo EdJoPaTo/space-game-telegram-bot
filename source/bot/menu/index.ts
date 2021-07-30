@@ -1,11 +1,12 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
+import {getPlayerLocation, getSite} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
 
-import {menuBody} from './body.js';
-
+import {menu as facilityMenu} from './site/facilities.js';
 import {menu as slotsSelfMenu} from './site/slots-self.js';
 import {menu as slotsTargetedMenu} from './site/slots-targeted.js';
+import {menuBody} from './body.js';
 
 export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 	entities: true,
@@ -18,18 +19,22 @@ async function answerCbNope(ctx: MyContext) {
 	return false;
 }
 
-menu.submenu('Targeted Slots', 'slots-targeted', slotsTargetedMenu);
+menu.submenu('Targeted Slots', 'slots-targeted', slotsTargetedMenu, {
+	hide: async ctx => !(await canDoSomething(ctx)),
+});
 
 menu.submenu('Self Slots', 'slots-self', slotsSelfMenu, {
 	joinLastRow: true,
+	hide: async ctx => !(await canDoSomething(ctx)),
 });
 
-menu.interact('Ship Functions', 'ship', {
-	do: answerCbNope,
+menu.submenu('Facilities', 'facilities', facilityMenu, {
+	hide: async ctx => !(await canUseFacilities(ctx)),
 });
 
-menu.interact('Facilities', 'facilities', {
+menu.interact('Initiate Warp', 'warp', {
 	joinLastRow: true,
+	hide: async ctx => !(await canDoSomething(ctx)),
 	do: answerCbNope,
 });
 
@@ -45,3 +50,30 @@ menu.interact('🛑Cancel Planned', 'cancel', {
 		return true;
 	},
 });
+
+async function canUseFacilities(ctx: MyContext) {
+	const location = await getPlayerLocation();
+	if (!('site' in location)) {
+		return false;
+	}
+
+	if (ctx.session.planned?.some(o => o.type === 'facility' || o.type === 'warp')) {
+		return false;
+	}
+
+	const site = await getSite(location.site);
+	return site.entities.some(o => o.type === 'facility');
+}
+
+async function canDoSomething(ctx: MyContext) {
+	const location = await getPlayerLocation();
+	if (!('site' in location)) {
+		return false;
+	}
+
+	if (ctx.session.planned?.some(o => o.type === 'facility' || o.type === 'warp')) {
+		return false;
+	}
+
+	return true;
+}

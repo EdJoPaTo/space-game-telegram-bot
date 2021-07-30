@@ -29,9 +29,10 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 
 	if ('station' in player) {
 		text += infoline('📍Station', player.station.toString());
+	} else if ('site' in player) {
+		text += infoline('📍Site', 'K3 Asteroid Belt III');
 	} else {
-		const {site} = player;
-		text += site ? infoline('📍Site', 'K3 Asteroid Belt III') : '📍In warp…\n';
+		text += '📍In warp…\n';
 	}
 
 	text += '\n';
@@ -39,6 +40,8 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 	if ('shipStatus' in player) {
 		const {shipFitting, shipStatus} = player;
 		if (options.shipstats) {
+			text += format.bold(context.i18n.t(`static.${shipFitting.layout}.title`));
+			text += '\n';
 			const ship = getShipQuickstats(shipFitting);
 			text += infoline('🛡Armor', quickstatsValue(shipStatus.armor, ship.armor));
 			text += infoline('🚀Structure', quickstatsValue(shipStatus.structure, ship.structure));
@@ -47,23 +50,27 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 		}
 	}
 
-	if ('site' in player && player.site && options.entities) {
+	if ('site' in player && options.entities) {
 		const {entities} = await getSite(player.site);
 
-		const lines = await Promise.all(entities.map(async (o, i) => {
-			const id = o.type === 'player' ? '->' : ` ${i + 1}`;
-			const type = context.i18n.t(`static.${'shiplayout' in o ? o.shiplayout : o.id}.title`);
+		const lines = await Promise.all(entities
+			.map((o, i) => ({o, i}))
+			// TODO: filter out only myself
+			.filter(o => o.o.type !== 'player')
+			.map(async ({o, i}) => {
+				const type = context.i18n.t(`static.${'shiplayout' in o ? o.shiplayout : o.id}.title`);
 
-			let owner: string | undefined;
-			if (o.type === 'npc') {
-				owner = '🏴‍☠️Pirate';
-			} else if (o.type === 'player') {
-				const pretty = await getPlayerPretty();
-				owner = pretty.name;
-			}
+				let owner: string | undefined;
+				if (o.type === 'npc') {
+					owner = '🏴‍☠️Pirate';
+				} else if (o.type === 'player') {
+					const pretty = await getPlayerPretty(o.id);
+					owner = pretty.name;
+				}
 
-			return entityLine(id, type, owner);
-		}));
+				return entityLine(i + 1, entities.length, type, owner);
+			}),
+		);
 
 		text += lines.join('\n');
 		text += '\n\n';
@@ -71,7 +78,7 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 
 	if (options.planned) {
 		text += '📝planned actions:\n';
-		text += context.session.planned?.length ? context.session.planned.join('\n') : 'none';
+		text += context.session.planned?.length ? context.session.planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
 		text += '\n\n';
 	}
 
@@ -111,8 +118,18 @@ function quickstatsValue(current: number, max: number, recharge?: number) {
 	return text;
 }
 
-function entityLine(id: string, type: string, owner?: string): string {
-	let text = format.monospace(id) + ' ' + format.bold(type);
+function entityLine(id: number, total: number, type: string, owner?: string): string {
+	let text = '';
+
+	const idText = String(id);
+	const idTargetWidth = Math.max(1, Math.floor(Math.log10(total)) + 1);
+	const missing = Math.max(0, idTargetWidth - idText.length);
+	const idPart = ' '.repeat(missing) + idText;
+	text += format.monospace(idPart);
+	text += ' ';
+
+	text += format.bold(type);
+
 	if (owner) {
 		text += ' ' + format.escape(owner);
 	}

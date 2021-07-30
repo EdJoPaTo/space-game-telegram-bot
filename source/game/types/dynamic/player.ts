@@ -8,7 +8,7 @@ interface StationIdentifier {
 	readonly station: number;
 }
 
-export type PlayerLocation = PlayerAtStation | PlayerInSpace;
+export type PlayerLocation = PlayerAtStation | PlayerInSpace | PlayerInSite;
 
 /** Written by Backend */
 export interface PlayerAtStation {
@@ -16,14 +16,23 @@ export interface PlayerAtStation {
 	readonly station: number;
 }
 
-/** Written by Backend */
+/**
+ * Written by Backend.
+ * Site is undefined when in warp between sites
+ */
 export interface PlayerInSpace {
 	readonly solarsystem: SolarsystemIdentifier;
-	/** Site is undefined when in warp between sites */
-	readonly site?: SiteIdentifier;
 
 	readonly shipFitting: ShipFitting;
 	readonly shipStatus: ShipStatus;
+}
+
+/**
+ * Written by Backend.
+ * Site is undefined when in warp between sites
+ */
+export interface PlayerInSite extends PlayerInSpace {
+	readonly site: SiteIdentifier;
 }
 
 /** Global information about a player. Only written by player while at station */

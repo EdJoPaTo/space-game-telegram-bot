@@ -56,3 +56,7 @@ static:
   modt2.title: Rookie Laser
   shiplayout1.title: Rookie Ship
   shiplayout2.title: Frigate
+
+service:
+  jump: Jump
+  dock: Dock

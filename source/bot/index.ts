@@ -10,7 +10,7 @@ import {menu as settingsMenu} from './menu/settings/index.js';
 
 const token = process.env['BOT_TOKEN'];
 if (!token) {
-	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)');
+	throw new Error('You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)');
 }
 
 const bot = new Telegraf<MyContext>(token);
