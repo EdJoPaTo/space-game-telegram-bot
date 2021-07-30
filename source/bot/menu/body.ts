@@ -1,6 +1,6 @@
 import {html as format} from 'telegram-format';
 
-import {getPlayerlocation} from '../../game/get-playerstate.js';
+import {getPlayerLocation, getPlayerPretty, getSite} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
 import {SOLARSYSTEMS} from '../../game/types/static/solarsystems.js';
@@ -16,7 +16,7 @@ export interface Options {
 }
 
 export async function menuBody(context: MyContext, options: Options = {}) {
-	const player = await getPlayerlocation();
+	const player = await getPlayerLocation();
 	let text = '';
 
 	const solarsystem = SOLARSYSTEMS[player.solarsystem]!;
@@ -47,13 +47,26 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 		}
 	}
 
-	if ('site' in player && options.entities) {
-		text += entityLine('->', 'Rookie Ship', '🦔' + context.from!.first_name);
-		text += entityLine(' 1', 'Frigate', '🏴‍☠️Pirate');
-		text += entityLine(' 2', 'Asteroid');
-		text += entityLine(' 3', 'Asteroid');
-		text += entityLine(' 4', 'Asteroid');
-		text += '\n';
+	if ('site' in player && player.site && options.entities) {
+		const {entities} = await getSite(player.site);
+
+		const lines = await Promise.all(entities.map(async (o, i) => {
+			const id = o.type === 'player' ? '->' : ` ${i + 1}`;
+			const type = context.i18n.t(`static.${'shiplayout' in o ? o.shiplayout : o.id}.title`);
+
+			let owner: string | undefined;
+			if (o.type === 'npc') {
+				owner = '🏴‍☠️Pirate';
+			} else if (o.type === 'player') {
+				const pretty = await getPlayerPretty();
+				owner = pretty.name;
+			}
+
+			return entityLine(id, type, owner);
+		}));
+
+		text += lines.join('\n');
+		text += '\n\n';
 	}
 
 	if (options.planned) {
@@ -104,6 +117,5 @@ function entityLine(id: string, type: string, owner?: string): string {
 		text += ' ' + format.escape(owner);
 	}
 
-	text += '\n';
 	return text;
 }

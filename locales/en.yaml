@@ -45,3 +45,14 @@ ship:
     MissileBay:
       title: Missile Bay
       description: Hangar for storing missiles. Missiles can be effective at attacking enemies over long ranges but they are easy targets for Point Defense Cannons.
+
+static:
+  facility1.title: Station
+  facility2.title: Stargate
+  lifeless1.title: Asteroid
+  modp1.title: Rookie Armor Plate
+  mods1.title: Rookie Armor Repair
+  modt1.title: Rookie Mining Laser
+  modt2.title: Rookie Laser
+  shiplayout1.title: Rookie Ship
+  shiplayout2.title: Frigate

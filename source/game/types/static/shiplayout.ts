@@ -16,9 +16,9 @@ export interface ShipLayout {
 	readonly hitpointsStructure: number;
 }
 
-export type ShipLayoutIdentifier = `shipl${number}`;
+export type ShipLayoutIdentifier = `shiplayout${number}`;
 export const SHIP_LAYOUTS: Readonly<Record<string, ShipLayout>> = {
-	shipl1: {
+	shiplayout1: {
 		// Rookie Ship
 		slotsTargeted: 2,
 		slotsSelf: 1,
@@ -29,5 +29,17 @@ export const SHIP_LAYOUTS: Readonly<Record<string, ShipLayout>> = {
 		capacitorRecharge: 5,
 		hitpointsArmor: 20,
 		hitpointsStructure: 10,
+	},
+	shiplayout2: {
+		// Frigate
+		slotsTargeted: 3,
+		slotsSelf: 2,
+		slotsPassive: 2,
+		cpu: 80,
+		powergrid: 100,
+		capacitor: 100,
+		capacitorRecharge: 7,
+		hitpointsArmor: 25,
+		hitpointsStructure: 15,
 	},
 };

@@ -1,5 +1,7 @@
 import {SolarsystemIdentifier} from '../static/solarsystems.js';
+
 import {ShipFitting, ShipStatus} from './ship.js';
+import {SiteIdentifier} from './site.js';
 
 interface StationIdentifier {
 	readonly solarsystem: SolarsystemIdentifier;
@@ -18,7 +20,7 @@ export interface PlayerAtStation {
 export interface PlayerInSpace {
 	readonly solarsystem: SolarsystemIdentifier;
 	/** Site is undefined when in warp between sites */
-	readonly site?: unknown;
+	readonly site?: SiteIdentifier;
 
 	readonly shipFitting: ShipFitting;
 	readonly shipStatus: ShipStatus;
@@ -35,4 +37,9 @@ export interface PlayerStationAssets {
 	readonly station: number;
 	/** When a player docks the Ship is added to the station. When undocking one ship has to be used (by backend?). */
 	readonly ships: ShipFitting[];
+}
+
+/** Backend doesnt care about these */
+export interface PlayerPretty {
+	readonly name: string;
 }
