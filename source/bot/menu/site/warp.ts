@@ -37,8 +37,16 @@ async function getSiteChoices(ctx: MyContext) {
 		throw new Error('that shouldnt happen');
 	}
 
+	const currentLocation = await getOwnLocation(ctx);
+	if (!('site' in currentLocation)) {
+		// Not in a site → cant warp anyway
+		return [];
+	}
+
 	const allSites = await getLocalSites(ctx);
-	const sites = Object.values(allSites).flat();
+	const sites = Object.values(allSites)
+		.flat()
+		.filter(o => o.unique !== currentLocation.site.unique);
 	const result: Record<string, string> = {};
 	for (const site of sites) {
 		result[site.unique] = siteLabel(ctx, site, false);

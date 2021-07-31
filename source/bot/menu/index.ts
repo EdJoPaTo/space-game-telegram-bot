@@ -22,24 +22,24 @@ async function answerCbNope(ctx: MyContext) {
 
 menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu, {
 	columns: 2,
-	hide: async ctx => !(await canDoSomething(ctx)),
+	hide: async ctx => !(await canDoSiteActivity(ctx)),
 });
 
 menu.choose('slot-self', getSlotSelfChoices, {
 	columns: 2,
-	hide: async ctx => !(await canDoSomething(ctx)),
+	hide: async ctx => !(await canDoSiteActivity(ctx)),
 	do: doSlotSelfButton,
 });
 
 menu.choose('facility', getFacilityChoices, {
 	columns: 2,
-	hide: async ctx => !(await canDoSomething(ctx)),
+	hide: async ctx => !(await canDoSiteActivity(ctx)),
 	do: doFacilityButton,
 });
 
 menu.submenu('Initiate Warp', 'warp', warpMenu, {
 	joinLastRow: true,
-	hide: async ctx => !(await canDoSomething(ctx)),
+	hide: async ctx => !(await canDoSiteActivity(ctx)),
 });
 
 menu.interact('✅Confirm Planned Actions', 'confirm', {
@@ -55,7 +55,7 @@ menu.interact('🛑Cancel Planned', 'cancel', {
 	},
 });
 
-async function canDoSomething(ctx: MyContext) {
+async function canDoSiteActivity(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);
 	if (!('site' in location)) {
 		return false;
