@@ -1,4 +1,5 @@
+import {FacilityIdentifier} from './facility.js';
+
 export type SiteType =
-	'station' |
-	'stargate' |
-	'asteroid-field';
+	FacilityIdentifier |
+	'asteroidField';

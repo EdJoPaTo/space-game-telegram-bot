@@ -1,6 +1,7 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons, choicesByArrayIndex, getOwnLocation} from '../general.js';
+import {EMOJIS} from '../../emojis.js';
 import {getSiteInternals} from '../../../game/get-whatever.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/types/static/modules.js';
@@ -21,7 +22,7 @@ export const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const moduleName = ctx.i18n.t(`static.${moduleKey}.title`);
 
 	let text = '';
-	text += `-${module.energyConsumption}🔋\n`;
+	text += `-${module.energyConsumption}${EMOJIS.capacitor}\n`;
 
 	return menuBody(ctx, {
 		entities: true,
@@ -45,7 +46,7 @@ async function getTargets(ctx: MyContext) {
 
 	const result: Record<number, string> = {};
 	for (const item of list) {
-		result[item.id] = `${item.id + 1}`;
+		result[item.id] = `${EMOJIS.target}${item.id + 1}`;
 	}
 
 	return result;
@@ -85,7 +86,7 @@ export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 
 async function getModuleChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
-	const names = modules.map(m => ctx.i18n.t(`static.${m}.title`));
+	const names = modules.map(m => EMOJIS.target + ctx.i18n.t(`static.${m}.title`));
 	return choicesByArrayIndex(names);
 }
 

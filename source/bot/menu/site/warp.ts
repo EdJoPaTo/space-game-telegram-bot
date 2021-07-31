@@ -16,11 +16,11 @@ async function warpMenuBody(ctx: MyContext) {
 
 	let text = '';
 	for (const [planet, sites] of Object.entries(allSites)) {
-		text += format.italic(`🪐Planet ${planet}`);
+		text += format.italic(`Planet ${planet}`);
 		text += '\n';
 		text += sites
 			.map(site => siteLabel(ctx, site, true))
-			.map(o => '    ' + o)
+			.map(o => '   ' + o)
 			.join('\n');
 		text += '\n';
 	}

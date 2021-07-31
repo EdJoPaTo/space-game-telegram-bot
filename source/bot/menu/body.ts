@@ -1,5 +1,6 @@
 import {html as format} from 'telegram-format';
 
+import {EMOJIS} from '../emojis.js';
 import {getPlayerLocation, getPlayerPretty, getSiteInternals} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
@@ -23,7 +24,8 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	let text = '';
 
 	const solarsystem = SOLARSYSTEMS[location.solarsystem]!;
-	text += format.italic('🪐Solarsystem');
+	text += EMOJIS.solarsystem;
+	text += format.italic('Solarsystem');
 	text += ': ';
 	text += solarsystem.name;
 	text += ' ';
@@ -32,11 +34,11 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	if ('station' in location) {
 		// TODO: römisch
-		text += infoline('🛰️Station', `${solarsystem.name} ${location.station}`);
+		text += infoline(EMOJIS.facilityStation + 'Station', `${solarsystem.name} ${location.station}`);
 	} else if ('site' in location) {
-		text += infoline('📍Site', siteLabel(ctx, location.site, true));
+		text += infoline(EMOJIS.location + 'Site', siteLabel(ctx, location.site, true));
 	} else {
-		text += '📍In warp…\n';
+		text += EMOJIS.location + 'In warp…\n';
 	}
 
 	text += '\n';
@@ -47,9 +49,9 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 			text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
 			text += '\n';
 			const ship = getShipQuickstats(shipFitting);
-			text += infoline('🛡Armor', quickstatsValue(shipStatus.armor, ship.armor));
-			text += infoline('🚀Structure', quickstatsValue(shipStatus.structure, ship.structure));
-			text += infoline('🔋Energy', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+			text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.armor, ship.armor));
+			text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.structure, ship.structure));
+			text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
 			text += '\n';
 		}
 	}

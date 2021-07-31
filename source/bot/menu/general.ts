@@ -1,6 +1,7 @@
 import {createBackMainMenuButtons} from 'telegraf-inline-menu';
 import {html as format} from 'telegram-format';
 
+import {EMOJIS} from '../emojis.js';
 import {getPlayerLocation} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
 import {PlayerTelegramIdentifier} from '../../game/types/dynamic/player.js';
@@ -38,25 +39,9 @@ export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean
 	const {type, name, unique} = site;
 	let label = '';
 
-	// eslint-disable-next-line default-case
-	switch (type) {
-		case 'station': {
-			label += '🛰️';
-			break;
-		}
+	label += EMOJIS[type];
+	label += ctx.i18n.t(type.startsWith('facility') ? `static.${type}.title` : `siteType.${type}`);
 
-		case 'stargate': {
-			label += '💫';
-			break;
-		}
-
-		case 'asteroid-field': {
-			label += '🪨';
-			break;
-		}
-	}
-
-	label += ctx.i18n.t(`siteType.${type}`);
 	if (name) {
 		label += ' ';
 		label += includeFormat ? format.underline(name) : name;

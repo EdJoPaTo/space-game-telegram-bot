@@ -1,6 +1,7 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons, choicesByArrayIndex} from '../general.js';
+import {EMOJIS} from '../../emojis.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 
@@ -19,7 +20,7 @@ async function getModules(ctx: MyContext) {
 
 async function getChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
-	const names = modules.map(m => ctx.i18n.t(`static.${m}.title`));
+	const names = modules.map(m => EMOJIS.self + ctx.i18n.t(`static.${m}.title`));
 	return choicesByArrayIndex(names);
 }
 

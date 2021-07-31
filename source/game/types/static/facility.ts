@@ -8,14 +8,15 @@ export interface Facility {
 	readonly services: readonly Service[];
 }
 
-export type FacilityIdentifier = `facility${number}`;
-export const FACILITIES: Readonly<Record<string, Facility>> = {
-	facility1: {
-		// Station
+export type FacilityIdentifier =
+| 'facilityStargate'
+| 'facilityStation';
+
+export const FACILITIES: Readonly<Record<FacilityIdentifier, Facility>> = {
+	facilityStation: {
 		services: ['dock'],
 	},
-	facility2: {
-		// Stargate
+	facilityStargate: {
 		services: ['jump'],
 	},
 };

@@ -11,7 +11,7 @@ export async function getPlayerLocation(_playerId: PlayerIdentifier): Promise<Pl
 	return {
 		solarsystem: 'system1',
 		site: {
-			type: 'station',
+			type: 'facilityStation',
 			unique: 'station1',
 			name: 'Wabinihwa I',
 		},
@@ -34,7 +34,7 @@ export async function getSiteInternals(_solarsystem: SolarsystemIdentifier, _uni
 	return {
 		entities: [{
 			type: 'facility',
-			id: 'facility1',
+			id: 'facilityStation',
 		}, {
 			type: 'lifeless',
 			id: 'lifeless1',
@@ -61,31 +61,31 @@ export async function getSiteInternals(_solarsystem: SolarsystemIdentifier, _uni
 export async function getSites(_solarsystem: SolarsystemIdentifier): Promise<SitesNearPlanet> {
 	return {
 		1: [{
-			type: 'asteroid-field',
+			type: 'asteroidField',
 			unique: 'a0-some-hex',
 		}],
 		2: [{
-			type: 'station',
+			type: 'facilityStation',
 			unique: 'station1',
 			name: 'Wabinihwa I',
 		}, {
-			type: 'asteroid-field',
+			type: 'asteroidField',
 			unique: 'a1-backend',
 		}, {
-			type: 'asteroid-field',
+			type: 'asteroidField',
 			unique: 'a2-will-be',
 		}],
 		3: [{
-			type: 'stargate',
+			type: 'facilityStargate',
 			unique: 'system2',
 			name: 'Liagi',
 		}],
 		4: [{
-			type: 'stargate',
+			type: 'facilityStargate',
 			unique: 'system4',
 			name: 'Arama',
 		}, {
-			type: 'asteroid-field',
+			type: 'asteroidField',
 			unique: 'a3-more-creative',
 		}],
 	};

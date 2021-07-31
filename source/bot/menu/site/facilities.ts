@@ -1,10 +1,11 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons} from '../general.js';
+import {EMOJIS} from '../../emojis.js';
+import {FACILITIES, Service} from '../../../game/types/static/facility.js';
+import {getSiteInternals} from '../../../game/get-whatever.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
-import {getSiteInternals} from '../../../game/get-whatever.js';
-import {FACILITIES, Service} from '../../../game/types/static/facility.js';
 
 import {getPlayerInSite} from './helper.js';
 
@@ -35,7 +36,7 @@ async function getChoices(ctx: MyContext) {
 	const facilities = await getFacilities(ctx);
 	const result: Record<string, string> = {};
 	for (const {entityIndex, facilityId, service} of facilities) {
-		result[`${entityIndex}-${service}`] = `${ctx.i18n.t(`static.${facilityId}.title`)} → ${ctx.i18n.t(`service.${service}`)}`;
+		result[`${entityIndex}-${service}`] = `${EMOJIS[facilityId]} ${ctx.i18n.t(`static.${facilityId}.title`)} → ${ctx.i18n.t(`service.${service}`)}`;
 	}
 
 	return result;
