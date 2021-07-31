@@ -3,7 +3,7 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 import {backButtons} from '../general.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
-import {getSite} from '../../../game/get-whatever.js';
+import {getSiteInternals} from '../../../game/get-whatever.js';
 import {FACILITIES, Service} from '../../../game/types/static/facility.js';
 
 import {getPlayerInSite} from './helper.js';
@@ -16,7 +16,7 @@ export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 
 async function getFacilities(ctx: MyContext) {
 	const location = await getPlayerInSite(ctx);
-	const {entities} = await getSite(location.site);
+	const {entities} = await getSiteInternals(location.solarsystem, location.site.unique);
 	const list = entities
 		.map((o, i) => ({entity: o, index: i}))
 		.flatMap(({entity, index}) => {

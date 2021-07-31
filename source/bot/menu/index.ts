@@ -1,11 +1,13 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {getPlayerLocation, getSite} from '../../game/get-whatever.js';
+import {getSiteInternals} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
 
+import {getOwnLocation} from './general.js';
 import {menu as facilityMenu} from './site/facilities.js';
 import {menu as slotsSelfMenu} from './site/slots-self.js';
 import {menu as slotsTargetedMenu} from './site/slots-targeted.js';
+import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
 
 export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
@@ -32,10 +34,9 @@ menu.submenu('Facilities', 'facilities', facilityMenu, {
 	hide: async ctx => !(await canUseFacilities(ctx)),
 });
 
-menu.interact('Initiate Warp', 'warp', {
+menu.submenu('Initiate Warp', 'warp', warpMenu, {
 	joinLastRow: true,
 	hide: async ctx => !(await canDoSomething(ctx)),
-	do: answerCbNope,
 });
 
 menu.interact('✅Confirm Planned Actions', 'confirm', {
@@ -52,7 +53,7 @@ menu.interact('🛑Cancel Planned', 'cancel', {
 });
 
 async function canUseFacilities(ctx: MyContext) {
-	const location = await getPlayerLocation();
+	const location = await getOwnLocation(ctx);
 	if (!('site' in location)) {
 		return false;
 	}
@@ -61,12 +62,12 @@ async function canUseFacilities(ctx: MyContext) {
 		return false;
 	}
 
-	const site = await getSite(location.site);
+	const site = await getSiteInternals(location.solarsystem, location.site.unique);
 	return site.entities.some(o => o.type === 'facility');
 }
 
 async function canDoSomething(ctx: MyContext) {
-	const location = await getPlayerLocation();
+	const location = await getOwnLocation(ctx);
 	if (!('site' in location)) {
 		return false;
 	}

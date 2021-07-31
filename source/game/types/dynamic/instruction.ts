@@ -1,8 +1,9 @@
 // An instruction is something a player wants to get done when the round changes into the next.
-// Frontend writes and Backend executes / clears them
+// Frontend writes and Backend executes / clears them.
+// Some actions might take multiple rounds (start warp, speed up, …) which requires the frontend to read the instructions again after each round.
+// They are written and read by both frontend and backend!
 
 import {Service} from '../static/facility.js';
-import {SiteIdentifier} from './site.js';
 
 export type Instruction = ModuleSelfInstruction | ModuleTargetedInstruction | UseFacilityInstruction | WarpInstruction | UndockInstruction;
 
@@ -27,7 +28,7 @@ export interface UseFacilityInstruction extends Targeted {
 
 export interface WarpInstruction {
 	readonly type: 'warp';
-	readonly targetSite: SiteIdentifier;
+	readonly siteUnique: string;
 }
 
 export interface UndockInstruction {

@@ -60,3 +60,8 @@ static:
 service:
   jump: Jump
   dock: Dock
+
+siteType:
+  station: Station
+  stargate: Stargate
+  asteroid-field: Asteroid Field

@@ -1,9 +1,11 @@
 import {html as format} from 'telegram-format';
 
-import {getPlayerLocation, getPlayerPretty, getSite} from '../../game/get-whatever.js';
+import {getPlayerLocation, getPlayerPretty, getSiteInternals} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
 import {SOLARSYSTEMS} from '../../game/types/static/solarsystems.js';
+
+import {getOwnIdentifier, siteLabel} from './general.js';
 
 export interface Options {
 	readonly shipstats?: true;
@@ -15,11 +17,12 @@ export interface Options {
 	readonly text?: string;
 }
 
-export async function menuBody(context: MyContext, options: Options = {}) {
-	const player = await getPlayerLocation();
+export async function menuBody(ctx: MyContext, options: Options = {}) {
+	const playerId = getOwnIdentifier(ctx);
+	const location = await getPlayerLocation(playerId);
 	let text = '';
 
-	const solarsystem = SOLARSYSTEMS[player.solarsystem]!;
+	const solarsystem = SOLARSYSTEMS[location.solarsystem]!;
 	text += format.italic('🪐Solarsystem');
 	text += ': ';
 	text += solarsystem.name;
@@ -27,20 +30,21 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 	text += format.italic(solarsystem.security.toFixed(2));
 	text += '\n';
 
-	if ('station' in player) {
-		text += infoline('📍Station', player.station.toString());
-	} else if ('site' in player) {
-		text += infoline('📍Site', 'K3 Asteroid Belt III');
+	if ('station' in location) {
+		// TODO: römisch
+		text += infoline('🛰️Station', `${solarsystem.name} ${location.station}`);
+	} else if ('site' in location) {
+		text += infoline('📍Site', siteLabel(ctx, location.site, true));
 	} else {
 		text += '📍In warp…\n';
 	}
 
 	text += '\n';
 
-	if ('shipStatus' in player) {
-		const {shipFitting, shipStatus} = player;
+	if ('shipStatus' in location) {
+		const {shipFitting, shipStatus} = location;
 		if (options.shipstats) {
-			text += format.bold(context.i18n.t(`static.${shipFitting.layout}.title`));
+			text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
 			text += '\n';
 			const ship = getShipQuickstats(shipFitting);
 			text += infoline('🛡Armor', quickstatsValue(shipStatus.armor, ship.armor));
@@ -50,15 +54,13 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 		}
 	}
 
-	if ('site' in player && options.entities) {
-		const {entities} = await getSite(player.site);
-
+	if ('site' in location && options.entities) {
+		const {entities} = await getSiteInternals(location.solarsystem, location.site.unique);
 		const lines = await Promise.all(entities
 			.map((o, i) => ({o, i}))
-			// TODO: filter out only myself
-			.filter(o => o.o.type !== 'player')
+			.filter(({o}) => o.type !== 'player' || o.id !== playerId)
 			.map(async ({o, i}) => {
-				const type = context.i18n.t(`static.${'shiplayout' in o ? o.shiplayout : o.id}.title`);
+				const type = ctx.i18n.t(`static.${'shiplayout' in o ? o.shiplayout : o.id}.title`);
 
 				let owner: string | undefined;
 				if (o.type === 'npc') {
@@ -71,14 +73,13 @@ export async function menuBody(context: MyContext, options: Options = {}) {
 				return entityLine(i + 1, entities.length, type, owner);
 			}),
 		);
-
 		text += lines.join('\n');
 		text += '\n\n';
 	}
 
 	if (options.planned) {
 		text += '📝planned actions:\n';
-		text += context.session.planned?.length ? context.session.planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
+		text += ctx.session.planned?.length ? ctx.session.planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
 		text += '\n\n';
 	}
 

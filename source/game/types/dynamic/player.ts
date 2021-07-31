@@ -1,7 +1,11 @@
 import {SolarsystemIdentifier} from '../static/solarsystems.js';
 
 import {ShipFitting, ShipStatus} from './ship.js';
-import {SiteIdentifier} from './site.js';
+import {SiteInfo} from './site.js';
+
+/** Example: player-tg-1337 */
+export type PlayerIdentifier = `player-${string}-${number}`;
+export type PlayerTelegramIdentifier = `player-tg-${number}`;
 
 interface StationIdentifier {
 	readonly solarsystem: SolarsystemIdentifier;
@@ -32,7 +36,7 @@ export interface PlayerInSpace {
  * Site is undefined when in warp between sites
  */
 export interface PlayerInSite extends PlayerInSpace {
-	readonly site: SiteIdentifier;
+	readonly site: SiteInfo;
 }
 
 /** Global information about a player. Only written by player while at station */
