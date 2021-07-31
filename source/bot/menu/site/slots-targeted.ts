@@ -73,10 +73,33 @@ menu.choose('t', getTargets, {
 	},
 });
 
+menu.interact(EMOJIS.stop + 'Disengage', 'd', {
+	hide: (ctx, path) => {
+		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
+		return !ctx.session.planned?.some(o => o.type === 'module-targeted' && o.moduleIndex === moduleIndex);
+	},
+	do: async (ctx, path) => {
+		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'module-targeted' || o.moduleIndex !== moduleIndex) ?? [];
+
+		await ctx.answerCbQuery('removed to planned actions');
+		return '..';
+	},
+});
+
 menu.manualRow(backButtons);
 
 export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
-	const names = modules.map(m => EMOJIS.target + ctx.i18n.t(`static.${m}.title`));
+	const names = modules.map((m, i) => {
+		let label = '';
+		if (ctx.session.planned?.some(o => o.type === 'module-targeted' && o.moduleIndex === i)) {
+			label += '✅';
+		}
+
+		label += EMOJIS.target;
+		label += ctx.i18n.t(`static.${m}.title`);
+		return label;
+	});
 	return choicesByArrayIndex(names);
 }

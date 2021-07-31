@@ -1,10 +1,11 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
+import {EMOJIS} from '../emojis.js';
 import {MyContext} from '../my-context.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
-import {doSlotSelfButton, getSlotSelfChoices} from './site/slots-self.js';
 import {getOwnLocation} from './general.js';
+import {getSlotSelfChoices, isSlotSelfButtonSet, setSlotSelfButton} from './site/slots-self.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
@@ -25,10 +26,11 @@ menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu
 	hide: async ctx => !(await canDoSiteActivity(ctx)),
 });
 
-menu.choose('slot-self', getSlotSelfChoices, {
+menu.select('slot-self', getSlotSelfChoices, {
 	columns: 2,
 	hide: async ctx => !(await canDoSiteActivity(ctx)),
-	do: doSlotSelfButton,
+	isSet: isSlotSelfButtonSet,
+	set: setSlotSelfButton,
 });
 
 menu.choose('facility', getFacilityChoices, {
@@ -46,7 +48,7 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 	do: answerCbNope,
 });
 
-menu.interact('🛑Cancel Planned', 'cancel', {
+menu.interact(EMOJIS.stop + 'Cancel Planned', 'cancel', {
 	joinLastRow: true,
 	hide: ctx => (ctx.session.planned?.length ?? 0) === 0,
 	do: ctx => {

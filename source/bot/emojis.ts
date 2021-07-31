@@ -3,6 +3,7 @@ export const EMOJIS = {
 	location: '📍',
 	target: '🎯',
 	self: '🧘',
+	stop: '🛑',
 
 	capacitor: '🔋',
 	hitpointsArmor: '🛡',

@@ -27,7 +27,6 @@ async function warpMenuBody(ctx: MyContext) {
 
 	return menuBody(ctx, {
 		menuPosition: ['Initiate Warp'],
-		shipstats: true,
 		text,
 	});
 }

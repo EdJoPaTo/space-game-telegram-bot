@@ -15,10 +15,18 @@ export async function getSlotSelfChoices(ctx: MyContext) {
 	return choicesByArrayIndex(names);
 }
 
-export async function doSlotSelfButton(ctx: MyContext, key: string) {
+export function isSlotSelfButtonSet(ctx: MyContext, key: string) {
+	const moduleIndex = Number(key);
+	return Boolean(ctx.session.planned?.some(o => o.type === 'module-self' && o.moduleIndex === moduleIndex));
+}
+
+export async function setSlotSelfButton(ctx: MyContext, key: string, newState: boolean) {
 	const moduleIndex = Number(key);
 	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'module-self' || o.moduleIndex !== moduleIndex) ?? [];
-	ctx.session.planned.push({type: 'module-self', moduleIndex});
+	if (newState) {
+		ctx.session.planned.push({type: 'module-self', moduleIndex});
+	}
+
 	await ctx.answerCbQuery('added to planned actions');
 	return true;
 }
