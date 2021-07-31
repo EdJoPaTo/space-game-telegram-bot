@@ -57,7 +57,8 @@ menu.choose('site', getSiteChoices, {
 		}
 
 		ctx.session.planned = [{type: 'warp', siteUnique}];
-		return '../..';
+		await ctx.answerCbQuery('added to planned actions');
+		return '..';
 	},
 });
 

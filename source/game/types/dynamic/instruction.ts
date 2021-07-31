@@ -8,17 +8,17 @@ import {Service} from '../static/facility.js';
 export type Instruction = ModuleSelfInstruction | ModuleTargetedInstruction | UseFacilityInstruction | WarpInstruction | UndockInstruction;
 
 interface Targeted {
-	readonly targetIdInSite: number;
+	readonly targetIndexInSite: number;
 }
 
 export interface ModuleSelfInstruction {
 	readonly type: 'module-self';
-	readonly moduleId: number;
+	readonly moduleIndex: number;
 }
 
 export interface ModuleTargetedInstruction extends Targeted {
 	readonly type: 'module-targeted';
-	readonly moduleId: number;
+	readonly moduleIndex: number;
 }
 
 export interface UseFacilityInstruction extends Targeted {

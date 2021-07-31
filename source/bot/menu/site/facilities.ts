@@ -1,19 +1,9 @@
-import {MenuTemplate} from 'telegraf-inline-menu';
-
-import {backButtons} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
 import {FACILITIES, Service} from '../../../game/types/static/facility.js';
 import {getSiteInternals} from '../../../game/get-whatever.js';
-import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 
 import {getPlayerInSite} from './helper.js';
-
-export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
-	entities: true,
-	menuPosition: ['Facilities'],
-	shipstats: true,
-}));
 
 async function getFacilities(ctx: MyContext) {
 	const location = await getPlayerInSite(ctx);
@@ -32,7 +22,7 @@ async function getFacilities(ctx: MyContext) {
 	return list;
 }
 
-async function getChoices(ctx: MyContext) {
+export async function getFacilityChoices(ctx: MyContext) {
 	const facilities = await getFacilities(ctx);
 	const result: Record<string, string> = {};
 	for (const {entityIndex, facilityId, service} of facilities) {
@@ -42,18 +32,15 @@ async function getChoices(ctx: MyContext) {
 	return result;
 }
 
-menu.choose('', getChoices, {
-	do: async (ctx, key) => {
-		const match = /(\d+)-(.+)/.exec(key)!;
-		const facilityId = Number(match[1]);
-		const service = match[2]! as Service;
-		ctx.session.planned = [{
-			type: 'facility',
-			targetIdInSite: facilityId,
-			service,
-		}];
-		return '..';
-	},
-});
-
-menu.manualRow(backButtons);
+export async function doFacilityButton(ctx: MyContext, key: string) {
+	const match = /(\d+)-(.+)/.exec(key)!;
+	const facilityIndex = Number(match[1]);
+	const service = match[2]! as Service;
+	ctx.session.planned = [{
+		type: 'facility',
+		targetIndexInSite: facilityIndex,
+		service,
+	}];
+	await ctx.answerCbQuery('added to planned actions');
+	return true;
+}

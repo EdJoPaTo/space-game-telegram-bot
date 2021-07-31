@@ -1,12 +1,11 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {getSiteInternals} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
 
+import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
+import {doSlotSelfButton, getSlotSelfChoices} from './site/slots-self.js';
 import {getOwnLocation} from './general.js';
-import {menu as facilityMenu} from './site/facilities.js';
-import {menu as slotsSelfMenu} from './site/slots-self.js';
-import {menu as slotsTargetedMenu} from './site/slots-targeted.js';
+import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
 
@@ -21,17 +20,21 @@ async function answerCbNope(ctx: MyContext) {
 	return false;
 }
 
-menu.submenu('Targeted Slots', 'slots-targeted', slotsTargetedMenu, {
+menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu, {
+	columns: 2,
 	hide: async ctx => !(await canDoSomething(ctx)),
 });
 
-menu.submenu('Self Slots', 'slots-self', slotsSelfMenu, {
-	joinLastRow: true,
+menu.choose('slot-self', getSlotSelfChoices, {
+	columns: 2,
 	hide: async ctx => !(await canDoSomething(ctx)),
+	do: doSlotSelfButton,
 });
 
-menu.submenu('Facilities', 'facilities', facilityMenu, {
-	hide: async ctx => !(await canUseFacilities(ctx)),
+menu.choose('facility', getFacilityChoices, {
+	columns: 2,
+	hide: async ctx => !(await canDoSomething(ctx)),
+	do: doFacilityButton,
 });
 
 menu.submenu('Initiate Warp', 'warp', warpMenu, {
@@ -51,20 +54,6 @@ menu.interact('🛑Cancel Planned', 'cancel', {
 		return true;
 	},
 });
-
-async function canUseFacilities(ctx: MyContext) {
-	const location = await getOwnLocation(ctx);
-	if (!('site' in location)) {
-		return false;
-	}
-
-	if (ctx.session.planned?.some(o => o.type === 'facility' || o.type === 'warp')) {
-		return false;
-	}
-
-	const site = await getSiteInternals(location.solarsystem, location.site.unique);
-	return site.entities.some(o => o.type === 'facility');
-}
 
 async function canDoSomething(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);

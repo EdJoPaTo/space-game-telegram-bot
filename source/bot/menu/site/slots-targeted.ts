@@ -14,10 +14,10 @@ async function getModules(ctx: MyContext) {
 	return info.shipFitting.slotsTargeted;
 }
 
-export const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
+export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const modules = await getModules(ctx);
-	const index = Number(path.split('m:')[1]!.split('/')[0]);
-	const moduleKey = modules[index]!;
+	const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
+	const moduleKey = modules[moduleIndex]!;
 	const module = MODULE_TARGETED[moduleKey]!;
 	const moduleName = ctx.i18n.t(`static.${moduleKey}.title`);
 
@@ -26,8 +26,7 @@ export const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 
 	return menuBody(ctx, {
 		entities: true,
-		menuPosition: ['Targeted Slots', moduleName],
-		planned: true,
+		menuPosition: [EMOJIS.target + moduleName],
 		shipstats: true,
 		text,
 	});
@@ -52,7 +51,7 @@ async function getTargets(ctx: MyContext) {
 	return result;
 }
 
-moduleMenu.choose('t', getTargets, {
+menu.choose('t', getTargets, {
 	columns: 4,
 	do: async (ctx, key) => {
 		if (!('data' in ctx.callbackQuery!)) {
@@ -60,36 +59,24 @@ moduleMenu.choose('t', getTargets, {
 		}
 
 		const path = ctx.callbackQuery.data;
-		const moduleId = Number(path.split('m:')[1]!.split('/')[0]);
+		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'module-targeted' || o.moduleId !== moduleId) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'module-targeted' || o.moduleIndex !== moduleIndex) ?? [];
 		ctx.session.planned.push({
 			type: 'module-targeted',
-			moduleId,
-			targetIdInSite: Number(key),
+			moduleIndex,
+			targetIndexInSite: Number(key),
 		});
 
 		await ctx.answerCbQuery('added to planned actions');
-
 		return '..';
 	},
 });
 
-moduleMenu.manualRow(backButtons);
+menu.manualRow(backButtons);
 
-export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
-	entities: true,
-	menuPosition: ['Targeted Slots'],
-	planned: true,
-	shipstats: true,
-}));
-
-async function getModuleChoices(ctx: MyContext) {
+export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
 	const names = modules.map(m => EMOJIS.target + ctx.i18n.t(`static.${m}.title`));
 	return choicesByArrayIndex(names);
 }
-
-menu.chooseIntoSubmenu('m', getModuleChoices, moduleMenu);
-
-menu.manualRow(backButtons);
