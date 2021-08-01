@@ -16,7 +16,7 @@ export async function getPlayerLocation(_playerId: PlayerIdentifier): Promise<Pl
 		shipFitting: {
 			layout: 'shiplayoutRookieShip',
 			slotsTargeted: ['modtRookieMiningLaser', 'modtRookieLaser'],
-			slotsSelf: ['modsRookieArmorRepair'],
+			slotsUntargeted: ['moduRookieArmorRepair'],
 			slotsPassive: ['modpRookieArmorPlate'],
 		},
 		shipStatus: {

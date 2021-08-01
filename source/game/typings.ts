@@ -1,1 +1,1 @@
-../../../backend/typescript-typings/generated.ts
+../../../typings/typescript/generated.ts

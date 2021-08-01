@@ -5,7 +5,7 @@ import {MyContext} from '../my-context.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
 import {getOwnLocation} from './general.js';
-import {getSlotSelfChoices, isSlotSelfButtonSet, setSlotSelfButton} from './site/slots-self.js';
+import {getSlotUntargetedChoices, isSlotUntargetedButtonSet, setSlotUntargetedButton} from './site/slots-untargeted.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
@@ -26,11 +26,11 @@ menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu
 	hide: async ctx => !(await canDoSiteActivity(ctx)),
 });
 
-menu.select('slot-self', getSlotSelfChoices, {
+menu.select('slot-untargeted', getSlotUntargetedChoices, {
 	columns: 2,
 	hide: async ctx => !(await canDoSiteActivity(ctx)),
-	isSet: isSlotSelfButtonSet,
-	set: setSlotSelfButton,
+	isSet: isSlotUntargetedButtonSet,
+	set: setSlotUntargetedButton,
 });
 
 menu.choose('facility', getFacilityChoices, {
