@@ -1,7 +1,7 @@
 import {html as format} from 'telegram-format';
 
 import {EMOJIS} from '../emojis.js';
-import {getPlayerLocation, getPlayerPretty, getSiteInternals} from '../../game/get-whatever.js';
+import {getPlayerLocation, getPlayerPretty, getSiteInners} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
 import {SOLARSYSTEMS} from '../../game/get-static.js';
@@ -57,7 +57,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	}
 
 	if ('site' in location && options.entities) {
-		const {entities} = await getSiteInternals(location.solarsystem, location.site.unique);
+		const {entities} = await getSiteInners(location.solarsystem, location.site.unique);
 		const lines = await Promise.all(entities
 			.map((o, i) => ({o, i}))
 			.filter(({o}) => o.type !== 'player' || o.id !== playerId)
