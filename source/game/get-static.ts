@@ -3,7 +3,7 @@ import {readFileSync} from 'fs';
 import {Facility, FacilityIdentifier, ModuleUntargeted, ModuleTargeted, ShipLayout, Solarsystem} from './typings.js';
 
 function read(filename: string) {
-	const content = readFileSync(`../backend/static/${filename}.json`, 'utf8');
+	const content = readFileSync(`../typings/static/${filename}.json`, 'utf8');
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 	return JSON.parse(content);
 }
