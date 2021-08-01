@@ -49,13 +49,13 @@ ship:
 static:
   facilityStation.title: Station
   facilityStargate.title: Stargate
-  lifeless1.title: Asteroid
-  modp1.title: Rookie Armor Plate
-  mods1.title: Rookie Armor Repair
-  modt1.title: Rookie Mining Laser
-  modt2.title: Rookie Laser
-  shiplayout1.title: Rookie Ship
-  shiplayout2.title: Frigate
+  lifelessAsteroid.title: Asteroid
+  modpRookieArmorPlate.title: Rookie Armor Plate
+  modsRookieArmorRepair.title: Rookie Armor Repair
+  modtRookieMiningLaser.title: Rookie Mining Laser
+  modtRookieLaser.title: Rookie Laser
+  shiplayoutRookieShip.title: Rookie Ship
+  shiplayoutFrigate.title: Frigate
 
 service:
   jump: Jump

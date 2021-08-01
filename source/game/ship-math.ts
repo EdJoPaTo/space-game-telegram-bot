@@ -1,5 +1,5 @@
-import {SHIP_LAYOUTS} from './types/static/shiplayout.js';
-import {ShipFitting} from './types/dynamic/ship.js';
+import {SHIP_LAYOUTS} from './get-static.js';
+import {ShipFitting} from './typings.js';
 
 export function getShipQuickstats(fitting: ShipFitting) {
 	const layout = SHIP_LAYOUTS[fitting.layout]!;

@@ -17,14 +17,14 @@ export async function getSlotSelfChoices(ctx: MyContext) {
 
 export function isSlotSelfButtonSet(ctx: MyContext, key: string) {
 	const moduleIndex = Number(key);
-	return Boolean(ctx.session.planned?.some(o => o.type === 'module-self' && o.moduleIndex === moduleIndex));
+	return Boolean(ctx.session.planned?.some(o => o.type === 'moduleSelf' && o.moduleIndex === moduleIndex));
 }
 
 export async function setSlotSelfButton(ctx: MyContext, key: string, newState: boolean) {
 	const moduleIndex = Number(key);
-	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'module-self' || o.moduleIndex !== moduleIndex) ?? [];
+	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleSelf' || o.moduleIndex !== moduleIndex) ?? [];
 	if (newState) {
-		ctx.session.planned.push({type: 'module-self', moduleIndex});
+		ctx.session.planned.push({type: 'moduleSelf', moduleIndex});
 	}
 
 	await ctx.answerCbQuery('added to planned actions');

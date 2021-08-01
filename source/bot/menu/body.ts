@@ -4,7 +4,7 @@ import {EMOJIS} from '../emojis.js';
 import {getPlayerLocation, getPlayerPretty, getSiteInternals} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
-import {SOLARSYSTEMS} from '../../game/types/static/solarsystems.js';
+import {SOLARSYSTEMS} from '../../game/get-static.js';
 
 import {getOwnIdentifier, siteLabel} from './general.js';
 
@@ -49,8 +49,8 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 			text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
 			text += '\n';
 			const ship = getShipQuickstats(shipFitting);
-			text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.armor, ship.armor));
-			text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.structure, ship.structure));
+			text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
+			text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
 			text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
 			text += '\n';
 		}

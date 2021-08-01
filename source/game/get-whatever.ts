@@ -1,8 +1,6 @@
-import {PlayerIdentifier, PlayerLocation, PlayerPretty} from './types/dynamic/player.js';
-import {SiteInterals, SitesNearPlanet} from './types/dynamic/site.js';
-import {SolarsystemIdentifier} from './types/static/solarsystems.js';
+import {PlayerIdentifier, PlayerLocation, SiteInternals, SitesNearPlanet} from './typings.js';
 
-export async function getPlayerPretty(playerId: PlayerIdentifier): Promise<PlayerPretty> {
+export async function getPlayerPretty(playerId: string) {
 	const name = playerId.includes('tg') ? 'You' : 'Bob';
 	return {name};
 }
@@ -11,81 +9,81 @@ export async function getPlayerLocation(_playerId: PlayerIdentifier): Promise<Pl
 	return {
 		solarsystem: 'system1',
 		site: {
-			type: 'facilityStation',
+			kind: 'facilityStation',
 			unique: 'station1',
 			name: 'Wabinihwa I',
 		},
 		shipFitting: {
-			layout: 'shiplayout1',
-			slotsTargeted: ['modt2', 'modt1'],
-			slotsSelf: ['mods1'],
-			slotsPassive: ['modp1'],
+			layout: 'shiplayoutRookieShip',
+			slotsTargeted: ['modtRookieMiningLaser', 'modtRookieLaser'],
+			slotsSelf: ['modsRookieArmorRepair'],
+			slotsPassive: ['modpRookieArmorPlate'],
 		},
 		shipStatus: {
 			capacitor: 40,
-			armor: 20,
-			structure: 10,
+			hitpointsArmor: 20,
+			hitpointsStructure: 10,
 		},
 	};
 }
 
 /** Get information which is only visible from within the site */
-export async function getSiteInternals(_solarsystem: SolarsystemIdentifier, _unique: string): Promise<SiteInterals> {
+export async function getSiteInternals(_solarsystem: string, _unique: string): Promise<SiteInternals> {
 	return {
 		entities: [{
 			type: 'facility',
 			id: 'facilityStation',
 		}, {
 			type: 'lifeless',
-			id: 'lifeless1',
+			id: 'lifelessAsteroid',
 		}, {
 			type: 'lifeless',
-			id: 'lifeless1',
+			id: 'lifelessAsteroid',
 		}, {
 			type: 'npc',
-			shiplayout: 'shiplayout2',
+			shiplayout: 'shiplayoutRookieShip',
 		}, {
 			type: 'lifeless',
-			id: 'lifeless1',
+			id: 'lifelessAsteroid',
 		}, {
 			type: 'player',
 			id: 'player-dummy-0',
-			shiplayout: 'shiplayout1',
+			shiplayout: 'shiplayoutRookieShip',
 		}, {
 			type: 'npc',
-			shiplayout: 'shiplayout2',
+			shiplayout: 'shiplayoutFrigate',
 		}],
 	};
 }
 
-export async function getSites(_solarsystem: SolarsystemIdentifier): Promise<SitesNearPlanet> {
+export async function getSites(_solarsystem: string): Promise<SitesNearPlanet> {
 	return {
 		1: [{
-			type: 'asteroidField',
+			kind: 'asteroidField',
 			unique: 'a0-some-hex',
 		}],
 		2: [{
-			type: 'facilityStation',
+			kind: 'facilityStation',
 			unique: 'station1',
 			name: 'Wabinihwa I',
 		}, {
-			type: 'asteroidField',
+			kind: 'asteroidField',
 			unique: 'a1-backend',
 		}, {
-			type: 'asteroidField',
+			kind: 'asteroidField',
 			unique: 'a2-will-be',
 		}],
 		3: [{
-			type: 'facilityStargate',
+			kind: 'facilityStargate',
 			unique: 'system2',
 			name: 'Liagi',
 		}],
 		4: [{
-			type: 'facilityStargate',
+			kind: 'facilityStargate',
 			unique: 'system4',
 			name: 'Arama',
 		}, {
-			type: 'asteroidField',
+			kind: 'asteroidField',
 			unique: 'a3-more-creative',
 		}],
 	};

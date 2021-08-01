@@ -1,7 +1,7 @@
 import {Context as BaseContext} from 'telegraf';
 import {I18nContext} from '@edjopato/telegraf-i18n';
 
-import {Instruction} from '../game/types/dynamic/instruction.js';
+import {Instruction} from '../game/typings.js';
 
 export interface Session {
 	page?: number;

@@ -4,8 +4,7 @@ import {html as format} from 'telegram-format';
 import {EMOJIS} from '../emojis.js';
 import {getPlayerLocation} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
-import {PlayerTelegramIdentifier} from '../../game/types/dynamic/player.js';
-import {SiteInfo} from '../../game/types/dynamic/site.js';
+import {PlayerTelegramIdentifier, SiteInfo} from '../../game/typings.js';
 
 export const backButtons = createBackMainMenuButtons<MyContext>(
 	context => context.i18n.t('menu.back'),
@@ -36,11 +35,11 @@ export async function getOwnLocation(ctx: MyContext) {
 }
 
 export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean) {
-	const {type, name, unique} = site;
+	const {kind, name, unique} = site;
 	let label = '';
 
-	label += EMOJIS[type];
-	label += ctx.i18n.t(type.startsWith('facility') ? `static.${type}.title` : `siteType.${type}`);
+	label += EMOJIS[kind];
+	label += ctx.i18n.t(kind.startsWith('facility') ? `static.${kind}.title` : `siteType.${kind}`);
 
 	if (name) {
 		label += ' ';

@@ -1,7 +1,8 @@
 import {EMOJIS} from '../../emojis.js';
-import {FACILITIES, Service} from '../../../game/types/static/facility.js';
+import {FACILITIES} from '../../../game/get-static.js';
 import {getSiteInternals} from '../../../game/get-whatever.js';
 import {MyContext} from '../../my-context.js';
+import {Service} from '../../../game/typings.js';
 
 import {getPlayerInSite} from './helper.js';
 
