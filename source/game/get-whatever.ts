@@ -73,7 +73,6 @@ export const FAKE_SITE_INNERS: SiteInners = {
 	],
 };
 
-
 export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 	1: [{
 		kind: 'asteroidField',
@@ -103,4 +102,4 @@ export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 		kind: 'asteroidField',
 		unique: 'a3-more-creative',
 	}],
-}
+};
