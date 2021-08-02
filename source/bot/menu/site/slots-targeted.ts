@@ -2,7 +2,7 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons, choicesByArrayIndex, getOwnLocation} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
-import {getSiteInners} from '../../../game/get-whatever.js';
+import {getSiteEntities} from '../../../game/get-whatever.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/get-static.js';
 import {MyContext} from '../../my-context.js';
@@ -38,7 +38,7 @@ async function getTargets(ctx: MyContext) {
 		throw new Error('not in a site');
 	}
 
-	const {entities} = await getSiteInners(location.solarsystem, location.site.unique);
+	const entities = await getSiteEntities(location.solarsystem, location.site.unique);
 	const list = entities
 		.map((o, i) => ({entity: o, id: i}))
 		.filter(o => o.entity.type !== 'player');

@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {PlayerIdentifier, PlayerLocation, SiteInners, SitesNearPlanet} from './typings.js';
+import {PlayerIdentifier, PlayerLocation, SiteEntity, SitesNearPlanet} from './typings.js';
 
 const BACKEND = 'http://localhost:8080/';
 
@@ -15,9 +15,9 @@ export async function getPlayerLocation(playerId: PlayerIdentifier): Promise<Pla
 }
 
 /** Get information which is only visible from within the site */
-export async function getSiteInners(solarsystem: string, unique: string): Promise<SiteInners> {
-	const url = `${BACKEND}site-inners/${solarsystem}/${unique}`;
-	return got(url).json<SiteInners>();
+export async function getSiteEntities(solarsystem: string, unique: string): Promise<readonly SiteEntity[]> {
+	const url = `${BACKEND}sites/${solarsystem}/${unique}`;
+	return got(url).json<readonly SiteEntity[]>();
 }
 
 export async function getSites(solarsystem: string): Promise<SitesNearPlanet> {
@@ -45,33 +45,33 @@ export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
 	},
 };
 
-export const FAKE_SITE_INNERS: SiteInners = {
-	entities: [
-		{
-			type: 'facility',
-			id: 'facilityStation',
-		}, {
-			type: 'lifeless',
-			id: 'lifelessAsteroid',
-		}, {
-			type: 'lifeless',
-			id: 'lifelessAsteroid',
-		}, {
-			type: 'npc',
-			shiplayout: 'shiplayoutRookieShip',
-		}, {
-			type: 'lifeless',
-			id: 'lifelessAsteroid',
-		}, {
-			type: 'player',
-			id: 'player-dummy-0',
-			shiplayout: 'shiplayoutRookieShip',
-		}, {
-			type: 'npc',
-			shiplayout: 'shiplayoutFrigate',
-		},
-	],
-};
+export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
+	{
+		type: 'facility',
+		id: 'facilityStation',
+	}, {
+		type: 'lifeless',
+		id: 'lifelessAsteroid',
+	}, {
+		type: 'lifeless',
+		id: 'lifelessAsteroid',
+	}, {
+		type: 'npc',
+		faction: 'pirates',
+		shiplayout: 'shiplayoutRookieShip',
+	}, {
+		type: 'lifeless',
+		id: 'lifelessAsteroid',
+	}, {
+		type: 'player',
+		id: 'player-dummy-0',
+		shiplayout: 'shiplayoutRookieShip',
+	}, {
+		type: 'npc',
+		faction: 'guards',
+		shiplayout: 'shiplayoutFrigate',
+	},
+];
 
 export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 	1: [{

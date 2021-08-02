@@ -63,7 +63,7 @@ async function canDoSiteActivity(ctx: MyContext) {
 		return false;
 	}
 
-	if (ctx.session.planned?.some(o => o.type === 'facility' || o.type === 'warp')) {
+	if (ctx.session.planned?.some(o => o.type === 'useFacility' || o.type === 'warp')) {
 		return false;
 	}
 

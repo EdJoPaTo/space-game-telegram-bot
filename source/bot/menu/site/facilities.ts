@@ -1,6 +1,6 @@
 import {EMOJIS} from '../../emojis.js';
 import {FACILITIES} from '../../../game/get-static.js';
-import {getSiteInners} from '../../../game/get-whatever.js';
+import {getSiteEntities} from '../../../game/get-whatever.js';
 import {MyContext} from '../../my-context.js';
 import {Service} from '../../../game/typings.js';
 
@@ -8,7 +8,7 @@ import {getPlayerInSite} from './helper.js';
 
 async function getFacilities(ctx: MyContext) {
 	const location = await getPlayerInSite(ctx);
-	const {entities} = await getSiteInners(location.solarsystem, location.site.unique);
+	const entities = await getSiteEntities(location.solarsystem, location.site.unique);
 	const list = entities
 		.map((o, i) => ({entity: o, index: i}))
 		.flatMap(({entity, index}) => {
@@ -38,7 +38,7 @@ export async function doFacilityButton(ctx: MyContext, key: string) {
 	const facilityIndex = Number(match[1]);
 	const service = match[2]! as Service;
 	ctx.session.planned = [{
-		type: 'facility',
+		type: 'useFacility',
 		targetIndexInSite: facilityIndex,
 		service,
 	}];
