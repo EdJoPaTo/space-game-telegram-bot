@@ -23,18 +23,18 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	const location = await getPlayerLocation(playerId);
 	let text = '';
 
-	const solarsystem = SOLARSYSTEMS[location.solarsystem]!;
+	const solarsystemInfo = SOLARSYSTEMS[location.solarsystem]!;
 	text += EMOJIS.solarsystem;
 	text += format.italic('Solarsystem');
 	text += ': ';
-	text += solarsystem.name;
+	text += location.solarsystem;
 	text += ' ';
-	text += format.italic(solarsystem.security.toFixed(2));
+	text += format.italic(solarsystemInfo.security.toFixed(2));
 	text += '\n';
 
 	if ('station' in location) {
 		// TODO: römisch
-		text += infoline(EMOJIS.facilityStation + 'Station', `${solarsystem.name} ${location.station}`);
+		text += infoline(EMOJIS.facilityStation + 'Station', `${location.solarsystem} ${location.station}`);
 	} else if ('site' in location) {
 		text += infoline(EMOJIS.location + 'Site', siteLabel(ctx, location.site, true));
 	} else {
