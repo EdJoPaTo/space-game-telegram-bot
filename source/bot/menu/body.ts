@@ -61,7 +61,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 				let owner: string | undefined;
 				if (o.type === 'npc') {
-					owner = '🏴‍☠️Pirate';
+					owner = EMOJIS[o.faction] + ctx.i18n.t(`npcFaction.${o.faction}.title`);
 				} else if (o.type === 'player') {
 					const pretty = await getPlayerPretty(o.id);
 					owner = pretty.name;

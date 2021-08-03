@@ -63,3 +63,7 @@ service:
 
 siteType:
   asteroidField: Asteroid Field
+
+npcFaction:
+  guards.title: Guards
+  pirates.title: Pirates

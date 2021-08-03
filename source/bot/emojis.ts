@@ -13,4 +13,7 @@ export const EMOJIS = {
 	asteroidField: '🪨',
 	facilityStargate: '💫',
 	facilityStation: '🛰️',
+
+	pirates: '🏴‍☠️',
+	guards: '👮',
 };
