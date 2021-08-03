@@ -1,5 +1,6 @@
 export const EMOJIS = {
 	solarsystem: '🪐',
+	security: '👮',
 	location: '📍',
 	target: '🎯',
 	self: '🧘',
