@@ -3,10 +3,11 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 import {EMOJIS} from '../emojis.js';
 import {MyContext} from '../my-context.js';
 
+import {isLocationStation} from '../../game/typing-checks.js';
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
 import {getOwnLocation} from './general.js';
-import {getSlotUntargetedChoices, isSlotUntargetedButtonSet, setSlotUntargetedButton} from './site/slots-untargeted.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
+import {getSlotUntargetedChoices, isSlotUntargetedButtonSet, setSlotUntargetedButton} from './site/slots-untargeted.js';
 import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
 
@@ -44,6 +45,18 @@ menu.submenu('Initiate Warp', 'warp', warpMenu, {
 	hide: async ctx => !(await canDoSiteActivity(ctx)),
 });
 
+menu.interact('Undock', 'undock', {
+	hide: async ctx => !await isDocked(ctx),
+	do: async ctx => {
+		ctx.session.planned = [{
+			type: 'undock',
+			shipId: 0,
+		}];
+		await ctx.answerCbQuery('added to planned actions');
+		return true;
+	},
+});
+
 menu.interact('✅Confirm Planned Actions', 'confirm', {
 	do: answerCbNope,
 });
@@ -68,4 +81,9 @@ async function canDoSiteActivity(ctx: MyContext) {
 	}
 
 	return true;
+}
+
+async function isDocked(ctx: MyContext) {
+	const location = await getOwnLocation(ctx);
+	return isLocationStation(location);
 }

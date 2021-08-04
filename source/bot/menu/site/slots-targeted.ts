@@ -82,7 +82,7 @@ menu.interact(EMOJIS.stop + 'Disengage', 'd', {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
 
-		await ctx.answerCbQuery('removed to planned actions');
+		await ctx.answerCbQuery('removed from planned actions');
 		return '..';
 	},
 });
