@@ -25,7 +25,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	const solarsystemInfo = SOLARSYSTEMS[location.solarsystem]!;
 	text += infoline(EMOJIS.solarsystem + 'Solarsystem', format.underline(location.solarsystem));
-	text += infoline(EMOJIS.security + 'Security', solarsystemInfo.security + '%');
+	text += infoline(EMOJIS.security + 'Security', `${solarsystemInfo.security}%`);
 
 	if ('station' in location) {
 		// TODO: römisch
