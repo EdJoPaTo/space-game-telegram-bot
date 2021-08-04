@@ -1,11 +1,13 @@
-import {MenuTemplate} from 'telegraf-inline-menu';
+import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../emojis.js';
-import {MyContext} from '../my-context.js';
-
 import {isLocationStation} from '../../game/typing-checks.js';
+import {MyContext} from '../my-context.js';
+import {setInstructions} from '../../game/get-whatever.js';
+import {sleep} from '../../javascript-helper.js';
+
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
-import {getOwnLocation} from './general.js';
+import {getOwnIdentifier, getOwnLocation} from './general.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {getSlotUntargetedChoices, isSlotUntargetedButtonSet, setSlotUntargetedButton} from './site/slots-untargeted.js';
 import {menu as warpMenu} from './site/warp.js';
@@ -16,11 +18,6 @@ export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 	planned: true,
 	shipstats: true,
 }));
-
-async function answerCbNope(ctx: MyContext) {
-	await ctx.answerCbQuery('Not yet implemented in this mockup');
-	return false;
-}
 
 menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu, {
 	columns: 2,
@@ -58,7 +55,18 @@ menu.interact('Undock', 'undock', {
 });
 
 menu.interact('✅Confirm Planned Actions', 'confirm', {
-	do: answerCbNope,
+	do: async ctx => {
+		const identifier = getOwnIdentifier(ctx);
+		const instructions = ctx.session.planned ?? [];
+		await setInstructions(identifier, instructions);
+		ctx.session.planned = [];
+		await ctx.editMessageReplyMarkup(undefined);
+		await ctx.answerCbQuery('sent… dummy wait 5 seconds for next cycle.');
+		await sleep(5000);
+		await ctx.reply("some stuff happened… See FAKE log here… Han shot first.")
+		await replyMenuToContext(menu, ctx, '/')
+		return false;
+	},
 });
 
 menu.interact(EMOJIS.stop + 'Cancel Planned', 'cancel', {

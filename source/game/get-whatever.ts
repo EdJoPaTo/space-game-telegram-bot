@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {PlayerIdentifier, PlayerLocation, SiteEntity, SitesNearPlanet} from './typings.js';
+import {Instruction, PlayerIdentifier, PlayerLocation, SiteEntity, SitesNearPlanet} from './typings.js';
 
 const BACKEND = 'http://localhost:8080/';
 
@@ -23,6 +23,20 @@ export async function getSiteEntities(solarsystem: string, unique: string): Prom
 export async function getSites(solarsystem: string): Promise<SitesNearPlanet> {
 	const url = `${BACKEND}sites/${solarsystem}`;
 	return got(url).json<SitesNearPlanet>();
+}
+
+export async function setInstructions(playerId: PlayerIdentifier, instructions: readonly Instruction[]): Promise<void> {
+	const url = `${BACKEND}set-instructions/${playerId}`;
+	const body = JSON.stringify(instructions);
+	const response = await got.post(url, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body,
+	});
+	if (response.statusCode !== 200) {
+		throw new Error('not successful');
+	}
 }
 
 export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
