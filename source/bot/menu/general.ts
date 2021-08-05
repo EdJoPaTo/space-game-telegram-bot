@@ -44,7 +44,7 @@ export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean
 	let label = '';
 
 	label += EMOJIS[kind];
-	label += ctx.i18n.t(kind.startsWith('facility') ? `static.${kind}.title` : `siteType.${kind}`);
+	label += ctx.i18n.t(`static.${kind}.title`);
 
 	if (name) {
 		label += ' ';

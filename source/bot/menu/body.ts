@@ -30,7 +30,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	if ('station' in location) {
 		// TODO: römisch
-		text += infoline(EMOJIS.facilityStation + 'Station', `${location.solarsystem} ${location.station}`);
+		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station}`);
 	} else if ('site' in location) {
 		text += infoline(EMOJIS.location + 'Site', siteLabel(ctx, location.site, true));
 	} else {

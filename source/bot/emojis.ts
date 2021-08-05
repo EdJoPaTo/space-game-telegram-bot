@@ -11,8 +11,8 @@ export const EMOJIS = {
 	hitpointsStructure: '🚀',
 
 	asteroidField: '🪨',
-	facilityStargate: '💫',
-	facilityStation: '🛰️',
+	stargate: '💫',
+	station: '🛰️',
 
 	pirates: '🏴‍☠️',
 	guards: '👮',

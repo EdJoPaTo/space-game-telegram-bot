@@ -47,7 +47,7 @@ export async function setInstructions(playerId: PlayerIdentifier, instructions: 
 export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
 	solarsystem: 'system1',
 	site: {
-		kind: 'facilityStation',
+		kind: 'station',
 		unique: 'station1',
 		name: 'Wabinihwa I',
 	},
@@ -70,7 +70,7 @@ export const FAKE_SHIP: Ship = {
 export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	{
 		type: 'facility',
-		id: 'facilityStation',
+		id: 'station',
 	}, {
 		type: 'lifeless',
 		id: 'lifelessAsteroid',
@@ -101,7 +101,7 @@ export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 		unique: 'a0-some-hex',
 	}],
 	2: [{
-		kind: 'facilityStation',
+		kind: 'station',
 		unique: 'station1',
 		name: 'Wabinihwa I',
 	}, {
@@ -112,12 +112,12 @@ export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 		unique: 'a2-will-be',
 	}],
 	3: [{
-		kind: 'facilityStargate',
+		kind: 'stargate',
 		unique: 'system2',
 		name: 'Liagi',
 	}],
 	4: [{
-		kind: 'facilityStargate',
+		kind: 'stargate',
 		unique: 'system4',
 		name: 'Arama',
 	}, {

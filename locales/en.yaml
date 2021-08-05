@@ -47,22 +47,23 @@ ship:
       description: Hangar for storing missiles. Missiles can be effective at attacking enemies over long ranges but they are easy targets for Point Defense Cannons.
 
 static:
-  facilityStation.title: Station
-  facilityStargate.title: Stargate
+  station.title: Station
+  stargate.title: Stargate
+  asteroidField: Asteroid Field
+
   lifelessAsteroid.title: Asteroid
+
   modpRookieArmorPlate.title: Rookie Armor Plate
   moduRookieArmorRepair.title: Rookie Armor Repair
   modtRookieMiningLaser.title: Rookie Mining Laser
   modtRookieLaser.title: Rookie Laser
+
   shiplayoutRookieShip.title: Rookie Ship
   shiplayoutFrigate.title: Frigate
 
 service:
   jump: Jump
   dock: Dock
-
-siteType:
-  asteroidField: Asteroid Field
 
 npcFaction:
   guards.title: Guards
