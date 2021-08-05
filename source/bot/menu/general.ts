@@ -2,7 +2,7 @@ import {createBackMainMenuButtons} from 'telegraf-inline-menu';
 import {html as format} from 'telegram-format';
 
 import {EMOJIS} from '../emojis.js';
-import {getPlayerLocation} from '../../game/get-whatever.js';
+import {getPlayerLocation, getPlayerShip} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
 import {PlayerTelegramIdentifier, SiteInfo} from '../../game/typings.js';
 
@@ -32,6 +32,11 @@ export function getOwnIdentifier(ctx: MyContext): PlayerTelegramIdentifier {
 export async function getOwnLocation(ctx: MyContext) {
 	const playerId = getOwnIdentifier(ctx);
 	return getPlayerLocation(playerId);
+}
+
+export async function getOwnShip(ctx: MyContext) {
+	const playerId = getOwnIdentifier(ctx);
+	return getPlayerShip(playerId);
 }
 
 export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean) {

@@ -1,17 +1,15 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {backButtons, choicesByArrayIndex, getOwnLocation} from '../general.js';
+import {backButtons, choicesByArrayIndex, getOwnLocation, getOwnShip} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
 import {getSiteEntities} from '../../../game/get-whatever.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/get-static.js';
 import {MyContext} from '../../my-context.js';
 
-import {getPlayerInSite} from './helper.js';
-
 async function getModules(ctx: MyContext) {
-	const info = await getPlayerInSite(ctx);
-	return info.shipFitting.slotsTargeted;
+	const {fitting} = await getOwnShip(ctx);
+	return fitting.slotsTargeted;
 }
 
 export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
@@ -61,9 +59,10 @@ menu.choose('t', getTargets, {
 		const path = ctx.callbackQuery.data;
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.step !== 'targeted' || o.type !== 'module' || o.moduleIndex !== moduleIndex) ?? [];
 		ctx.session.planned.push({
-			type: 'moduleTargeted',
+			step: 'targeted',
+			type: 'module',
 			moduleIndex,
 			targetIndexInSite: Number(key),
 		});
@@ -76,11 +75,11 @@ menu.choose('t', getTargets, {
 menu.interact(EMOJIS.stop + 'Disengage', 'd', {
 	hide: (ctx, path) => {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		return !ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.moduleIndex === moduleIndex);
+		return !ctx.session.planned?.some(o => o.step === 'targeted' && o.type === 'module' && o.moduleIndex === moduleIndex);
 	},
 	do: async (ctx, path) => {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.step !== 'targeted' || o.type !== 'module' || o.moduleIndex !== moduleIndex) ?? [];
 
 		await ctx.answerCbQuery('removed from planned actions');
 		return '..';
@@ -93,7 +92,7 @@ export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
 	const names = modules.map((m, i) => {
 		let label = '';
-		if (ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.moduleIndex === i)) {
+		if (ctx.session.planned?.some(o => o.step === 'targeted' && o.type === 'module' && o.moduleIndex === i)) {
 			label += '✅';
 		}
 

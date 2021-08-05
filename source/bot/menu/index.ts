@@ -46,8 +46,8 @@ menu.interact('Undock', 'undock', {
 	hide: async ctx => !await isDocked(ctx),
 	do: async ctx => {
 		ctx.session.planned = [{
+			step: 'movement',
 			type: 'undock',
-			shipId: 0,
 		}];
 		await ctx.answerCbQuery('added to planned actions');
 		return true;
@@ -63,8 +63,8 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 		await ctx.editMessageReplyMarkup(undefined);
 		await ctx.answerCbQuery('sent… dummy wait 5 seconds for next cycle.');
 		await sleep(5000);
-		await ctx.reply("some stuff happened… See FAKE log here… Han shot first.")
-		await replyMenuToContext(menu, ctx, '/')
+		await ctx.reply('some stuff happened… See FAKE log here… Han shot first.');
+		await replyMenuToContext(menu, ctx, '/');
 		return false;
 	},
 });
@@ -84,7 +84,7 @@ async function canDoSiteActivity(ctx: MyContext) {
 		return false;
 	}
 
-	if (ctx.session.planned?.some(o => o.type === 'useFacility' || o.type === 'warp')) {
+	if (ctx.session.planned?.some(o => o.step === 'movement' || o.type === 'facility')) {
 		return false;
 	}
 

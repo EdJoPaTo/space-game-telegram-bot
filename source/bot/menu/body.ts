@@ -1,7 +1,7 @@
 import {html as format} from 'telegram-format';
 
 import {EMOJIS} from '../emojis.js';
-import {getPlayerLocation, getPlayerPretty, getSiteEntities} from '../../game/get-whatever.js';
+import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {MyContext} from '../my-context.js';
 import {SOLARSYSTEMS} from '../../game/get-static.js';
@@ -21,6 +21,7 @@ export interface Options {
 export async function menuBody(ctx: MyContext, options: Options = {}) {
 	const playerId = getOwnIdentifier(ctx);
 	const location = await getPlayerLocation(playerId);
+	const {fitting: shipFitting, status: shipStatus} = await getPlayerShip(playerId);
 	let text = '';
 
 	const solarsystemInfo = SOLARSYSTEMS[location.solarsystem]!;
@@ -38,17 +39,14 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	text += '\n';
 
-	if ('shipStatus' in location) {
-		const {shipFitting, shipStatus} = location;
-		if (options.shipstats) {
-			text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
-			text += '\n';
-			const ship = getShipQuickstats(shipFitting);
-			text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
-			text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
-			text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
-			text += '\n';
-		}
+	if (options.shipstats) {
+		text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
+		text += '\n';
+		const ship = getShipQuickstats(shipFitting);
+		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
+		text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
+		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+		text += '\n';
 	}
 
 	if ('site' in location && options.entities) {

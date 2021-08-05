@@ -1,12 +1,10 @@
-import {choicesByArrayIndex} from '../general.js';
+import {choicesByArrayIndex, getOwnShip} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
 import {MyContext} from '../../my-context.js';
 
-import {getPlayerInSpace} from './helper.js';
-
 async function getModules(ctx: MyContext) {
-	const info = await getPlayerInSpace(ctx);
-	return info.shipFitting.slotsUntargeted;
+	const {fitting} = await getOwnShip(ctx);
+	return fitting.slotsUntargeted;
 }
 
 export async function getSlotUntargetedChoices(ctx: MyContext) {
@@ -17,14 +15,14 @@ export async function getSlotUntargetedChoices(ctx: MyContext) {
 
 export function isSlotUntargetedButtonSet(ctx: MyContext, key: string) {
 	const moduleIndex = Number(key);
-	return Boolean(ctx.session.planned?.some(o => o.type === 'moduleUntargeted' && o.moduleIndex === moduleIndex));
+	return Boolean(ctx.session.planned?.some(o => o.step === 'untargeted' && o.type === 'module' && o.moduleIndex === moduleIndex));
 }
 
 export async function setSlotUntargetedButton(ctx: MyContext, key: string, newState: boolean) {
 	const moduleIndex = Number(key);
-	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleUntargeted' || o.moduleIndex !== moduleIndex) ?? [];
+	ctx.session.planned = ctx.session.planned?.filter(o => o.step !== 'untargeted' || o.type !== 'module' || o.moduleIndex !== moduleIndex) ?? [];
 	if (newState) {
-		ctx.session.planned.push({type: 'moduleUntargeted', moduleIndex});
+		ctx.session.planned.push({step: 'untargeted', type: 'module', moduleIndex});
 	}
 
 	await ctx.answerCbQuery('added to planned actions');
