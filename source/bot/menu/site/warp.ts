@@ -3,6 +3,7 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons, getOwnLocation, siteLabel} from '../general.js';
 import {getSites} from '../../../game/get-whatever.js';
+import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 
@@ -37,7 +38,7 @@ async function getSiteChoices(ctx: MyContext) {
 	}
 
 	const currentLocation = await getOwnLocation(ctx);
-	if (!('site' in currentLocation)) {
+	if (!isLocationSite(currentLocation)) {
 		// Not in a site → cant warp anyway
 		return [];
 	}
@@ -45,7 +46,7 @@ async function getSiteChoices(ctx: MyContext) {
 	const allSites = await getLocalSites(ctx);
 	const sites = Object.values(allSites)
 		.flat()
-		.filter(o => o.unique !== currentLocation.site.unique);
+		.filter(o => o.unique !== currentLocation.siteUnique);
 	const result: Record<string, string> = {};
 	for (const site of sites) {
 		result[site.unique] = siteLabel(ctx, site, false);

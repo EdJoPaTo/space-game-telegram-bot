@@ -46,11 +46,7 @@ export async function setInstructions(playerId: PlayerIdentifier, instructions: 
 
 export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
 	solarsystem: 'Wabinihwa',
-	site: {
-		kind: 'station',
-		unique: 'station1',
-		name: 'Wabinihwa I',
-	},
+	siteUnique: 'station1',
 };
 
 export const FAKE_SHIP: Ship = {

@@ -1,7 +1,7 @@
 import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../emojis.js';
-import {isLocationStation} from '../../game/typing-checks.js';
+import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 import {setInstructions} from '../../game/get-whatever.js';
 import {sleep} from '../../javascript-helper.js';
@@ -61,7 +61,8 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 		await setInstructions(identifier, instructions);
 		ctx.session.planned = [];
 		await ctx.editMessageReplyMarkup(undefined);
-		await ctx.answerCbQuery('sent… dummy wait 5 seconds for next cycle.');
+		await ctx.answerCbQuery('sent… now wait 5 secs');
+		await ctx.reply("This, my dear friend, is an ugly hack. It works as long as only one player is playing at the same time.\n\nMy future me will hate me for using this horrifying bodge.\nSincerely, past me.")
 		await sleep(5000);
 		await ctx.reply('some stuff happened… See FAKE log here… Han shot first.');
 		await replyMenuToContext(menu, ctx, '/');
@@ -80,7 +81,7 @@ menu.interact(EMOJIS.stop + 'Cancel Planned', 'cancel', {
 
 async function canDoSiteActivity(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);
-	if (!('site' in location)) {
+	if (!isLocationSite(location)) {
 		return false;
 	}
 

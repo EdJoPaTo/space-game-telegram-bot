@@ -3,6 +3,7 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 import {backButtons, choicesByArrayIndex, getOwnLocation, getOwnShip} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
 import {getSiteEntities} from '../../../game/get-whatever.js';
+import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/get-static.js';
 import {MyContext} from '../../my-context.js';
@@ -32,11 +33,11 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 
 async function getTargets(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);
-	if (!('site' in location)) {
+	if (!isLocationSite(location)) {
 		throw new Error('not in a site');
 	}
 
-	const entities = await getSiteEntities(location.solarsystem, location.site.unique);
+	const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
 	const list = entities
 		.map((o, i) => ({entity: o, id: i}))
 		.filter(o => o.entity.type !== 'player');

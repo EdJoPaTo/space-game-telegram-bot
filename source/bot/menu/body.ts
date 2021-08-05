@@ -1,8 +1,9 @@
 import {html as format} from 'telegram-format';
 
 import {EMOJIS} from '../emojis.js';
-import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities} from '../../game/get-whatever.js';
+import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSites} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
+import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 import {SOLARSYSTEMS} from '../../game/get-static.js';
 
@@ -28,13 +29,16 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	text += infoline(EMOJIS.solarsystem + 'Solarsystem', format.underline(location.solarsystem));
 	text += infoline(EMOJIS.security + 'Security', `${solarsystemInfo.security}%`);
 
-	if ('station' in location) {
+	if (isLocationStation(location)) {
 		// TODO: römisch
 		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station}`);
-	} else if ('site' in location) {
-		text += infoline(EMOJIS.location + 'Site', siteLabel(ctx, location.site, true));
 	} else {
-		text += EMOJIS.location + 'In warp…\n';
+		const label = isLocationSite(location) ? 'Site' : 'Warping towards';
+		const unique = isLocationSite(location) ? location.siteUnique : location.towardsSiteUnique;
+		const allSites = await getSites(location.solarsystem);
+		const site = Object.values(allSites).flat().find(o => o.unique === unique);
+		const value = site ? siteLabel(ctx, site, true) : 'Destination unknown';
+		text += infoline(EMOJIS.location + label, value);
 	}
 
 	text += '\n';
@@ -49,8 +53,8 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		text += '\n';
 	}
 
-	if ('site' in location && options.entities) {
-		const entities = await getSiteEntities(location.solarsystem, location.site.unique);
+	if (isLocationSite(location) && options.entities) {
+		const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
 		const lines = await Promise.all(entities
 			.map((o, i) => ({o, i}))
 			.filter(({o}) => o.type !== 'player' || o.id !== playerId)

@@ -8,7 +8,7 @@ import {getPlayerInSite} from './helper.js';
 
 async function getFacilities(ctx: MyContext) {
 	const location = await getPlayerInSite(ctx);
-	const entities = await getSiteEntities(location.solarsystem, location.site.unique);
+	const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
 	const list = entities
 		.map((o, i) => ({entity: o, index: i}))
 		.flatMap(({entity, index}) => {
