@@ -1,7 +1,7 @@
 import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../emojis.js';
-import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
+import {isLocationSite, isLocationStation, isLocationWarp} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 import {setInstructions} from '../../game/get-whatever.js';
 import {sleep} from '../../javascript-helper.js';
@@ -54,6 +54,22 @@ menu.interact('Undock', 'undock', {
 	},
 });
 
+menu.interact('Ugly but warps', 'continue-warp', {
+	hide: async ctx => !await inWarp(ctx),
+	do: async ctx => {
+		const location = await getOwnLocation(ctx);
+		if (isLocationWarp(location)) {
+			ctx.session.planned = [{
+				step: 'movement',
+				type: 'warp',
+				siteUnique: location.towardsSiteUnique,
+			}];
+		}
+
+		return true;
+	},
+});
+
 menu.interact('✅Confirm Planned Actions', 'confirm', {
 	do: async ctx => {
 		const identifier = getOwnIdentifier(ctx);
@@ -62,7 +78,7 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 		ctx.session.planned = [];
 		await ctx.editMessageReplyMarkup(undefined);
 		await ctx.answerCbQuery('sent… now wait 5 secs');
-		await ctx.reply("This, my dear friend, is an ugly hack. It works as long as only one player is playing at the same time.\n\nMy future me will hate me for using this horrifying bodge.\nSincerely, past me.")
+		await ctx.reply('This, my dear friend, is a huge pile of ugly hacks. It works as long as only one player is playing at the same time.\n\nMy future me will hate me for using these horrifying bodges.\nSincerely, past me.');
 		await sleep(5000);
 		await ctx.reply('some stuff happened… See FAKE log here… Han shot first.');
 		await replyMenuToContext(menu, ctx, '/');
@@ -95,4 +111,9 @@ async function canDoSiteActivity(ctx: MyContext) {
 async function isDocked(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);
 	return isLocationStation(location);
+}
+
+async function inWarp(ctx: MyContext) {
+	const location = await getOwnLocation(ctx);
+	return isLocationWarp(location);
 }
