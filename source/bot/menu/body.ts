@@ -36,7 +36,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		const label = isLocationSite(location) ? 'Site' : 'Warping towards';
 		const unique = isLocationSite(location) ? location.siteUnique : location.towardsSiteUnique;
 		const allSites = await getSites(location.solarsystem);
-		const site = Object.values(allSites).flat().find(o => o.unique === unique);
+		const site = Object.values(allSites).flat().find(o => o.siteUnique === unique);
 		const value = site ? siteLabel(ctx, site, true) : 'Destination unknown';
 		text += infoline(EMOJIS.location + label, value);
 	}

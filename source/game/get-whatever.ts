@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {Instruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet} from './typings.js';
+import {Instruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, SolarsystemIdentifier} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -20,12 +20,12 @@ export async function getPlayerShip(playerId: PlayerIdentifier): Promise<Ship> {
 }
 
 /** Get information which is only visible from within the site */
-export async function getSiteEntities(solarsystem: string, unique: string): Promise<readonly SiteEntity[]> {
-	const url = `${BACKEND}/sites/${solarsystem}/${unique}`;
+export async function getSiteEntities(solarsystem: SolarsystemIdentifier, siteUnique: string): Promise<readonly SiteEntity[]> {
+	const url = `${BACKEND}/sites/${solarsystem}/${siteUnique}`;
 	return got(url).json<readonly SiteEntity[]>();
 }
 
-export async function getSites(solarsystem: string): Promise<SitesNearPlanet> {
+export async function getSites(solarsystem: SolarsystemIdentifier): Promise<SitesNearPlanet> {
 	const url = `${BACKEND}/sites/${solarsystem}`;
 	return got(url).json<SitesNearPlanet>();
 }
@@ -94,30 +94,30 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 	1: [{
 		kind: 'asteroidField',
-		unique: 'a0-some-hex',
+		siteUnique: 'a0-some-hex',
 	}],
 	2: [{
 		kind: 'station',
-		unique: 'station1',
+		siteUnique: 'station1',
 		name: 'Wabinihwa I',
 	}, {
 		kind: 'asteroidField',
-		unique: 'a1-backend',
+		siteUnique: 'a1-backend',
 	}, {
 		kind: 'asteroidField',
-		unique: 'a2-will-be',
+		siteUnique: 'a2-will-be',
 	}],
 	3: [{
 		kind: 'stargate',
-		unique: 'system2',
+		siteUnique: 'system2',
 		name: 'Liagi',
 	}],
 	4: [{
 		kind: 'stargate',
-		unique: 'system4',
+		siteUnique: 'system4',
 		name: 'Arama',
 	}, {
 		kind: 'asteroidField',
-		unique: 'a3-more-creative',
+		siteUnique: 'a3-more-creative',
 	}],
 };

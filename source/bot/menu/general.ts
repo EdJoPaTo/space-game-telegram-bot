@@ -40,7 +40,7 @@ export async function getOwnShip(ctx: MyContext) {
 }
 
 export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean) {
-	const {kind, name, unique} = site;
+	const {kind, name, siteUnique} = site;
 	let label = '';
 
 	label += EMOJIS[kind];
@@ -51,7 +51,7 @@ export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean
 		label += includeFormat ? format.underline(name) : name;
 	} else {
 		label += ' ';
-		label += includeFormat ? format.monospace(unique) : unique;
+		label += includeFormat ? format.monospace(siteUnique) : siteUnique;
 	}
 
 	return label;

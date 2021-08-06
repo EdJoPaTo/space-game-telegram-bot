@@ -46,10 +46,10 @@ async function getSiteChoices(ctx: MyContext) {
 	const allSites = await getLocalSites(ctx);
 	const sites = Object.values(allSites)
 		.flat()
-		.filter(o => o.unique !== currentLocation.siteUnique);
+		.filter(o => o.siteUnique !== currentLocation.siteUnique);
 	const result: Record<string, string> = {};
 	for (const site of sites) {
-		result[site.unique] = siteLabel(ctx, site, false);
+		result[site.siteUnique] = siteLabel(ctx, site, false);
 	}
 
 	return result;
