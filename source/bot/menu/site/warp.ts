@@ -64,7 +64,7 @@ menu.choose('site', getSiteChoices, {
 			throw new Error('that shouldnt happen');
 		}
 
-		ctx.session.planned = [{step: 'movement', type: 'warp', siteUnique}];
+		ctx.session.planned = [{type: 'warp', siteUnique}];
 		await ctx.answerCbQuery('added to planned actions');
 		return '..';
 	},

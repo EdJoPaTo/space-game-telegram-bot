@@ -60,10 +60,9 @@ menu.choose('t', getTargets, {
 		const path = ctx.callbackQuery.data;
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 
-		ctx.session.planned = ctx.session.planned?.filter(o => o.step !== 'targeted' || o.type !== 'module' || o.moduleIndex !== moduleIndex) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
 		ctx.session.planned.push({
-			step: 'targeted',
-			type: 'module',
+			type: 'moduleTargeted',
 			moduleIndex,
 			targetIndexInSite: Number(key),
 		});
@@ -76,11 +75,11 @@ menu.choose('t', getTargets, {
 menu.interact(EMOJIS.stop + 'Disengage', 'd', {
 	hide: (ctx, path) => {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		return !ctx.session.planned?.some(o => o.step === 'targeted' && o.type === 'module' && o.moduleIndex === moduleIndex);
+		return !ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.moduleIndex === moduleIndex);
 	},
 	do: async (ctx, path) => {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		ctx.session.planned = ctx.session.planned?.filter(o => o.step !== 'targeted' || o.type !== 'module' || o.moduleIndex !== moduleIndex) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
 
 		await ctx.answerCbQuery('removed from planned actions');
 		return '..';
@@ -93,7 +92,7 @@ export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
 	const names = modules.map((m, i) => {
 		let label = '';
-		if (ctx.session.planned?.some(o => o.step === 'targeted' && o.type === 'module' && o.moduleIndex === i)) {
+		if (ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.moduleIndex === i)) {
 			label += '✅';
 		}
 

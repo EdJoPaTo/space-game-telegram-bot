@@ -46,7 +46,6 @@ menu.interact('Undock', 'undock', {
 	hide: async ctx => !await isDocked(ctx),
 	do: async ctx => {
 		ctx.session.planned = [{
-			step: 'movement',
 			type: 'undock',
 		}];
 		await ctx.answerCbQuery('added to planned actions');
@@ -60,7 +59,6 @@ menu.interact('Ugly but warps', 'continue-warp', {
 		const location = await getOwnLocation(ctx);
 		if (isLocationWarp(location)) {
 			ctx.session.planned = [{
-				step: 'movement',
 				type: 'warp',
 				siteUnique: location.towardsSiteUnique,
 			}];
@@ -101,7 +99,7 @@ async function canDoSiteActivity(ctx: MyContext) {
 		return false;
 	}
 
-	if (ctx.session.planned?.some(o => o.step === 'movement' || o.type === 'facility')) {
+	if (ctx.session.planned?.some(o => o.type === 'warp' || o.type === 'facility')) {
 		return false;
 	}
 

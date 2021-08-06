@@ -38,7 +38,6 @@ export async function doFacilityButton(ctx: MyContext, key: string) {
 	const facilityIndex = Number(match[1]);
 	const service = match[2]! as Service;
 	ctx.session.planned = [{
-		step: 'targeted',
 		type: 'facility',
 		targetIndexInSite: facilityIndex,
 		service,
