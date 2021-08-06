@@ -32,13 +32,13 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	if (isLocationStation(location)) {
 		// TODO: römisch
 		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station}`);
-	} else {
-		const label = isLocationSite(location) ? 'Site' : 'Warping towards';
-		const unique = isLocationSite(location) ? location.siteUnique : location.towardsSiteUnique;
+	} else if (isLocationSite(location)) {
 		const allSites = await getSites(location.solarsystem);
-		const site = Object.values(allSites).flat().find(o => o.siteUnique === unique);
+		const site = Object.values(allSites).flat().find(o => o.siteUnique === location.siteUnique);
 		const value = site ? siteLabel(ctx, site, true) : 'Destination unknown';
-		text += infoline(EMOJIS.location + label, value);
+		text += infoline(EMOJIS.location + 'Site', value);
+	} else {
+		text += EMOJIS.location + 'In Warp\n';
 	}
 
 	text += '\n';

@@ -5,7 +5,7 @@ export function isLocationSite(location: PlayerLocation): location is SiteIdenti
 }
 
 export function isLocationWarp(location: PlayerLocation): location is PlayerLocationWarp {
-	return 'towardsSiteUnique' in location;
+	return !isLocationSite(location) && !isLocationStation(location);
 }
 
 export function isLocationStation(location: PlayerLocation): location is PlayerLocationStation {
