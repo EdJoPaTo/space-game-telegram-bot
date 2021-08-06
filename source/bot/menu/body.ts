@@ -46,11 +46,13 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	if (options.shipstats) {
 		text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
 		text += '\n';
-		const ship = getShipQuickstats(shipFitting);
-		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
-		text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
-		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
-		text += '\n';
+		if (!isLocationStation(location)) {
+			const ship = getShipQuickstats(shipFitting);
+			text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
+			text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
+			text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+			text += '\n';
+		}
 	}
 
 	if (isLocationSite(location) && options.entities) {
