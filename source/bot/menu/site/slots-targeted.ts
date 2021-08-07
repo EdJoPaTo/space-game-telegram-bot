@@ -6,6 +6,7 @@ import {getSiteEntities} from '../../../game/get-whatever.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/get-static.js';
+import {ModuleEffect} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
 
 async function getModules(ctx: MyContext) {
@@ -21,7 +22,9 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const moduleName = ctx.i18n.t(`static.${moduleKey}.title`);
 
 	let text = '';
-	text += `-${module.energyConsumption}${EMOJIS.capacitor}\n`;
+	text += module.effectsOrigin.map(o => moduleEffect(ctx, o)).join('\n');
+	text += '\n\n';
+	text += module.effectsTarget.map(o => moduleEffect(ctx, o)).join('\n');
 
 	return menuBody(ctx, {
 		entities: true,
@@ -30,6 +33,18 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 		text,
 	});
 });
+
+function moduleEffect(_ctx: MyContext, effect: ModuleEffect): string {
+	let line = '';
+	line += EMOJIS[effect.type];
+	line += effect.type;
+
+	if (effect.amount) {
+		line += ': ' + String(effect.amount);
+	}
+
+	return line;
+}
 
 async function getTargets(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);

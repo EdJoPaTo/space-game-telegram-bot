@@ -6,9 +6,13 @@ export const EMOJIS = {
 	self: '🧘',
 	stop: '🛑',
 
+	armorRepair: '🛡',
 	capacitor: '🔋',
+	damage: '💥',
 	hitpointsArmor: '🛡',
 	hitpointsStructure: '🚀',
+	mine: '🪨',
+	warpDisruption: '🔗',
 
 	asteroidField: '🪨',
 	stargate: '💫',
