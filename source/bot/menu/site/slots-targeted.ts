@@ -1,6 +1,6 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {backButtons, choicesByArrayIndex, getOwnLocation, getOwnShip} from '../general.js';
+import {backButtons, choicesByArrayIndex, getOwnIdentifier, getOwnLocation, getOwnShip} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
 import {getSiteEntities} from '../../../game/get-whatever.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
@@ -48,6 +48,7 @@ function moduleEffect(_ctx: MyContext, effect: ModuleEffect): string {
 
 async function getTargets(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);
+	const ownPlayerId = getOwnIdentifier(ctx);
 	if (!isLocationSite(location)) {
 		throw new Error('not in a site');
 	}
@@ -55,7 +56,7 @@ async function getTargets(ctx: MyContext) {
 	const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
 	const list = entities
 		.map((o, i) => ({entity: o, id: i}))
-		.filter(o => o.entity.type !== 'player');
+		.filter(o => o.entity.type !== 'player' || o.entity.id !== ownPlayerId);
 
 	const result: Record<number, string> = {};
 	for (const item of list) {
