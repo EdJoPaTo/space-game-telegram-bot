@@ -58,12 +58,11 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 		const identifier = getOwnIdentifier(ctx);
 		await setInstructions(identifier, ctx.session.planned ?? []);
 		ctx.session.planned = [];
-		await setInstructions(identifier, []);
 		await ctx.editMessageReplyMarkup(undefined);
 		await ctx.answerCbQuery('sent… now wait 5 secs');
-		await ctx.reply('This, my dear friend, is a huge pile of ugly hacks. It works as long as only one player is playing at the same time.\n\nMy future me will hate me for using these horrifying bodges.\nSincerely, past me.');
+		// TODO: do async / get notified from backend
 		await sleep(5000);
-		await ctx.reply('some stuff happened… See FAKE log here… Han shot first.');
+		await ctx.reply('some stuff happened… See FAKE log here… Han shot ~first~ at the same time', {parse_mode: 'MarkdownV2'});
 		await replyMenuToContext(menu, ctx, '/');
 		return false;
 	},
