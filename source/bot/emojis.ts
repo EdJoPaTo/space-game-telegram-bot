@@ -5,6 +5,8 @@ export const EMOJIS = {
 	target: '🎯',
 	self: '🧘',
 	stop: '🛑',
+	repair: '🔧',
+	undock: '🚪',
 
 	armorRepair: '🛡',
 	capacitor: '🔋',

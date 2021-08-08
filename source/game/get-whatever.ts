@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {Instruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, SolarsystemIdentifier} from './typings.js';
+import {SiteInstruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, SolarsystemIdentifier, StationInstruction} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -30,18 +30,22 @@ export async function getSites(solarsystem: SolarsystemIdentifier): Promise<Site
 	return got(url).json<SitesNearPlanet>();
 }
 
-export async function setInstructions(playerId: PlayerIdentifier, instructions: readonly Instruction[]): Promise<void> {
-	const url = `${BACKEND}/set-instructions/${playerId}`;
+export async function setSiteInstructions(playerId: PlayerIdentifier, instructions: readonly SiteInstruction[]): Promise<void> {
+	const url = `${BACKEND}/player/${playerId}/site-instructions`;
 	const body = JSON.stringify(instructions);
-	const response = await got.post(url, {
-		headers: {
-			'Content-Type': 'application/json',
-		},
+	await got.post(url, {
+		headers: {'Content-Type': 'application/json'},
 		body,
 	});
-	if (response.statusCode !== 200) {
-		throw new Error('not successful');
-	}
+}
+
+export async function setStationInstructions(playerId: PlayerIdentifier, instructions: readonly StationInstruction[]): Promise<void> {
+	const url = `${BACKEND}/player/${playerId}/station-instructions`;
+	const body = JSON.stringify(instructions);
+	await got.post(url, {
+		headers: {'Content-Type': 'application/json'},
+		body,
+	});
 }
 
 export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {

@@ -76,11 +76,13 @@ menu.choose('t', getTargets, {
 		const path = ctx.callbackQuery.data;
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.args.moduleIndex !== moduleIndex) ?? [];
 		ctx.session.planned.push({
 			type: 'moduleTargeted',
-			moduleIndex,
-			targetIndexInSite: Number(key),
+			args: {
+				moduleIndex,
+				targetIndexInSite: Number(key),
+			},
 		});
 
 		await ctx.answerCbQuery('added to planned actions');
@@ -91,11 +93,11 @@ menu.choose('t', getTargets, {
 menu.interact(EMOJIS.stop + 'Disengage', 'd', {
 	hide: (ctx, path) => {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		return !ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.moduleIndex === moduleIndex);
+		return !ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.args.moduleIndex === moduleIndex);
 	},
 	do: async (ctx, path) => {
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.moduleIndex !== moduleIndex) ?? [];
+		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.args.moduleIndex !== moduleIndex) ?? [];
 
 		await ctx.answerCbQuery('removed from planned actions');
 		return '..';
@@ -108,7 +110,7 @@ export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
 	const names = modules.map((m, i) => {
 		let label = '';
-		if (ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.moduleIndex === i)) {
+		if (ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.args.moduleIndex === i)) {
 			label += '✅';
 		}
 

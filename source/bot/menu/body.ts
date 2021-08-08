@@ -5,7 +5,7 @@ import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getS
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
-import {PlayerIdentifier } from '../../game/typings.js';
+import {PlayerIdentifier} from '../../game/typings.js';
 import {SOLARSYSTEMS} from '../../game/get-static.js';
 
 import {getOwnIdentifier, siteLabel} from './general.js';
@@ -32,7 +32,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	if (isLocationStation(location)) {
 		// TODO: römisch
-		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station}`);
+		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station + 1}`);
 	} else if (isLocationSite(location)) {
 		const allSites = await getSites(location.solarsystem);
 		const site = Object.values(allSites).flat().find(o => o.siteUnique === location.siteUnique);
@@ -47,13 +47,11 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	if (options.shipstats) {
 		text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
 		text += '\n';
-		if (!isLocationStation(location)) {
-			const ship = getShipQuickstats(shipFitting);
-			text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
-			text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
-			text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
-			text += '\n';
-		}
+		const ship = getShipQuickstats(shipFitting);
+		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
+		text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
+		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+		text += '\n';
 	}
 
 	if (isLocationSite(location) && options.entities) {
@@ -78,7 +76,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		text += '\n\n';
 	}
 
-	if (options.planned) {
+	if (isLocationSite(location) && options.planned) {
 		text += '📝planned actions:\n';
 		text += ctx.session.planned?.length ? ctx.session.planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
 		text += '\n\n';

@@ -15,14 +15,14 @@ export async function getSlotUntargetedChoices(ctx: MyContext) {
 
 export function isSlotUntargetedButtonSet(ctx: MyContext, key: string) {
 	const moduleIndex = Number(key);
-	return Boolean(ctx.session.planned?.some(o => o.type === 'moduleUntargeted' && o.moduleIndex === moduleIndex));
+	return Boolean(ctx.session.planned?.some(o => o.type === 'moduleUntargeted' && o.args.moduleIndex === moduleIndex));
 }
 
 export async function setSlotUntargetedButton(ctx: MyContext, key: string, newState: boolean) {
 	const moduleIndex = Number(key);
-	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleUntargeted' || o.moduleIndex !== moduleIndex) ?? [];
+	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleUntargeted' || o.args.moduleIndex !== moduleIndex) ?? [];
 	if (newState) {
-		ctx.session.planned.push({type: 'moduleUntargeted', moduleIndex});
+		ctx.session.planned.push({type: 'moduleUntargeted', args: {moduleIndex}});
 	}
 
 	await ctx.answerCbQuery('added to planned actions');

@@ -3,7 +3,7 @@ import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 import {EMOJIS} from '../emojis.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
-import {setInstructions} from '../../game/get-whatever.js';
+import {setSiteInstructions, setStationInstructions} from '../../game/get-whatever.js';
 import {sleep} from '../../javascript-helper.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
@@ -42,21 +42,30 @@ menu.submenu('Initiate Warp', 'warp', warpMenu, {
 	hide: async ctx => !(await canDoSiteActivity(ctx)),
 });
 
-menu.interact('Undock', 'undock', {
+menu.interact(EMOJIS.repair + 'Repair', 'repair', {
 	hide: async ctx => !await isDocked(ctx),
 	do: async ctx => {
-		ctx.session.planned = [{
-			type: 'undock',
-		}];
-		await ctx.answerCbQuery('added to planned actions');
+		const identifier = getOwnIdentifier(ctx);
+		await setStationInstructions(identifier, ['repair']);
+		return true;
+	},
+});
+
+menu.interact(EMOJIS.undock + 'Undock', 'undock', {
+	joinLastRow: true,
+	hide: async ctx => !await isDocked(ctx),
+	do: async ctx => {
+		const identifier = getOwnIdentifier(ctx);
+		await setStationInstructions(identifier, ['undock']);
 		return true;
 	},
 });
 
 menu.interact('✅Confirm Planned Actions', 'confirm', {
+	hide: async ctx => !(await isInSite(ctx)),
 	do: async ctx => {
 		const identifier = getOwnIdentifier(ctx);
-		await setInstructions(identifier, ctx.session.planned ?? []);
+		await setSiteInstructions(identifier, ctx.session.planned ?? []);
 		ctx.session.planned = [];
 		await ctx.editMessageReplyMarkup(undefined);
 		await ctx.answerCbQuery('sent… now wait 5 secs');
@@ -88,6 +97,11 @@ async function canDoSiteActivity(ctx: MyContext) {
 	}
 
 	return true;
+}
+
+async function isInSite(ctx: MyContext) {
+	const location = await getOwnLocation(ctx);
+	return isLocationSite(location);
 }
 
 async function isDocked(ctx: MyContext) {

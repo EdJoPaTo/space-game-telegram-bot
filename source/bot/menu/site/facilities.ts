@@ -39,8 +39,11 @@ export async function doFacilityButton(ctx: MyContext, key: string) {
 	const service = match[2]! as Service;
 	ctx.session.planned = [{
 		type: 'facility',
-		targetIndexInSite: facilityIndex,
-		service,
+		args: {
+
+			targetIndexInSite: facilityIndex,
+			service,
+		},
 	}];
 	await ctx.answerCbQuery('added to planned actions');
 	return true;
