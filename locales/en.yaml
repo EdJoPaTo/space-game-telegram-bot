@@ -51,7 +51,7 @@ static:
   stargate.title: Stargate
   asteroidField: Asteroid Field
 
-  lifelessAsteroid.title: Asteroid
+  asteroid.title: Asteroid
 
   modpRookieArmorPlate.title: Rookie Armor Plate
   moduRookieArmorRepair.title: Rookie Armor Repair

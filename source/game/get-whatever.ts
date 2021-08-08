@@ -73,17 +73,17 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 		id: 'station',
 	}, {
 		type: 'lifeless',
-		id: 'lifelessAsteroid',
+		id: 'asteroid',
 	}, {
 		type: 'lifeless',
-		id: 'lifelessAsteroid',
+		id: 'asteroid',
 	}, {
 		type: 'npc',
 		faction: 'pirates',
 		shiplayout: 'shiplayoutRookieShip',
 	}, {
 		type: 'lifeless',
-		id: 'lifelessAsteroid',
+		id: 'asteroid',
 	}, {
 		type: 'player',
 		id: 'player-dummy-0',
