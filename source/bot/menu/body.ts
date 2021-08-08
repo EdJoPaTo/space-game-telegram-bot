@@ -5,6 +5,7 @@ import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getS
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
+import {PlayerIdentifier } from '../../game/typings.js';
 import {SOLARSYSTEMS} from '../../game/get-static.js';
 
 import {getOwnIdentifier, siteLabel} from './general.js';
@@ -67,8 +68,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 				if (o.type === 'npc') {
 					owner = EMOJIS[o.faction] + ctx.i18n.t(`npcFaction.${o.faction}.title`);
 				} else if (o.type === 'player') {
-					const pretty = await getPlayerPretty(o.id);
-					owner = pretty.name;
+					owner = await getPlayerPretty(o.id as PlayerIdentifier);
 				}
 
 				return entityLine(i + 1, entities.length, type, owner);

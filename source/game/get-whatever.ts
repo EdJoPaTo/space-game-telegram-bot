@@ -4,9 +4,9 @@ import {Instruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNe
 
 const BACKEND = 'http://localhost:8080';
 
-export async function getPlayerPretty(playerId: string) {
-	const name = playerId.includes('tg') ? 'You' : 'Bob';
-	return {name};
+export async function getPlayerPretty(playerId: PlayerIdentifier): Promise<string> {
+	// TODO: pretty name store
+	return playerId;
 }
 
 export async function getPlayerLocation(playerId: PlayerIdentifier): Promise<PlayerLocation> {
