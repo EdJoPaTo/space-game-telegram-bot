@@ -1,3 +1,5 @@
+import {readFileSync} from 'fs';
+
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
 import {I18n} from '@grammyjs/i18n';
 import {MenuMiddleware} from 'telegraf-inline-menu';
@@ -13,7 +15,18 @@ if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)');
 }
 
+const ALLOWED = readFileSync('allowed.txt', 'utf8').split('\n').filter(o => o).map(o => Number(o));
+console.log('ALLOWED', ALLOWED);
+
 const bot = new Telegraf<MyContext>(token);
+
+bot.use(async (ctx, next) => {
+	if (ctx.from?.id && ALLOWED.includes(ctx.from.id)) {
+		return next();
+	}
+
+	await ctx.reply('This game is currently in a closed alpha.\n\nOur highly trained magicans are trying to hide the bugs as we speak. There is no waitlist yet. In order to participate in the closed alpha you probably need to know the magicians.');
+});
 
 const localSession = new TelegrafSessionLocal({
 	database: 'persist/sessions.json',
