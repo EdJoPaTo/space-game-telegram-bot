@@ -69,7 +69,10 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 					owner = await getPlayerPretty(o.id as PlayerIdentifier);
 				}
 
-				return entityLine(i + 1, entities.length, type, Math.random(), Math.random(), owner);
+				const armor = 'armor' in o ? o.armor : 0;
+				const structure = 'structure' in o ? o.structure : 0;
+
+				return entityLine(i + 1, entities.length, type, armor, structure, owner);
 			}),
 		);
 		text += lines.join('\n');

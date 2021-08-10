@@ -74,24 +74,36 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	}, {
 		type: 'lifeless',
 		id: 'asteroid',
+		armor: 0.2,
+		structure: 0.6,
 	}, {
 		type: 'lifeless',
 		id: 'asteroid',
+		armor: 0.2,
+		structure: 0.6,
 	}, {
 		type: 'npc',
 		faction: 'pirates',
 		shiplayout: 'shiplayoutRookieShip',
+		armor: 0.2,
+		structure: 0.6,
 	}, {
 		type: 'lifeless',
 		id: 'asteroid',
+		armor: 0.2,
+		structure: 0.6,
 	}, {
 		type: 'player',
 		id: 'player-dummy-0',
 		shiplayout: 'shiplayoutRookieShip',
+		armor: 0.2,
+		structure: 0.6,
 	}, {
 		type: 'npc',
 		faction: 'guards',
 		shiplayout: 'shiplayoutFrigate',
+		armor: 0.2,
+		structure: 0.6,
 	},
 ];
 
