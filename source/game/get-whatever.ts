@@ -56,7 +56,7 @@ export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
 export const FAKE_SHIP: Ship = {
 	fitting: {
 		layout: 'shiplayoutRookieShip',
-		slotsTargeted: ['modtRookieMiningLaser', 'modtRookieLaser'],
+		slotsTargeted: ['modtRookieMiner', 'modtRookieLaser'],
 		slotsUntargeted: ['moduRookieArmorRepair'],
 		slotsPassive: ['modpRookieArmorPlate'],
 	},
