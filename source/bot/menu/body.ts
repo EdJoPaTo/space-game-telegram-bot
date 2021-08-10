@@ -1,6 +1,6 @@
 import {html as format} from 'telegram-format';
 
-import {EMOJIS} from '../emojis.js';
+import {EMOJIS, percentageFraction} from '../emojis.js';
 import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSites} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
@@ -69,7 +69,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 					owner = await getPlayerPretty(o.id as PlayerIdentifier);
 				}
 
-				return entityLine(i + 1, entities.length, type, owner);
+				return entityLine(i + 1, entities.length, type, Math.random(), Math.random(), owner);
 			}),
 		);
 		text += lines.join('\n');
@@ -118,7 +118,7 @@ function quickstatsValue(current: number, max: number, recharge?: number) {
 	return text;
 }
 
-function entityLine(id: number, total: number, type: string, owner?: string): string {
+function entityLine(id: number, total: number, type: string, armor: number, structure: number, owner?: string): string {
 	let text = '';
 
 	const idText = String(id);
@@ -129,6 +129,18 @@ function entityLine(id: number, total: number, type: string, owner?: string): st
 	text += ' ';
 
 	text += format.bold(type);
+
+	if (armor) {
+		text += ' ';
+		text += percentageFraction(armor);
+		text += EMOJIS.hitpointsArmor;
+	}
+
+	if (structure) {
+		text += ' ';
+		text += percentageFraction(structure);
+		text += EMOJIS.hitpointsStructure;
+	}
 
 	if (owner) {
 		text += ' ' + format.escape(owner);
