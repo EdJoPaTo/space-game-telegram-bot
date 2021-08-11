@@ -53,10 +53,10 @@ static:
 
   asteroid.title: Asteroid
 
-  modpRookieArmorPlate.title: Rookie Armor Plate
-  moduRookieArmorRepair.title: Rookie Armor Repair
-  modtRookieMiner.title: Rookie Miner
-  modtRookieLaser.title: Rookie Laser
+  rookieArmorPlate.title: Rookie Armor Plate
+  rookieArmorRepair.title: Rookie Armor Repair
+  rookieMiner.title: Rookie Miner
+  rookieLaser.title: Rookie Laser
 
   rookieShip.title: Rookie Ship
   frigate.title: Frigate
