@@ -58,8 +58,8 @@ static:
   modtRookieMiner.title: Rookie Miner
   modtRookieLaser.title: Rookie Laser
 
-  shiplayoutRookieShip.title: Rookie Ship
-  shiplayoutFrigate.title: Frigate
+  rookieShip.title: Rookie Ship
+  frigate.title: Frigate
 
 service:
   jump: Jump

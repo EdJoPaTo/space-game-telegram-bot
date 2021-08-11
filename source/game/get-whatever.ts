@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {SiteInstruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, SolarsystemIdentifier, StationInstruction} from './typings.js';
+import {SiteInstruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -20,12 +20,12 @@ export async function getPlayerShip(playerId: PlayerIdentifier): Promise<Ship> {
 }
 
 /** Get information which is only visible from within the site */
-export async function getSiteEntities(solarsystem: SolarsystemIdentifier, siteUnique: string): Promise<readonly SiteEntity[]> {
+export async function getSiteEntities(solarsystem: Solarsystem, siteUnique: string): Promise<readonly SiteEntity[]> {
 	const url = `${BACKEND}/sites/${solarsystem}/${siteUnique}`;
 	return got(url).json<readonly SiteEntity[]>();
 }
 
-export async function getSites(solarsystem: SolarsystemIdentifier): Promise<SitesNearPlanet> {
+export async function getSites(solarsystem: Solarsystem): Promise<SitesNearPlanet> {
 	const url = `${BACKEND}/sites/${solarsystem}`;
 	return got(url).json<SitesNearPlanet>();
 }
@@ -55,7 +55,7 @@ export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
 
 export const FAKE_SHIP: Ship = {
 	fitting: {
-		layout: 'shiplayoutRookieShip',
+		layout: 'rookieShip',
 		slotsTargeted: ['modtRookieMiner', 'modtRookieLaser'],
 		slotsUntargeted: ['moduRookieArmorRepair'],
 		slotsPassive: ['modpRookieArmorPlate'],
@@ -84,7 +84,7 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	}, {
 		type: 'npc',
 		faction: 'pirates',
-		shiplayout: 'shiplayoutRookieShip',
+		shiplayout: 'rookieShip',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
@@ -95,13 +95,13 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	}, {
 		type: 'player',
 		id: 'player-dummy-0',
-		shiplayout: 'shiplayoutRookieShip',
+		shiplayout: 'rookieShip',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
 		type: 'npc',
 		faction: 'guards',
-		shiplayout: 'shiplayoutFrigate',
+		shiplayout: 'frigate',
 		armor: 0.2,
 		structure: 0.6,
 	},
