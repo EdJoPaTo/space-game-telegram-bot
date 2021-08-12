@@ -1,4 +1,7 @@
-export const EMOJIS = {
+const GROWING = '💗';
+const BEATING = '💓'
+
+const BASE_EMOJIS = {
 	solarsystem: '🪐',
 	security: '👮',
 	location: '📍',
@@ -8,7 +11,6 @@ export const EMOJIS = {
 	repair: '🔧',
 	undock: '🚪',
 
-	armorRepair: '🛡',
 	capacitor: '🔋',
 	damage: '💥',
 	hitpointsArmor: '🛡',
@@ -22,6 +24,14 @@ export const EMOJIS = {
 
 	pirates: '🏴‍☠️',
 	guards: '👮',
+};
+
+export const EMOJIS = {
+	...BASE_EMOJIS,
+	armorRepair: BASE_EMOJIS.hitpointsArmor + GROWING,
+	structureRepair: BASE_EMOJIS.hitpointsStructure + GROWING,
+	capacitorRecharge: BASE_EMOJIS.capacitor + GROWING,
+	capacitorDrain: BASE_EMOJIS.capacitor + BEATING,
 };
 
 /**

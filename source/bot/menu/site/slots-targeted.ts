@@ -6,7 +6,7 @@ import {getSiteEntities} from '../../../game/get-whatever.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/get-static.js';
-import {ModuleEffect} from '../../../game/typings.js';
+import {RoundEffect} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
 
 async function getModules(ctx: MyContext) {
@@ -22,9 +22,9 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const moduleName = ctx.i18n.t(`module.${moduleKey}.title`);
 
 	let text = '';
-	text += module.effectsOrigin.map(o => moduleEffect(ctx, o)).join('\n');
+	text += module.effectsOrigin.map(o => roundEffect(ctx, o)).join('\n');
 	text += '\n\n';
-	text += module.effectsTarget.map(o => moduleEffect(ctx, o)).join('\n');
+	text += module.effectsTarget.map(o => roundEffect(ctx, o)).join('\n');
 
 	return menuBody(ctx, {
 		entities: true,
@@ -34,7 +34,7 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	});
 });
 
-function moduleEffect(_ctx: MyContext, effect: ModuleEffect): string {
+function roundEffect(_ctx: MyContext, effect: RoundEffect): string {
 	let line = '';
 	line += EMOJIS[effect.type];
 	line += effect.type;
