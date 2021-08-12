@@ -14,12 +14,3 @@ settings:
     Oder wenn du der Entwickler dieses Bots bist:
     Dinge hinzufügen damit Nutzer diese einstellen können.
   language: Wähle deine Sprache
-ship:
-  button: Schiff
-  module:
-    Railgun:
-      title: Railgun
-      description: >
-        Feuert schwere Geschosse, die irgendwann jemandenen schwer treffen werden.
-        Gut für mittlere Distanzen geeignet. Über lange Distanzen relativ leicht ausweichbar.
-      slugs: Geschosse

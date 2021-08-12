@@ -3,6 +3,8 @@ import {readFileSync} from 'fs';
 import {
 	Facility,
 	FacilityDetails,
+	Lifeless,
+	LifelessDetails,
 	ModulePassive,
 	ModulePassiveDetails,
 	ModuleTargeted,
@@ -21,6 +23,7 @@ function read(filename: string) {
 }
 
 export const FACILITIES = read('facility') as Record<Facility, FacilityDetails>;
+export const LIFELESS_THINGIES = read('lifeless') as Record<Lifeless, LifelessDetails>;
 export const MODULE_PASSIVE = read('module-passive') as Record<ModulePassive, ModulePassiveDetails>;
 export const MODULE_TARGETED = read('module-targeted') as Record<ModuleTargeted, ModuleTargetedDetails>;
 export const MODULE_UNTARGETED = read('module-untargeted') as Record<ModuleUntargeted, ModuleUntargetedDetails>;
