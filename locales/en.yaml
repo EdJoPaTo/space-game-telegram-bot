@@ -22,17 +22,18 @@ static:
 
   asteroid.title: Asteroid
 
-  rookieArmorPlate.title: Rookie Armor Plate
-  rookieArmorRepair.title: Rookie Armor Repair
-  rookieMiner.title: Rookie Miner
-  rookieLaser.title: Rookie Laser
-
   rookieShip.title: Rookie Ship
   frigate.title: Frigate
 
 service:
   jump: Jump
   dock: Dock
+
+module:
+  rookieArmorPlate.title: Rookie Armor Plate
+  rookieArmorRepair.title: Rookie Armor Repair
+  rookieMiner.title: Rookie Miner
+  rookieLaser.title: Rookie Laser
 
 npcFaction:
   guards.title: Guards

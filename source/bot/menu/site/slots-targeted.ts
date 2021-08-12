@@ -19,7 +19,7 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 	const moduleKey = modules[moduleIndex]!;
 	const module = MODULE_TARGETED[moduleKey]!;
-	const moduleName = ctx.i18n.t(`static.${moduleKey}.title`);
+	const moduleName = ctx.i18n.t(`module.${moduleKey}.title`);
 
 	let text = '';
 	text += module.effectsOrigin.map(o => moduleEffect(ctx, o)).join('\n');
@@ -115,7 +115,7 @@ export async function getSlotTargetedChoices(ctx: MyContext) {
 		}
 
 		label += EMOJIS.target;
-		label += ctx.i18n.t(`static.${m}.title`);
+		label += ctx.i18n.t(`module.${m}.title`);
 		return label;
 	});
 	return choicesByArrayIndex(names);

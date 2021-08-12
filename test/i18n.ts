@@ -41,15 +41,15 @@ test('lifeless', t => {
 });
 
 test('passive modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_PASSIVE).map(o => `static.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(MODULE_PASSIVE).map(o => `module.${o}.title`));
 });
 
 test('targeted modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_TARGETED).map(o => `static.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(MODULE_TARGETED).map(o => `module.${o}.title`));
 });
 
 test('untargeted modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_UNTARGETED).map(o => `static.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(MODULE_UNTARGETED).map(o => `module.${o}.title`));
 });
 
 test('ship layouts', t => {
