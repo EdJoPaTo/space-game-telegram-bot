@@ -16,24 +16,26 @@ settings:
   language: Select your language
 
 static:
-  station.title: Station
-  stargate.title: Stargate
   asteroidField.title: Asteroid Field
+  stargate.title: Stargate
+  station.title: Station
 
   asteroid.title: Asteroid
 
-  rookieShip.title: Rookie Ship
+  cruiser.title: Cruiser
   frigate.title: Frigate
+  rookieShip.title: Rookie Ship
 
 service:
   jump: Jump
   dock: Dock
 
 module:
+  guardianLaser.title: Guardian Laser
   rookieArmorPlate.title: Rookie Armor Plate
   rookieArmorRepair.title: Rookie Armor Repair
-  rookieMiner.title: Rookie Miner
   rookieLaser.title: Rookie Laser
+  rookieMiner.title: Rookie Miner
 
 npcFaction:
   guards.title: Guards

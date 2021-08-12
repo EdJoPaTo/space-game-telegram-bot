@@ -52,6 +52,6 @@ test('untargeted modules', t => {
 	checkKeysExisting(t, 'en', typedKeys(MODULE_UNTARGETED).map(o => `module.${o}.title`));
 });
 
-test('ship layouts', t => {
-	checkKeysExisting(t, 'en', typedKeys(SHIP_LAYOUTS).map(o => `static.${o}.title`));
+test('ship classes', t => {
+	checkKeysExisting(t, 'en', Object.values(SHIP_LAYOUTS).flatMap(o => o.class).map(o => `static.${o}.title`));
 });

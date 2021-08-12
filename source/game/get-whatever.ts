@@ -55,7 +55,7 @@ export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
 
 export const FAKE_SHIP: Ship = {
 	fitting: {
-		layout: 'rookieShip',
+		layout: 'Abis',
 		slotsTargeted: ['rookieMiner', 'rookieLaser'],
 		slotsUntargeted: ['rookieArmorRepair'],
 		slotsPassive: ['rookieArmorPlate'],
@@ -84,7 +84,7 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	}, {
 		type: 'npc',
 		faction: 'pirates',
-		shiplayout: 'rookieShip',
+		shiplayout: 'Abis',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
@@ -95,13 +95,13 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	}, {
 		type: 'player',
 		id: 'player-dummy-0',
-		shiplayout: 'rookieShip',
+		shiplayout: 'Abis',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
 		type: 'npc',
 		faction: 'guards',
-		shiplayout: 'frigate',
+		shiplayout: 'Hecate',
 		armor: 0.2,
 		structure: 0.6,
 	},

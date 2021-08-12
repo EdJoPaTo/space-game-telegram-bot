@@ -6,7 +6,7 @@ import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 import {PlayerIdentifier} from '../../game/typings.js';
-import {SOLARSYSTEMS} from '../../game/get-static.js';
+import {SHIP_LAYOUTS, SOLARSYSTEMS} from '../../game/get-static.js';
 
 import {getOwnIdentifier, siteLabel} from './general.js';
 
@@ -45,7 +45,11 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	text += '\n';
 
 	if (options.shipstats) {
-		text += format.bold(ctx.i18n.t(`static.${shipFitting.layout}.title`));
+		const shipclass = SHIP_LAYOUTS[shipFitting.layout]!.class;
+		text += format.bold(shipFitting.layout);
+		text += ' ('
+		text += ctx.i18n.t(`static.${shipclass}.title`)
+		text += ')'
 		text += '\n';
 		const ship = getShipQuickstats(shipFitting);
 		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
@@ -60,7 +64,15 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 			.map((o, i) => ({o, i}))
 			.filter(({o}) => o.type !== 'player' || o.id !== playerId)
 			.map(async ({o, i}) => {
-				const type = ctx.i18n.t(`static.${'shiplayout' in o ? o.shiplayout : o.id}.title`);
+				let type: string
+				let shipclassLabel: string | undefined
+				if ('shiplayout' in o) {
+					const shipclass = SHIP_LAYOUTS[o.shiplayout]!.class;
+					shipclassLabel = ctx.i18n.t(`static.${shipclass}.title`)
+					type = o.shiplayout
+				} else {
+					type = ctx.i18n.t(`static.${o.id}.title`)
+				}
 
 				let owner: string | undefined;
 				if (o.type === 'npc') {
@@ -72,7 +84,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 				const armor = 'armor' in o ? o.armor : 0;
 				const structure = 'structure' in o ? o.structure : 0;
 
-				return entityLine(i + 1, entities.length, type, armor, structure, owner);
+				return entityLine(i + 1, entities.length, type, shipclassLabel, armor, structure, owner);
 			}),
 		);
 		text += lines.join('\n');
@@ -121,7 +133,7 @@ function quickstatsValue(current: number, max: number, recharge?: number) {
 	return text;
 }
 
-function entityLine(id: number, total: number, type: string, armor: number, structure: number, owner?: string): string {
+function entityLine(id: number, total: number, type: string, shipclassLabel: string | undefined, armor: number, structure: number, owner?: string): string {
 	let text = '';
 
 	const idText = String(id);
@@ -132,6 +144,12 @@ function entityLine(id: number, total: number, type: string, armor: number, stru
 	text += ' ';
 
 	text += format.bold(type);
+
+	if (shipclassLabel) {
+		text += ' ('
+		text += shipclassLabel
+		text += ')'
+	}
 
 	if (armor) {
 		text += ' ';
