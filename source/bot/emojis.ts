@@ -1,5 +1,5 @@
 const GROWING = '💗';
-const BEATING = '💓'
+const BEATING = '💓';
 
 const BASE_EMOJIS = {
 	solarsystem: '🪐',

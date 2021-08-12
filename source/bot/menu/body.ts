@@ -47,9 +47,9 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	if (options.shipstats) {
 		const shipclass = SHIP_LAYOUTS[shipFitting.layout]!.class;
 		text += format.bold(shipFitting.layout);
-		text += ' ('
-		text += ctx.i18n.t(`static.${shipclass}.title`)
-		text += ')'
+		text += ' (';
+		text += ctx.i18n.t(`static.${shipclass}.title`);
+		text += ')';
 		text += '\n';
 		const ship = getShipQuickstats(shipFitting);
 		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
@@ -64,14 +64,14 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 			.map((o, i) => ({o, i}))
 			.filter(({o}) => o.type !== 'player' || o.id !== playerId)
 			.map(async ({o, i}) => {
-				let type: string
-				let shipclassLabel: string | undefined
+				let type: string;
+				let shipclassLabel: string | undefined;
 				if ('shiplayout' in o) {
 					const shipclass = SHIP_LAYOUTS[o.shiplayout]!.class;
-					shipclassLabel = ctx.i18n.t(`static.${shipclass}.title`)
-					type = o.shiplayout
+					shipclassLabel = ctx.i18n.t(`static.${shipclass}.title`);
+					type = o.shiplayout;
 				} else {
-					type = ctx.i18n.t(`static.${o.id}.title`)
+					type = ctx.i18n.t(`static.${o.id}.title`);
 				}
 
 				let owner: string | undefined;
@@ -146,9 +146,9 @@ function entityLine(id: number, total: number, type: string, shipclassLabel: str
 	text += format.bold(type);
 
 	if (shipclassLabel) {
-		text += ' ('
-		text += shipclassLabel
-		text += ')'
+		text += ' (';
+		text += shipclassLabel;
+		text += ')';
 	}
 
 	if (armor) {

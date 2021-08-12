@@ -7,9 +7,9 @@ export function getShipQuickstats(fitting: ShipFitting) {
 		.map(o => MODULE_PASSIVE[o]!);
 
 	let armor = layout.hitpointsArmor;
-	let structure = layout.hitpointsStructure;
-	let capacitor = layout.capacitor;
-	let capacitorRecharge = layout.roundEffects.find(o => o.type === 'capacitorRecharge')?.amount ?? 0;
+	const structure = layout.hitpointsStructure;
+	const {capacitor} = layout;
+	const capacitorRecharge = layout.roundEffects.find(o => o.type === 'capacitorRecharge')?.amount ?? 0;
 	for (const m of passiveModules) {
 		armor += m.hitpointsArmor;
 	}
