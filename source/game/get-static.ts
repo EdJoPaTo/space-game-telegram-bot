@@ -18,7 +18,7 @@ import {
 } from './typings.js';
 
 function read(filename: string) {
-	const content = readFileSync(`../typings/static/${filename}.json`, 'utf8');
+	const content = readFileSync(`static/${filename}.json`, 'utf8');
 	return JSON.parse(content) as unknown;
 }
 
