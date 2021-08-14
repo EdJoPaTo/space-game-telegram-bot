@@ -1,21 +1,21 @@
 import got from 'got';
 
-import {SiteInstruction, PlayerIdentifier, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction} from './typings.js';
+import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
-export async function getPlayerPretty(playerId: PlayerIdentifier): Promise<string> {
+export async function getPlayerPretty(player: Player): Promise<string> {
 	// TODO: pretty name store
-	return playerId;
+	return `${player.platform}-${player.id}`;
 }
 
-export async function getPlayerLocation(playerId: PlayerIdentifier): Promise<PlayerLocation> {
-	const url = `${BACKEND}/player/${playerId}/location`;
+export async function getPlayerLocation(player: Player): Promise<PlayerLocation> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/location`;
 	return got(url).json<PlayerLocation>();
 }
 
-export async function getPlayerShip(playerId: PlayerIdentifier): Promise<Ship> {
-	const url = `${BACKEND}/player/${playerId}/ship`;
+export async function getPlayerShip(player: Player): Promise<Ship> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/ship`;
 	return got(url).json<Ship>();
 }
 
@@ -30,8 +30,8 @@ export async function getSites(solarsystem: Solarsystem): Promise<SitesNearPlane
 	return got(url).json<SitesNearPlanet>();
 }
 
-export async function setSiteInstructions(playerId: PlayerIdentifier, instructions: readonly SiteInstruction[]): Promise<void> {
-	const url = `${BACKEND}/player/${playerId}/site-instructions`;
+export async function setSiteInstructions(player: Player, instructions: readonly SiteInstruction[]): Promise<void> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/site-instructions`;
 	const body = JSON.stringify(instructions);
 	await got.post(url, {
 		headers: {'Content-Type': 'application/json'},
@@ -39,8 +39,8 @@ export async function setSiteInstructions(playerId: PlayerIdentifier, instructio
 	});
 }
 
-export async function setStationInstructions(playerId: PlayerIdentifier, instructions: readonly StationInstruction[]): Promise<void> {
-	const url = `${BACKEND}/player/${playerId}/station-instructions`;
+export async function setStationInstructions(player: Player, instructions: readonly StationInstruction[]): Promise<void> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/station-instructions`;
 	const body = JSON.stringify(instructions);
 	await got.post(url, {
 		headers: {'Content-Type': 'application/json'},
@@ -94,7 +94,7 @@ export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 		structure: 0.6,
 	}, {
 		type: 'player',
-		id: 'player-dummy-0',
+		id: {platform: 'telegram', id: 666},
 		shiplayout: 'Abis',
 		armor: 0.2,
 		structure: 0.6,

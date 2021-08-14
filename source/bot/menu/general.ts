@@ -4,7 +4,7 @@ import {html as format} from 'telegram-format';
 import {EMOJIS} from '../emojis.js';
 import {getPlayerLocation, getPlayerShip} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
-import {PlayerTelegramIdentifier, SiteInfo} from '../../game/typings.js';
+import {Player, SiteInfo} from '../../game/typings.js';
 
 export const backButtons = createBackMainMenuButtons<MyContext>(
 	context => context.i18n.t('menu.back'),
@@ -20,23 +20,23 @@ export function choicesByArrayIndex(array: readonly string[]) {
 	return result;
 }
 
-export function getOwnIdentifier(ctx: MyContext): PlayerTelegramIdentifier {
+export function getOwnIdentifier(ctx: MyContext): Player {
 	const id = ctx.from?.id;
 	if (!id) {
 		throw new Error('only works when from is defined');
 	}
 
-	return `player-tg-${id}`;
+	return {platform: 'telegram', id};
 }
 
 export async function getOwnLocation(ctx: MyContext) {
-	const playerId = getOwnIdentifier(ctx);
-	return getPlayerLocation(playerId);
+	const ownPlayerId = getOwnIdentifier(ctx);
+	return getPlayerLocation(ownPlayerId);
 }
 
 export async function getOwnShip(ctx: MyContext) {
-	const playerId = getOwnIdentifier(ctx);
-	return getPlayerShip(playerId);
+	const ownPlayerId = getOwnIdentifier(ctx);
+	return getPlayerShip(ownPlayerId);
 }
 
 export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean) {

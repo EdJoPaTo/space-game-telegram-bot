@@ -5,7 +5,6 @@ import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getS
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
-import {PlayerIdentifier} from '../../game/typings.js';
 import {SHIP_LAYOUTS, SOLARSYSTEMS} from '../../game/get-static.js';
 
 import {getOwnIdentifier, siteLabel} from './general.js';
@@ -21,9 +20,9 @@ export interface Options {
 }
 
 export async function menuBody(ctx: MyContext, options: Options = {}) {
-	const playerId = getOwnIdentifier(ctx);
-	const location = await getPlayerLocation(playerId);
-	const {fitting: shipFitting, status: shipStatus} = await getPlayerShip(playerId);
+	const ownPlayerId = getOwnIdentifier(ctx);
+	const location = await getPlayerLocation(ownPlayerId);
+	const {fitting: shipFitting, status: shipStatus} = await getPlayerShip(ownPlayerId);
 	let text = '';
 
 	const solarsystemInfo = SOLARSYSTEMS[location.solarsystem]!;
@@ -62,7 +61,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
 		const lines = await Promise.all(entities
 			.map((o, i) => ({o, i}))
-			.filter(({o}) => o.type !== 'player' || o.id !== playerId)
+			.filter(({o}) => o.type !== 'player' || o.id.platform !== ownPlayerId.platform || o.id.id != ownPlayerId.id)
 			.map(async ({o, i}) => {
 				let type: string;
 				let shipclassLabel: string | undefined;
@@ -78,7 +77,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 				if (o.type === 'npc') {
 					owner = EMOJIS[o.faction] + ctx.i18n.t(`npcFaction.${o.faction}.title`);
 				} else if (o.type === 'player') {
-					owner = await getPlayerPretty(o.id as PlayerIdentifier);
+					owner = await getPlayerPretty(o.id);
 				}
 
 				const armor = 'armor' in o ? o.armor : 0;
