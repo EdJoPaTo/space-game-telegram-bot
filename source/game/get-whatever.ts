@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site} from './typings.js';
+import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -134,3 +134,39 @@ export const FAKE_SITES_NEAR_PLANET: SitesNearPlanet = {
 		unique: 45,
 	}],
 };
+
+export const FAKE_SITE_LOG: SiteLog[] = [
+	{
+		type: 'dock',
+		details: [{
+			platform: 'telegram',
+			id: 666,
+		}, 'Abis'],
+	},
+	{
+		type: 'undock',
+		details: [{
+			platform: 'telegram',
+			id: 1337,
+		}, 'Abis'],
+	},
+	{
+		type: 'rapidUnscheduledDisassembly',
+		details: ['pirates', 'Abis'] as [NpcFaction, ShipLayout],
+	},
+	{
+		type: 'rapidUnscheduledDisassembly',
+		details: [{
+			platform: 'telegram',
+			id: 42,
+		}, 'Abis'],
+	},
+	{
+		type: 'moduleTargeted',
+		details: [
+			[{platform: 'telegram', id: 666}, 'Abis'],
+			'rookieLaser',
+			['pirates', 'Abis'] as [NpcFaction, ShipLayout],
+		],
+	},
+];

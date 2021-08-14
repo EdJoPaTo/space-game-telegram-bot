@@ -1,12 +1,13 @@
 import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../emojis.js';
+import {FAKE_SITE_LOG, setSiteInstructions, setStationInstructions} from '../../game/get-whatever.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
-import {setSiteInstructions, setStationInstructions} from '../../game/get-whatever.js';
 import {sleep} from '../../javascript-helper.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
+import {generateHtmlLog} from './html-formatted/site-log.js';
 import {getOwnIdentifier, getOwnLocation} from './general.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {getSlotUntargetedChoices, isSlotUntargetedButtonSet, setSlotUntargetedButton} from './site/slots-untargeted.js';
@@ -71,7 +72,10 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 		await ctx.answerCbQuery('sent… now wait 5 secs');
 		// TODO: do async / get notified from backend
 		await sleep(5000);
-		await ctx.reply('some stuff happened… See FAKE log here… Han shot ~first~ at the same time', {parse_mode: 'MarkdownV2'});
+
+		const fakeLog = await generateHtmlLog(ctx, FAKE_SITE_LOG);
+		await ctx.reply('some stuff happened… See FAKE log here…\n\n' + fakeLog, {parse_mode: 'HTML'});
+
 		await replyMenuToContext(menu, ctx, '/');
 		return false;
 	},
