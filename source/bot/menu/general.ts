@@ -1,7 +1,7 @@
 import {createBackMainMenuButtons} from 'telegraf-inline-menu';
 import {html as format} from 'telegram-format';
 
-import {EMOJIS} from '../emojis.js';
+import {EMOJIS, getRomanNumber} from '../emojis.js';
 import {getPlayerLocation, getPlayerShip} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
 import {Player, Site, Solarsystem} from '../../game/typings.js';
@@ -47,8 +47,7 @@ export function siteLabel(ctx: MyContext, solarsystem: Solarsystem, site: Site, 
 	label += ' ';
 
 	if (site.kind === 'station') {
-		// TODO: römisch
-		const value = `${solarsystem} ${site.unique + 1}`;
+		const value = `${solarsystem} ${getRomanNumber(site.unique + 1)}`;
 		label += includeFormat ? format.underline(value) : value;
 	} else if (site.kind === 'stargate') {
 		label += includeFormat ? format.underline(site.unique) : site.unique;

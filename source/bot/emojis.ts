@@ -34,6 +34,17 @@ export const EMOJIS = {
 	capacitorDrain: BASE_EMOJIS.capacitor + BEATING,
 };
 
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+export function getRomanNumber(number: number) {
+	const index = number - 1;
+	const romanNumber = ROMAN[index];
+	if (!romanNumber) {
+		throw new Error(`not enough roman numbers for ${number}`);
+	}
+
+	return romanNumber;
+}
+
 /**
  * Uses the ceiling → 90% looks like 100%.
  *

@@ -1,6 +1,6 @@
 import {html as format} from 'telegram-format';
 
-import {EMOJIS, percentageFraction} from '../emojis.js';
+import {EMOJIS, getRomanNumber, percentageFraction} from '../emojis.js';
 import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSites} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
@@ -31,8 +31,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	text += infoline(EMOJIS.security + 'Security', `${solarsystemInfo.security}%`);
 
 	if (isLocationStation(location)) {
-		// TODO: römisch
-		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station + 1}`);
+		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${getRomanNumber(location.station + 1)}`);
 	} else if (isLocationSite(location)) {
 		const allSites = await getSites(location.solarsystem);
 		const site = Object.values(allSites).flat()
