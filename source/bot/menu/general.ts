@@ -4,7 +4,7 @@ import {html as format} from 'telegram-format';
 import {EMOJIS} from '../emojis.js';
 import {getPlayerLocation, getPlayerShip} from '../../game/get-whatever.js';
 import {MyContext} from '../my-context.js';
-import {Player, SiteInfo} from '../../game/typings.js';
+import {Player, Site, Solarsystem} from '../../game/typings.js';
 
 export const backButtons = createBackMainMenuButtons<MyContext>(
 	context => context.i18n.t('menu.back'),
@@ -39,19 +39,26 @@ export async function getOwnShip(ctx: MyContext) {
 	return getPlayerShip(ownPlayerId);
 }
 
-export function siteLabel(ctx: MyContext, site: SiteInfo, includeFormat: boolean) {
-	const {kind, name, siteUnique} = site;
+export function siteLabel(ctx: MyContext, solarsystem: Solarsystem, site: Site, includeFormat: boolean) {
 	let label = '';
 
-	label += EMOJIS[kind];
-	label += ctx.i18n.t(`static.${kind}.title`);
+	label += EMOJIS[site.kind];
+	label += ctx.i18n.t(`static.${site.kind}.title`);
+	label += ' ';
 
-	if (name) {
-		label += ' ';
-		label += includeFormat ? format.underline(name) : name;
+	if (site.kind === 'station') {
+		// TODO: römisch
+		const value = `${solarsystem} ${site.unique + 1}`;
+		label += includeFormat ? format.underline(value) : value;
+	} else if (site.kind === 'stargate') {
+		label += includeFormat ? format.underline(site.unique) : site.unique;
 	} else {
-		label += ' ';
-		label += includeFormat ? format.monospace(siteUnique) : siteUnique;
+		let value = site.unique.toString(16);
+		while (value.length < 2) {
+			value = '0' + value;
+		}
+
+		label += includeFormat ? format.monospace(value) : value;
 	}
 
 	return label;

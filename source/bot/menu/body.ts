@@ -6,6 +6,7 @@ import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 import {SHIP_LAYOUTS, SOLARSYSTEMS} from '../../game/get-static.js';
+import {Site} from '../../game/typings.js';
 
 import {getOwnIdentifier, siteLabel} from './general.js';
 
@@ -34,8 +35,10 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${location.station + 1}`);
 	} else if (isLocationSite(location)) {
 		const allSites = await getSites(location.solarsystem);
-		const site = Object.values(allSites).flat().find(o => o.siteUnique === location.siteUnique);
-		const value = site ? siteLabel(ctx, site, true) : 'Destination unknown';
+		const site = Object.values(allSites).flat()
+			.filter((o): o is Site => Boolean(o))
+			.find(o => o.kind === location.site.kind && o.unique === location.site.unique);
+		const value = site ? siteLabel(ctx, location.solarsystem, site, true) : 'Destination unknown';
 		text += infoline(EMOJIS.location + 'Site', value);
 	} else {
 		text += EMOJIS.location + 'In Warp\n';
@@ -58,10 +61,10 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	}
 
 	if (isLocationSite(location) && options.entities) {
-		const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
+		const entities = await getSiteEntities(location.solarsystem, location.site);
 		const lines = await Promise.all(entities
 			.map((o, i) => ({o, i}))
-			.filter(({o}) => o.type !== 'player' || o.id.platform !== ownPlayerId.platform || o.id.id != ownPlayerId.id)
+			.filter(({o}) => o.type !== 'player' || o.id.platform !== ownPlayerId.platform || o.id.id !== ownPlayerId.id)
 			.map(async ({o, i}) => {
 				let type: string;
 				let shipclassLabel: string | undefined;

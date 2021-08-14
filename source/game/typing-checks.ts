@@ -1,7 +1,7 @@
-import {PlayerLocation, PlayerLocationStation, PlayerLocationWarp, SiteIdentifier} from './typings.js';
+import {PlayerLocation, PlayerLocationStation, PlayerLocationWarp, PlayerLocationSite} from './typings.js';
 
-export function isLocationSite(location: PlayerLocation): location is SiteIdentifier {
-	return 'siteUnique' in location;
+export function isLocationSite(location: PlayerLocation): location is PlayerLocationSite {
+	return 'site' in location;
 }
 
 export function isLocationWarp(location: PlayerLocation): location is PlayerLocationWarp {

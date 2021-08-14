@@ -53,7 +53,7 @@ async function getTargets(ctx: MyContext) {
 		throw new Error('not in a site');
 	}
 
-	const entities = await getSiteEntities(location.solarsystem, location.siteUnique);
+	const entities = await getSiteEntities(location.solarsystem, location.site);
 	const list = entities
 		.map((o, i) => ({entity: o, id: i}))
 		.filter(o => o.entity.type !== 'player' || o.entity.id !== ownPlayerId);
