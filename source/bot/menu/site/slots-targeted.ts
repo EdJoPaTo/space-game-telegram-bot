@@ -56,7 +56,7 @@ async function getTargets(ctx: MyContext) {
 	const entities = await getSiteEntities(location.solarsystem, location.site);
 	const list = entities
 		.map((o, i) => ({entity: o, id: i}))
-		.filter(o => o.entity.type !== 'player' || o.entity.id !== ownPlayerId);
+		.filter(o => o.entity.type !== 'player' || o.entity.id.platform !== ownPlayerId.platform || o.entity.id.id !== ownPlayerId.id);
 
 	const result: Record<number, string> = {};
 	for (const item of list) {
