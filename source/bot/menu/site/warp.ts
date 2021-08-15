@@ -1,8 +1,8 @@
 import {html as format} from 'telegram-format';
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {backButtons, getOwnLocation, siteLabel} from '../general.js';
-import {getSites} from '../../../game/get-whatever.js';
+import {addSiteInstructions, getSites} from '../../../game/get-whatever.js';
+import {backButtons, getOwnIdentifier, getOwnLocation, siteLabel} from '../general.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
@@ -73,8 +73,10 @@ menu.choose('site', getSiteChoices, {
 			? splitted[1] as Solarsystem
 			: Number(splitted[1]);
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		ctx.session.planned = [{type: 'warp', args: {target: {kind, unique: unique as any}}}];
+		await addSiteInstructions(getOwnIdentifier(ctx), [{
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			type: 'warp', args: {target: {kind, unique: unique as any}},
+		}]);
 		await ctx.answerCbQuery('added to planned actions');
 		return '..';
 	},

@@ -1,16 +1,15 @@
 import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../emojis.js';
-import {FAKE_SITE_LOG, setSiteInstructions, setStationInstructions} from '../../game/get-whatever.js';
+import {FAKE_SITE_LOG, setStationInstructions} from '../../game/get-whatever.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
-import {sleep} from '../../javascript-helper.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
 import {generateHtmlLog} from './html-formatted/site-log.js';
 import {getOwnIdentifier, getOwnLocation} from './general.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
-import {getSlotUntargetedChoices, isSlotUntargetedButtonSet, setSlotUntargetedButton} from './site/slots-untargeted.js';
+import {getSlotUntargetedChoices, doSlotUntargetedButton} from './site/slots-untargeted.js';
 import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
 
@@ -22,25 +21,24 @@ export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
 
 menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu, {
 	columns: 2,
-	hide: async ctx => !(await canDoSiteActivity(ctx)),
+	hide: async ctx => !(await isInSite(ctx)),
 });
 
-menu.select('slot-untargeted', getSlotUntargetedChoices, {
+menu.choose('slot-untargeted', getSlotUntargetedChoices, {
 	columns: 2,
-	hide: async ctx => !(await canDoSiteActivity(ctx)),
-	isSet: isSlotUntargetedButtonSet,
-	set: setSlotUntargetedButton,
+	hide: async ctx => !(await isInSite(ctx)),
+	do: doSlotUntargetedButton,
 });
 
 menu.choose('facility', getFacilityChoices, {
 	columns: 2,
-	hide: async ctx => !(await canDoSiteActivity(ctx)),
+	hide: async ctx => !(await isInSite(ctx)),
 	do: doFacilityButton,
 });
 
 menu.submenu('Initiate Warp', 'warp', warpMenu, {
 	joinLastRow: true,
-	hide: async ctx => !(await canDoSiteActivity(ctx)),
+	hide: async ctx => !(await isInSite(ctx)),
 });
 
 menu.interact(EMOJIS.repair + 'Repair', 'repair', {
@@ -62,16 +60,11 @@ menu.interact(EMOJIS.undock + 'Undock', 'undock', {
 	},
 });
 
-menu.interact('✅Confirm Planned Actions', 'confirm', {
-	hide: async ctx => !(await isInSite(ctx)),
+// TODO: do async / get notified from backend
+menu.interact('Bodge: Fake Round', 'update', {
+	hide: async ctx => isDocked(ctx),
 	do: async ctx => {
-		const identifier = getOwnIdentifier(ctx);
-		await setSiteInstructions(identifier, ctx.session.planned ?? []);
-		ctx.session.planned = [];
 		await ctx.editMessageReplyMarkup(undefined);
-		await ctx.answerCbQuery('sent… now wait 5 secs');
-		// TODO: do async / get notified from backend
-		await sleep(5000);
 
 		const fakeLog = await generateHtmlLog(ctx, FAKE_SITE_LOG);
 		await ctx.reply('some stuff happened… See FAKE log here…\n\n' + fakeLog, {parse_mode: 'HTML'});
@@ -80,28 +73,6 @@ menu.interact('✅Confirm Planned Actions', 'confirm', {
 		return false;
 	},
 });
-
-menu.interact(EMOJIS.stop + 'Cancel Planned', 'cancel', {
-	joinLastRow: true,
-	hide: ctx => (ctx.session.planned?.length ?? 0) === 0,
-	do: ctx => {
-		ctx.session.planned = [];
-		return true;
-	},
-});
-
-async function canDoSiteActivity(ctx: MyContext) {
-	const location = await getOwnLocation(ctx);
-	if (!isLocationSite(location)) {
-		return false;
-	}
-
-	if (ctx.session.planned?.some(o => o.type === 'warp' || o.type === 'facility')) {
-		return false;
-	}
-
-	return true;
-}
 
 async function isInSite(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);

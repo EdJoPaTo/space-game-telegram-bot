@@ -1,13 +1,13 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
+import {addSiteInstructions, getSiteEntities} from '../../../game/get-whatever.js';
 import {backButtons, choicesByArrayIndex, getOwnIdentifier, getOwnLocation, getOwnShip} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
-import {getSiteEntities} from '../../../game/get-whatever.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/get-static.js';
-import {RoundEffect} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
+import {RoundEffect} from '../../../game/typings.js';
 
 async function getModules(ctx: MyContext) {
 	const {fitting} = await getOwnShip(ctx);
@@ -76,30 +76,15 @@ menu.choose('t', getTargets, {
 		const path = ctx.callbackQuery.data;
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.args.moduleIndex !== moduleIndex) ?? [];
-		ctx.session.planned.push({
+		await addSiteInstructions(getOwnIdentifier(ctx), [{
 			type: 'moduleTargeted',
 			args: {
 				moduleIndex,
 				targetIndexInSite: Number(key),
 			},
-		});
+		}]);
 
 		await ctx.answerCbQuery('added to planned actions');
-		return '..';
-	},
-});
-
-menu.interact(EMOJIS.stop + 'Disengage', 'd', {
-	hide: (ctx, path) => {
-		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		return !ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.args.moduleIndex === moduleIndex);
-	},
-	do: async (ctx, path) => {
-		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-		ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleTargeted' || o.args.moduleIndex !== moduleIndex) ?? [];
-
-		await ctx.answerCbQuery('removed from planned actions');
 		return '..';
 	},
 });
@@ -108,15 +93,6 @@ menu.manualRow(backButtons);
 
 export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
-	const names = modules.map((m, i) => {
-		let label = '';
-		if (ctx.session.planned?.some(o => o.type === 'moduleTargeted' && o.args.moduleIndex === i)) {
-			label += '✅';
-		}
-
-		label += EMOJIS.target;
-		label += ctx.i18n.t(`module.${m}.title`);
-		return label;
-	});
+	const names = modules.map(m => EMOJIS.target + ctx.i18n.t(`module.${m}.title`));
 	return choicesByArrayIndex(names);
 }

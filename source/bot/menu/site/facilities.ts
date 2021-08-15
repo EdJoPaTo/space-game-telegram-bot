@@ -1,6 +1,7 @@
+import {addSiteInstructions, getSiteEntities} from '../../../game/get-whatever.js';
 import {EMOJIS} from '../../emojis.js';
 import {FACILITIES} from '../../../game/get-static.js';
-import {getSiteEntities} from '../../../game/get-whatever.js';
+import {getOwnIdentifier} from '../general.js';
 import {MyContext} from '../../my-context.js';
 import {Service} from '../../../game/typings.js';
 
@@ -37,14 +38,14 @@ export async function doFacilityButton(ctx: MyContext, key: string) {
 	const match = /(\d+)-(.+)/.exec(key)!;
 	const facilityIndex = Number(match[1]);
 	const service = match[2]! as Service;
-	ctx.session.planned = [{
+	await addSiteInstructions(getOwnIdentifier(ctx), [{
 		type: 'facility',
 		args: {
 
 			targetIndexInSite: facilityIndex,
 			service,
 		},
-	}];
+	}]);
 	await ctx.answerCbQuery('added to planned actions');
 	return true;
 }

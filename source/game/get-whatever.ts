@@ -30,7 +30,12 @@ export async function getSites(solarsystem: Solarsystem): Promise<SitesNearPlane
 	return got(url).json<SitesNearPlanet>();
 }
 
-export async function setSiteInstructions(player: Player, instructions: readonly SiteInstruction[]): Promise<void> {
+export async function getSiteInstructions(player: Player): Promise<SiteInstruction[]> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/site-instructions`;
+	return got(url).json<SiteInstruction[]>();
+}
+
+export async function addSiteInstructions(player: Player, instructions: readonly SiteInstruction[]): Promise<void> {
 	const url = `${BACKEND}/player/${player.platform}-${player.id}/site-instructions`;
 	const body = JSON.stringify(instructions);
 	await got.post(url, {

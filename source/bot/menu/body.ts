@@ -1,7 +1,7 @@
 import {html as format} from 'telegram-format';
 
 import {EMOJIS, getRomanNumber, percentageFraction} from '../emojis.js';
-import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSites} from '../../game/get-whatever.js';
+import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSiteInstructions, getSites} from '../../game/get-whatever.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
@@ -93,8 +93,9 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 	}
 
 	if (isLocationSite(location) && options.planned) {
+		const planned = await getSiteInstructions(ownPlayerId);
 		text += '📝planned actions:\n';
-		text += ctx.session.planned?.length ? ctx.session.planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
+		text += planned.length > 0 ? planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
 		text += '\n\n';
 	}
 

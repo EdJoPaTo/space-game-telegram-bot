@@ -1,4 +1,5 @@
-import {choicesByArrayIndex, getOwnShip} from '../general.js';
+import {addSiteInstructions} from '../../../game/get-whatever.js';
+import {choicesByArrayIndex, getOwnIdentifier, getOwnShip} from '../general.js';
 import {EMOJIS} from '../../emojis.js';
 import {MyContext} from '../../my-context.js';
 
@@ -13,18 +14,11 @@ export async function getSlotUntargetedChoices(ctx: MyContext) {
 	return choicesByArrayIndex(names);
 }
 
-export function isSlotUntargetedButtonSet(ctx: MyContext, key: string) {
+export async function doSlotUntargetedButton(ctx: MyContext, key: string) {
 	const moduleIndex = Number(key);
-	return Boolean(ctx.session.planned?.some(o => o.type === 'moduleUntargeted' && o.args.moduleIndex === moduleIndex));
-}
-
-export async function setSlotUntargetedButton(ctx: MyContext, key: string, newState: boolean) {
-	const moduleIndex = Number(key);
-	ctx.session.planned = ctx.session.planned?.filter(o => o.type !== 'moduleUntargeted' || o.args.moduleIndex !== moduleIndex) ?? [];
-	if (newState) {
-		ctx.session.planned.push({type: 'moduleUntargeted', args: {moduleIndex}});
-	}
-
+	await addSiteInstructions(getOwnIdentifier(ctx), [{
+		type: 'moduleUntargeted', args: {moduleIndex},
+	}]);
 	await ctx.answerCbQuery('added to planned actions');
 	return true;
 }
