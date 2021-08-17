@@ -67,8 +67,12 @@ menu.interact('Bodge: Fake Round', 'update', {
 		await ctx.editMessageReplyMarkup(undefined);
 
 		const siteLog = await getSiteLog(getOwnIdentifier(ctx));
-		const htmlLog = await generateHtmlLog(ctx, siteLog);
-		await ctx.reply('some stuff happened… See log here…\n\n' + htmlLog, {parse_mode: 'HTML'});
+		if (siteLog.length > 0) {
+			const htmlLog = await generateHtmlLog(ctx, siteLog);
+			await ctx.reply('Your ship sensors picked some things up that happened in the meantime:\n\n' + htmlLog, {parse_mode: 'HTML'});
+		} else {
+			await ctx.reply('Your ship sensors havnt notices anything in the meantime. Either nothing happened or you should get them repaired.', {parse_mode: 'HTML'});
+		}
 
 		await replyMenuToContext(menu, ctx, '/');
 		return false;

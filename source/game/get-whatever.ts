@@ -151,7 +151,7 @@ export const FAKE_SITE_LOG: SiteLog[] = [
 		details: [{
 			platform: 'telegram',
 			id: 666,
-		}, 'Abis'],
+		}, 'Hecate'],
 	},
 	{
 		type: 'undock',
@@ -162,7 +162,7 @@ export const FAKE_SITE_LOG: SiteLog[] = [
 	},
 	{
 		type: 'rapidUnscheduledDisassembly',
-		details: ['pirates', 'Abis'] as [NpcFaction, ShipLayout],
+		details: ['pirates', 'Hecate'] as [NpcFaction, ShipLayout],
 	},
 	{
 		type: 'rapidUnscheduledDisassembly',
@@ -176,7 +176,7 @@ export const FAKE_SITE_LOG: SiteLog[] = [
 		details: [
 			[{platform: 'telegram', id: 666}, 'Abis'],
 			'rookieLaser',
-			['pirates', 'Abis'] as [NpcFaction, ShipLayout],
+			['pirates', 'Hecate'] as [NpcFaction, ShipLayout],
 		],
 	},
 ];
