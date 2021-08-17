@@ -1,7 +1,7 @@
 import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../emojis.js';
-import {FAKE_SITE_LOG, setStationInstructions} from '../../game/get-whatever.js';
+import {getSiteLog, setStationInstructions} from '../../game/get-whatever.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 
@@ -66,8 +66,9 @@ menu.interact('Bodge: Fake Round', 'update', {
 	do: async ctx => {
 		await ctx.editMessageReplyMarkup(undefined);
 
-		const fakeLog = await generateHtmlLog(ctx, FAKE_SITE_LOG);
-		await ctx.reply('some stuff happened… See FAKE log here…\n\n' + fakeLog, {parse_mode: 'HTML'});
+		const siteLog = await getSiteLog(getOwnIdentifier(ctx));
+		const htmlLog = await generateHtmlLog(ctx, siteLog);
+		await ctx.reply('some stuff happened… See log here…\n\n' + htmlLog, {parse_mode: 'HTML'});
 
 		await replyMenuToContext(menu, ctx, '/');
 		return false;

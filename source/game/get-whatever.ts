@@ -44,6 +44,11 @@ export async function addSiteInstructions(player: Player, instructions: readonly
 	});
 }
 
+export async function getSiteLog(player: Player): Promise<SiteLog[]> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/site-log`;
+	return got(url).json<SiteLog[]>();
+}
+
 export async function setStationInstructions(player: Player, instructions: readonly StationInstruction[]): Promise<void> {
 	const url = `${BACKEND}/player/${player.platform}-${player.id}/station-instructions`;
 	const body = JSON.stringify(instructions);
