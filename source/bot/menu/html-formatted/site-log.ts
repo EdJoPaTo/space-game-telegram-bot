@@ -51,28 +51,28 @@ export async function generateHtmlLog(ctx: MyContext, log: readonly SiteLog[]): 
 	// TODO: i18n templates
 	const lines = await Promise.all(log.map(async entry => {
 		if (entry.type === 'warpIn') {
-			const playerLabel = await playerPart(ctx, entry.details);
-			return `${playerLabel} warped in`;
+			const actorLabel = await actorPart(ctx, entry.details);
+			return `${actorLabel} warped in`;
 		}
 
 		if (entry.type === 'warpOut') {
-			const playerLabel = await playerPart(ctx, entry.details);
-			return `${playerLabel} warped out`;
+			const actorLabel = await actorPart(ctx, entry.details);
+			return `${actorLabel} warped out`;
 		}
 
 		if (entry.type === 'dock') {
-			const playerLabel = await playerPart(ctx, entry.details);
-			return `${playerLabel} docked`;
+			const actorLabel = await actorPart(ctx, entry.details);
+			return `${actorLabel} docked`;
 		}
 
 		if (entry.type === 'undock') {
-			const playerLabel = await playerPart(ctx, entry.details);
-			return `${playerLabel} undocked`;
+			const actorLabel = await actorPart(ctx, entry.details);
+			return `${actorLabel} undocked`;
 		}
 
-		if (entry.type === 'appears') {
-			const npcLabel = npcPart(ctx, entry.details);
-			return `${npcLabel} appears from the shadows`;
+		if (entry.type === 'jump') {
+			const actorLabel = actorPart(ctx, entry.details);
+			return `${actorLabel} jumps with the stargate`;
 		}
 
 		if (entry.type === 'rapidUnscheduledDisassembly') {
