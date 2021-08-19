@@ -51,7 +51,9 @@ async function actorPart(ctx: I18nContextFlavour, actor: SiteLogActor) {
 		return `${layoutLabel} (${name}, ${classLabel})`;
 	}
 
-	return ctx.i18n.t(`static.${actor}`);
+	return format.italic(format.escape(
+		ctx.i18n.t(`static.${actor}.title`),
+	));
 }
 
 export async function generateHtmlLog(ctx: I18nContextFlavour, log: readonly SiteLog[]): Promise<string> {
