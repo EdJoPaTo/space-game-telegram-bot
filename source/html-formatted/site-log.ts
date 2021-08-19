@@ -2,7 +2,7 @@ import {html as format} from 'telegram-format';
 
 import {getPlayerPretty} from '../game/backend.js';
 import {isPlayer} from '../game/typing-checks.js';
-import {MyContext} from '../bot/my-context.js';
+import {I18nContextFlavour} from '../bot/my-context.js';
 import {NpcFaction, Player, ShipLayout, SiteLog, SiteLogActor} from '../game/typings.js';
 import {SHIP_LAYOUTS} from '../game/statics.js';
 import {unreachable} from '../javascript-helper.js';
@@ -29,20 +29,20 @@ async function getHtmlPlayer(player: Player) {
 	));
 }
 
-function getHtmlNpc(ctx: MyContext, faction: NpcFaction) {
+function getHtmlNpc(ctx: I18nContextFlavour, faction: NpcFaction) {
 	const factionLabel = format.italic(format.escape(
 		ctx.i18n.t(`npcFaction.${faction}.title`),
 	));
 	return `${EMOJIS[faction]}${factionLabel}`;
 }
 
-function getHtmlLayoutClass(ctx: MyContext, layout: ShipLayout) {
+function getHtmlLayoutClass(ctx: I18nContextFlavour, layout: ShipLayout) {
 	const details = SHIP_LAYOUTS[layout];
 	const classLabel = ctx.i18n.t(`static.${details.class}.title`);
 	return format.italic(format.escape(classLabel));
 }
 
-async function actorPart(ctx: MyContext, actor: SiteLogActor) {
+async function actorPart(ctx: I18nContextFlavour, actor: SiteLogActor) {
 	if (Array.isArray(actor)) {
 		const [entity, layout] = actor;
 		const layoutLabel = format.underline(format.escape(layout));
@@ -54,7 +54,7 @@ async function actorPart(ctx: MyContext, actor: SiteLogActor) {
 	return ctx.i18n.t(`static.${actor}`);
 }
 
-export async function generateHtmlLog(ctx: MyContext, log: readonly SiteLog[]): Promise<string> {
+export async function generateHtmlLog(ctx: I18nContextFlavour, log: readonly SiteLog[]): Promise<string> {
 	// TODO: i18n templates
 	const lines = await Promise.all(log.map(async entry => {
 		const prefix = PREFIXES[entry.type] + ' ';

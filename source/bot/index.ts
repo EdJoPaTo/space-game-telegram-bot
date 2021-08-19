@@ -1,14 +1,14 @@
 import {readFileSync} from 'fs';
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
-import {I18n} from '@grammyjs/i18n';
 import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
 import TelegrafSessionLocal from 'telegraf-session-local';
 
-import {MyContext} from './my-context.js';
+import {i18n} from './i18n.js';
 import {menu as overviewMenu} from './overview/index.js';
 import {menu as settingsMenu} from './settings/index.js';
+import {MyContext} from './my-context.js';
 
 const token = process.env['BOT_TOKEN'];
 if (!token) {
@@ -34,13 +34,6 @@ const localSession = new TelegrafSessionLocal({
 
 bot.use(localSession.middleware());
 
-const i18n = new I18n({
-	directory: 'locales',
-	defaultLanguage: 'en',
-	defaultLanguageOnMissing: true,
-	useSession: true,
-});
-
 bot.use(i18n.middleware());
 
 if (process.env['NODE_ENV'] !== 'production') {
@@ -62,13 +55,17 @@ bot.catch(error => {
 	console.error('telegraf error occured', error);
 });
 
-export async function start(): Promise<void> {
+export async function initBot() {
 	await bot.telegram.setMyCommands([
 		{command: 'start', description: 'open the menu'},
 		{command: 'help', description: 'show the help'},
 		{command: 'settings', description: 'open the settings'},
 	]);
 
+	return bot.telegram;
+}
+
+export async function startBot() {
 	await bot.launch();
 	console.log(new Date(), 'Bot started as', bot.botInfo?.username);
 }

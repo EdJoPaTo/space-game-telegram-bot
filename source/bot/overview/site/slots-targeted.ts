@@ -28,7 +28,6 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	text += module.effectsTarget.map(o => roundEffect(ctx, o)).join('\n');
 
 	return menuBody(ctx, {
-		entities: true,
 		menuPosition: [EMOJIS.target + moduleName],
 		shipstats: true,
 		text,

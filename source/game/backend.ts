@@ -49,6 +49,11 @@ export async function getSiteLog(player: Player): Promise<SiteLog[]> {
 	return got(url).json<SiteLog[]>();
 }
 
+export async function getPlayersWithSiteLog(): Promise<Player[]> {
+	const url = `${BACKEND}/platform/telegram/site-log-players`;
+	return got(url).json<Player[]>();
+}
+
 export async function setStationInstructions(player: Player, instructions: readonly StationInstruction[]): Promise<void> {
 	const url = `${BACKEND}/player/${player.platform}-${player.id}/station-instructions`;
 	const body = JSON.stringify(instructions);

@@ -1,8 +1,7 @@
-import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
+import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {EMOJIS} from '../../html-formatted/emojis.js';
-import {generateHtmlLog} from '../../html-formatted/site-log.js';
-import {getSiteLog, setStationInstructions} from '../../game/backend.js';
+import {setStationInstructions} from '../../game/backend.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 
@@ -14,7 +13,6 @@ import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
 
 export const menu = new MenuTemplate<MyContext>(async ctx => menuBody(ctx, {
-	entities: true,
 	planned: true,
 	shipstats: true,
 }));
@@ -57,25 +55,6 @@ menu.interact(EMOJIS.undock + 'Undock', 'undock', {
 		const identifier = getOwnIdentifier(ctx);
 		await setStationInstructions(identifier, ['undock']);
 		return true;
-	},
-});
-
-// TODO: do async / get notified from backend
-menu.interact('Bodge: Fake Round', 'update', {
-	hide: async ctx => isDocked(ctx),
-	do: async ctx => {
-		await ctx.editMessageReplyMarkup(undefined);
-
-		const siteLog = await getSiteLog(getOwnIdentifier(ctx));
-		if (siteLog.length > 0) {
-			const htmlLog = await generateHtmlLog(ctx, siteLog);
-			await ctx.reply('Your ship sensors picked some things up that happened in the meantime:\n\n' + htmlLog, {parse_mode: 'HTML'});
-		} else {
-			await ctx.reply('Your ship sensors havnt notices anything in the meantime. Either nothing happened or you should get them repaired.', {parse_mode: 'HTML'});
-		}
-
-		await replyMenuToContext(menu, ctx, '/');
-		return false;
 	},
 });
 
