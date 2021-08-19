@@ -1,13 +1,15 @@
 import {html as format} from 'telegram-format';
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {addSiteInstructions, getSites} from '../../../game/get-whatever.js';
-import {backButtons, getOwnIdentifier, getOwnLocation, siteLabel} from '../general.js';
+import {addSiteInstructions, getSites} from '../../../game/backend.js';
+import {backButtons} from '../../general.js';
+import {getOwnIdentifier, getOwnLocation} from '../general.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 import {Site, Solarsystem} from '../../../game/typings.js';
-import {SOLARSYSTEMS} from '../../../game/get-static.js';
+import {siteLabel} from '../../../html-formatted/site.js';
+import {SOLARSYSTEMS} from '../../../game/statics.js';
 
 async function warpMenuBody(ctx: MyContext) {
 	const location = await getOwnLocation(ctx);

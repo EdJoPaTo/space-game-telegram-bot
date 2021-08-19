@@ -1,4 +1,4 @@
-import {SHIP_LAYOUTS, MODULE_PASSIVE} from './get-static.js';
+import {SHIP_LAYOUTS, MODULE_PASSIVE} from './statics.js';
 import {ShipFitting} from './typings.js';
 
 export function getShipQuickstats(fitting: ShipFitting) {

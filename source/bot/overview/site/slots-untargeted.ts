@@ -1,6 +1,7 @@
-import {addSiteInstructions} from '../../../game/get-whatever.js';
-import {choicesByArrayIndex, getOwnIdentifier, getOwnShip} from '../general.js';
-import {EMOJIS} from '../../emojis.js';
+import {addSiteInstructions} from '../../../game/backend.js';
+import {choicesByArrayIndex} from '../../general.js';
+import {EMOJIS} from '../../../html-formatted/emojis.js';
+import {getOwnIdentifier, getOwnShip} from '../general.js';
 import {MyContext} from '../../my-context.js';
 
 async function getModules(ctx: MyContext) {

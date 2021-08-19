@@ -8,7 +8,7 @@ import {
 	MODULE_TARGETED,
 	MODULE_UNTARGETED,
 	SHIP_LAYOUTS,
-} from '../source/game/get-static.js';
+} from '../source/game/statics.js';
 import {typedKeys} from '../source/javascript-helper.js';
 
 const i18n = new I18n({

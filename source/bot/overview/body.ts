@@ -1,14 +1,15 @@
 import {html as format} from 'telegram-format';
 
-import {EMOJIS, getRomanNumber, percentageFraction} from '../emojis.js';
-import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSiteInstructions, getSites} from '../../game/get-whatever.js';
+import {EMOJIS, getRomanNumber, percentageFraction} from '../../html-formatted/emojis.js';
+import {getPlayerLocation, getPlayerPretty, getPlayerShip, getSiteEntities, getSiteInstructions, getSites} from '../../game/backend.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
-import {SHIP_LAYOUTS, SOLARSYSTEMS} from '../../game/get-static.js';
+import {SHIP_LAYOUTS, SOLARSYSTEMS} from '../../game/statics.js';
 import {Site} from '../../game/typings.js';
+import {siteLabel} from '../../html-formatted/site.js';
 
-import {getOwnIdentifier, siteLabel} from './general.js';
+import {getOwnIdentifier} from './general.js';
 
 export interface Options {
 	readonly shipstats?: true;

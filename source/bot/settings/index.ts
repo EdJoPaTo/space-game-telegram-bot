@@ -1,7 +1,7 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons} from '../general.js';
-import {MyContext} from '../../my-context.js';
+import {MyContext} from '../my-context.js';
 
 import {menu as languageMenu} from './language.js';
 

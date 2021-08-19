@@ -1,11 +1,12 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {addSiteInstructions, getSiteEntities} from '../../../game/get-whatever.js';
-import {backButtons, choicesByArrayIndex, getOwnIdentifier, getOwnLocation, getOwnShip} from '../general.js';
-import {EMOJIS} from '../../emojis.js';
+import {addSiteInstructions, getSiteEntities} from '../../../game/backend.js';
+import {backButtons, choicesByArrayIndex} from '../../general.js';
+import {EMOJIS} from '../../../html-formatted/emojis.js';
+import {getOwnIdentifier, getOwnLocation, getOwnShip} from '../general.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
-import {MODULE_TARGETED} from '../../../game/get-static.js';
+import {MODULE_TARGETED} from '../../../game/statics.js';
 import {MyContext} from '../../my-context.js';
 import {RoundEffect} from '../../../game/typings.js';
 

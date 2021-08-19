@@ -1,9 +1,8 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 import {I18n} from '@grammyjs/i18n';
 
-import {MyContext} from '../../my-context.js';
-
 import {backButtons} from '../general.js';
+import {MyContext} from '../my-context.js';
 
 const availableLocales = new I18n({directory: 'locales'}).availableLocales();
 

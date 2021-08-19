@@ -1,12 +1,12 @@
 import {MenuTemplate, replyMenuToContext} from 'telegraf-inline-menu';
 
-import {EMOJIS} from '../emojis.js';
-import {getSiteLog, setStationInstructions} from '../../game/get-whatever.js';
+import {EMOJIS} from '../../html-formatted/emojis.js';
+import {generateHtmlLog} from '../../html-formatted/site-log.js';
+import {getSiteLog, setStationInstructions} from '../../game/backend.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
-import {generateHtmlLog} from './html-formatted/site-log.js';
 import {getOwnIdentifier, getOwnLocation} from './general.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {getSlotUntargetedChoices, doSlotUntargetedButton} from './site/slots-untargeted.js';

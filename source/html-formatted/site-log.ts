@@ -1,12 +1,13 @@
 import {html as format} from 'telegram-format';
 
-import {EMOJIS} from '../../emojis.js';
-import {getPlayerPretty} from '../../../game/get-whatever.js';
-import {isPlayer} from '../../../game/typing-checks.js';
-import {MyContext} from '../../my-context.js';
-import {NpcFaction, Player, ShipLayout, SiteLog, SiteLogActor} from '../../../game/typings.js';
-import {SHIP_LAYOUTS} from '../../../game/get-static.js';
-import {unreachable} from '../../../javascript-helper.js';
+import {getPlayerPretty} from '../game/backend.js';
+import {isPlayer} from '../game/typing-checks.js';
+import {MyContext} from '../bot/my-context.js';
+import {NpcFaction, Player, ShipLayout, SiteLog, SiteLogActor} from '../game/typings.js';
+import {SHIP_LAYOUTS} from '../game/statics.js';
+import {unreachable} from '../javascript-helper.js';
+
+import {EMOJIS} from './emojis.js';
 
 const PREFIX_IN = '➡️';
 const PREFIX_OUT = '⬅️';

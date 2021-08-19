@@ -1,6 +1,6 @@
-import {addSiteInstructions, getSiteEntities} from '../../../game/get-whatever.js';
-import {EMOJIS} from '../../emojis.js';
-import {FACILITIES} from '../../../game/get-static.js';
+import {addSiteInstructions, getSiteEntities} from '../../../game/backend.js';
+import {EMOJIS} from '../../../html-formatted/emojis.js';
+import {FACILITIES} from '../../../game/statics.js';
 import {getOwnIdentifier} from '../general.js';
 import {MyContext} from '../../my-context.js';
 import {Service} from '../../../game/typings.js';

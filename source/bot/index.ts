@@ -7,8 +7,8 @@ import {Telegraf} from 'telegraf';
 import TelegrafSessionLocal from 'telegraf-session-local';
 
 import {MyContext} from './my-context.js';
-import {menu} from './menu/index.js';
-import {menu as settingsMenu} from './menu/settings/index.js';
+import {menu as overviewMenu} from './overview/index.js';
+import {menu as settingsMenu} from './settings/index.js';
 
 const token = process.env['BOT_TOKEN'];
 if (!token) {
@@ -49,9 +49,10 @@ if (process.env['NODE_ENV'] !== 'production') {
 
 bot.command('help', async context => context.reply(context.i18n.t('help')));
 
-const menuMiddleware = new MenuMiddleware('/', menu);
-bot.command('start', async context => menuMiddleware.replyToContext(context));
-bot.use(menuMiddleware.middleware());
+const overviewMiddleware = new MenuMiddleware('overview/', overviewMenu);
+bot.command('start', async context => overviewMiddleware.replyToContext(context));
+bot.action('/', async context => overviewMiddleware.replyToContext(context));
+bot.use(overviewMiddleware.middleware());
 
 const settingsMenuMiddleware = new MenuMiddleware('settings/', settingsMenu);
 bot.command('settings', async context => settingsMenuMiddleware.replyToContext(context));
