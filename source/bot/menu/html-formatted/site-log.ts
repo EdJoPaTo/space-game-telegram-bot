@@ -32,7 +32,7 @@ function getHtmlNpc(ctx: MyContext, faction: NpcFaction) {
 	const factionLabel = format.italic(format.escape(
 		ctx.i18n.t(`npcFaction.${faction}.title`),
 	));
-	return `${EMOJIS[faction]}${factionLabel}`
+	return `${EMOJIS[faction]}${factionLabel}`;
 }
 
 function getHtmlLayoutClass(ctx: MyContext, layout: ShipLayout) {
@@ -46,8 +46,8 @@ async function actorPart(ctx: MyContext, actor: SiteLogActor) {
 		const [entity, layout] = actor;
 		const layoutLabel = format.underline(format.escape(layout));
 		const classLabel = getHtmlLayoutClass(ctx, layout);
-		const name = isPlayer(entity) ? await getHtmlPlayer(entity) : getHtmlNpc(ctx, entity)
-		return `${layoutLabel} (${name}, ${classLabel})`
+		const name = isPlayer(entity) ? await getHtmlPlayer(entity) : getHtmlNpc(ctx, entity);
+		return `${layoutLabel} (${name}, ${classLabel})`;
 	}
 
 	return ctx.i18n.t(`static.${actor}`);
@@ -65,27 +65,27 @@ export async function generateHtmlLog(ctx: MyContext, log: readonly SiteLog[]): 
 
 		if (entry.type === 'warpOut') {
 			const actorLabel = await actorPart(ctx, entry.details);
-			return prefix +  `${actorLabel} warped out`;
+			return prefix + `${actorLabel} warped out`;
 		}
 
 		if (entry.type === 'dock') {
 			const actorLabel = await actorPart(ctx, entry.details);
-			return prefix +  `${actorLabel} docked`;
+			return prefix + `${actorLabel} docked`;
 		}
 
 		if (entry.type === 'undock') {
 			const actorLabel = await actorPart(ctx, entry.details);
-			return prefix +  `${actorLabel} undocked`;
+			return prefix + `${actorLabel} undocked`;
 		}
 
 		if (entry.type === 'jump') {
-			const actorLabel = actorPart(ctx, entry.details);
-			return prefix +  `${actorLabel} jumps with the stargate`;
+			const actorLabel = await actorPart(ctx, entry.details);
+			return prefix + `${actorLabel} jumps with the stargate`;
 		}
 
 		if (entry.type === 'rapidUnscheduledDisassembly') {
 			const actorLabel = await actorPart(ctx, entry.details);
-			return prefix +  `${actorLabel} was disassembled in a spectecular way.`;
+			return prefix + `${actorLabel} was disassembled in a spectecular way.`;
 		}
 
 		if (entry.type === 'moduleTargeted') {
@@ -97,7 +97,7 @@ export async function generateHtmlLog(ctx: MyContext, log: readonly SiteLog[]): 
 			const moduleLabel = format.italic(format.escape(
 				ctx.i18n.t(`module.${module}.title`),
 			));
-			return prefix +  `${originLabel} used ${moduleLabel} in the direction of ${targetLabel}`;
+			return prefix + `${originLabel} used ${moduleLabel} in the direction of ${targetLabel}`;
 		}
 
 		unreachable(entry);
