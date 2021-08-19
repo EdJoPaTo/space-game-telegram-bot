@@ -3,6 +3,7 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 import {addSiteInstructions, getSiteEntities} from '../../../game/backend.js';
 import {backButtons, choicesByArrayIndex} from '../../general.js';
 import {EMOJIS} from '../../../html-formatted/emojis.js';
+import {entityButtonLabel} from '../../../html-formatted/site.js';
 import {getOwnIdentifier, getOwnLocation, getOwnShip} from '../general.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
 import {menuBody} from '../body.js';
@@ -55,19 +56,21 @@ async function getTargets(ctx: MyContext) {
 
 	const entities = await getSiteEntities(location.solarsystem, location.site);
 	const list = entities
-		.map((o, i) => ({entity: o, id: i}))
+		.map((o, i) => ({entity: o, index: i}))
 		.filter(o => o.entity.type !== 'player' || o.entity.id.platform !== ownPlayerId.platform || o.entity.id.id !== ownPlayerId.id);
 
 	const result: Record<number, string> = {};
-	for (const item of list) {
-		result[item.id] = `${EMOJIS.target}${item.id + 1}`;
+	for (const {index, entity} of list) {
+		// eslint-disable-next-line no-await-in-loop
+		const label = await entityButtonLabel(ctx, index, entities.length, entity);
+		result[index] = EMOJIS.target + label;
 	}
 
 	return result;
 }
 
 menu.choose('t', getTargets, {
-	columns: 4,
+	columns: 2,
 	do: async (ctx, key) => {
 		if (!('data' in ctx.callbackQuery!)) {
 			throw new Error('wat?');
