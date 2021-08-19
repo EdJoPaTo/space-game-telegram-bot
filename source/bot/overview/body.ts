@@ -1,5 +1,6 @@
 import {html as format} from 'telegram-format';
 
+import {addOpenOverviews} from '../../persist/overviews.js';
 import {EMOJIS} from '../../html-formatted/emojis.js';
 import {getPlayerLocation, getPlayerShip, getSiteInstructions} from '../../game/backend.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
@@ -19,6 +20,11 @@ export interface Options {
 }
 
 export async function menuBody(ctx: MyContext, options: Options = {}) {
+	const message_id = ctx.callbackQuery?.message?.message_id;
+	if (ctx.from?.id && message_id) {
+		await addOpenOverviews(ctx.from.id, message_id);
+	}
+
 	const ownPlayerId = getOwnIdentifier(ctx);
 	const location = await getPlayerLocation(ownPlayerId);
 	const {fitting: shipFitting, status: shipStatus} = await getPlayerShip(ownPlayerId);

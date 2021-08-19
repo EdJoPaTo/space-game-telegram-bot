@@ -6,5 +6,5 @@ node_modules
 yarn.lock
 
 # botfiles
-persist
+/persist
 allowed.txt
