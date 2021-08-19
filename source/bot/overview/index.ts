@@ -9,6 +9,7 @@ import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
 import {getOwnIdentifier, getOwnLocation} from './general.js';
 import {getSlotTargetedChoices, menu as slotTargetedMenu} from './site/slots-targeted.js';
 import {getSlotUntargetedChoices, doSlotUntargetedButton} from './site/slots-untargeted.js';
+import {menu as selfDestructMenu} from './site/self-destruct.js';
 import {menu as warpMenu} from './site/warp.js';
 import {menuBody} from './body.js';
 
@@ -35,7 +36,10 @@ menu.choose('facility', getFacilityChoices, {
 });
 
 menu.submenu('Initiate Warp', 'warp', warpMenu, {
-	joinLastRow: true,
+	hide: async ctx => !(await isInSite(ctx)),
+});
+
+menu.submenu(EMOJIS.damage + 'Self Destruct', 'selfDestruct', selfDestructMenu, {
 	hide: async ctx => !(await isInSite(ctx)),
 });
 
