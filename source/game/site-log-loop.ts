@@ -23,8 +23,12 @@ async function theLoop(telegram: Telegram) {
 	while (true) {
 		// eslint-disable-next-line no-await-in-loop
 		await sleep(1000);
+		try {
 		// eslint-disable-next-line no-await-in-loop
-		await once(telegram);
+			await once(telegram);
+		} catch (error: unknown) {
+			console.error('site-log-loop ERROR', error instanceof Error ? error.message : error);
+		}
 	}
 }
 
