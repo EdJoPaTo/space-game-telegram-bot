@@ -1,12 +1,17 @@
 import got from 'got';
 
-import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction} from './typings.js';
+import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
 export async function getPlayerPretty(player: Player): Promise<string> {
 	// TODO: pretty name store
 	return `${player.platform}-${player.id}`;
+}
+
+export async function getPlayerGenerals(player: Player): Promise<PlayerGeneral> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/generals`;
+	return got(url).json<PlayerGeneral>();
 }
 
 export async function getPlayerLocation(player: Player): Promise<PlayerLocation> {

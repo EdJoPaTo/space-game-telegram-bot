@@ -2,9 +2,9 @@ import {html as format} from 'telegram-format';
 
 import {addOpenOverviews} from '../../persist/overviews.js';
 import {EMOJIS} from '../../html-formatted/emojis.js';
-import {getPlayerLocation, getPlayerShip, getSiteInstructions} from '../../game/backend.js';
+import {getPlayerGenerals, getPlayerLocation, getPlayerShip, getSiteInstructions} from '../../game/backend.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
-import {isLocationSite} from '../../game/typing-checks.js';
+import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';
 import {SHIP_LAYOUTS} from '../../game/statics.js';
 
@@ -44,6 +44,11 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
 		text += infoline(EMOJIS.asteroidField + 'Ore', quickstatsValue(cargo.ore, layout.oreBay));
 		text += '\n';
+	}
+
+	if (isLocationStation(location)) {
+		const generals = await getPlayerGenerals(ownPlayerId);
+		text += infoline(EMOJIS.paperclip + 'Paperclips', generals.paperclips.toFixed(0));
 	}
 
 	if (isLocationSite(location) && options.planned) {

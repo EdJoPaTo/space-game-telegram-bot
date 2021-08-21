@@ -10,6 +10,7 @@ const BASE_EMOJIS = {
 	stop: '🛑',
 	repair: '🔧',
 	undock: '🚪',
+	paperclip: '📎',
 
 	capacitor: '🔋',
 	damage: '💥',
