@@ -80,6 +80,9 @@ export const FAKE_SHIP: Ship = {
 		hitpointsArmor: 20,
 		hitpointsStructure: 10,
 	},
+	cargo: {
+		ore: 0,
+	},
 };
 
 export const FAKE_SITE_INNERS: readonly SiteEntity[] = [

@@ -43,6 +43,15 @@ menu.submenu(EMOJIS.damage + 'Self Destruct', 'selfDestruct', selfDestructMenu, 
 	hide: async ctx => !(await isInSite(ctx)),
 });
 
+menu.interact(EMOJIS.asteroidField + 'Sell Ore', 'ore', {
+	hide: async ctx => !await isDocked(ctx),
+	do: async ctx => {
+		const identifier = getOwnIdentifier(ctx);
+		await setStationInstructions(identifier, ['sellOre']);
+		return true;
+	},
+});
+
 menu.interact(EMOJIS.repair + 'Repair', 'repair', {
 	hide: async ctx => !await isDocked(ctx),
 	do: async ctx => {

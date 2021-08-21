@@ -27,20 +27,22 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	const ownPlayerId = getOwnIdentifier(ctx);
 	const location = await getPlayerLocation(ownPlayerId);
-	const {fitting: shipFitting, status: shipStatus} = await getPlayerShip(ownPlayerId);
+	const {fitting, status: shipStatus, cargo} = await getPlayerShip(ownPlayerId);
 	let text = '';
 
 	if (options.shipstats) {
-		const shipclass = SHIP_LAYOUTS[shipFitting.layout]!.class;
-		text += format.bold(shipFitting.layout);
+		const layout = SHIP_LAYOUTS[fitting.layout]!;
+		const shipclass = layout.class;
+		text += format.bold(fitting.layout);
 		text += ' (';
 		text += ctx.i18n.t(`static.${shipclass}.title`);
 		text += ')';
 		text += '\n';
-		const ship = getShipQuickstats(shipFitting);
+		const ship = getShipQuickstats(fitting);
 		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
 		text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
 		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+		text += infoline(EMOJIS.asteroidField + 'Ore', quickstatsValue(cargo.ore, layout.oreBay));
 		text += '\n';
 	}
 

@@ -18,9 +18,10 @@ const PREFIXES = {
 	dock: EMOJIS.station + PREFIX_OUT,
 	undock: EMOJIS.station + PREFIX_IN,
 
+	collapse: '🕳',
 	jump: EMOJIS.stargate + PREFIX_OUT,
-	rapidUnscheduledDisassembly: '🤯🔥' + EMOJIS.damage,
 	moduleTargeted: EMOJIS.target,
+	rapidUnscheduledDisassembly: '🤯🔥' + EMOJIS.damage,
 };
 
 async function getHtmlPlayer(player: Player) {
@@ -84,6 +85,11 @@ export async function generateHtmlLog(ctx: I18nContextFlavour, log: readonly Sit
 		if (entry.type === 'jump') {
 			const actorLabel = await actorPart(ctx, entry.details);
 			return prefix + `${actorLabel} jumps with the stargate`;
+		}
+
+		if (entry.type === 'collapse') {
+			const actorLabel = await actorPart(ctx, entry.details);
+			return prefix + `${actorLabel} collapsed.`;
 		}
 
 		if (entry.type === 'rapidUnscheduledDisassembly') {
