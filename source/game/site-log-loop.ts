@@ -1,7 +1,7 @@
 import {generateSendMenuToChatFunction} from 'telegraf-inline-menu';
 import {Telegram} from 'telegraf';
 
-import {addOpenOverviews, popOpenOverviews} from '../persist/overviews.js';
+import {addOpenOverviews, popOpenOverviews} from '../persist-data/overviews.js';
 import {entityPart} from '../html-formatted/site.js';
 import {generateHtmlLog} from '../html-formatted/site-log.js';
 import {i18n} from '../bot/i18n.js';

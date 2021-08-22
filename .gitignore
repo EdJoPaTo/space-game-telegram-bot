@@ -11,4 +11,4 @@ yarn.lock
 !/static/typings.ts
 
 # botfiles
-/persist
+persist

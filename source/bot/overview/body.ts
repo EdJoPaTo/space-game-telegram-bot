@@ -1,6 +1,6 @@
 import {html as format} from 'telegram-format';
 
-import {addOpenOverviews} from '../../persist/overviews.js';
+import {addOpenOverviews} from '../../persist-data/overviews.js';
 import {EMOJIS} from '../../html-formatted/emojis.js';
 import {getPlayerGenerals, getPlayerLocation, getPlayerShip, getSiteInstructions} from '../../game/backend.js';
 import {getShipQuickstats} from '../../game/ship-math.js';
