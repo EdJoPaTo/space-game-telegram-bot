@@ -5,6 +5,7 @@ COPY package.json package-lock.json tsconfig.json ./
 RUN npm ci
 
 COPY source source
+COPY static/typings.ts source/game/
 RUN node_modules/.bin/tsc
 
 
