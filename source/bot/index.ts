@@ -25,6 +25,8 @@ bot.use(async (ctx, next) => {
 		return next();
 	}
 
+	console.log('NOT ALLOWED', ctx.from);
+
 	await ctx.reply('This game is currently in a closed alpha.\n\nOur highly trained magicans are trying to hide the bugs as we speak. There is no waitlist yet. In order to participate in the closed alpha you probably need to know the magicians.');
 });
 
