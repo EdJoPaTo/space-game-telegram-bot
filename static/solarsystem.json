@@ -1,0 +1,72 @@
+{
+  "Wabinihwa": {
+    "security": 92,
+    "planets": 6,
+    "stargates": {
+      "Arama": 4,
+      "Liagi": 3
+    },
+    "stations": [
+      2,
+      3,
+      2,
+      4
+    ]
+  },
+  "Arama": {
+    "security": 51,
+    "planets": 2,
+    "stargates": {
+      "Wabinihwa": 1,
+      "Iramil": 2,
+      "Plagar": 2
+    },
+    "stations": [
+      2
+    ]
+  },
+  "Iramil": {
+    "security": 74,
+    "planets": 3,
+    "stargates": {
+      "Arama": 3,
+      "Liagi": 2
+    },
+    "stations": [
+      2
+    ]
+  },
+  "Liagi": {
+    "security": 100,
+    "planets": 7,
+    "stargates": {
+      "Wabinihwa": 5,
+      "Iramil": 7
+    },
+    "stations": [
+      3,
+      5
+    ]
+  },
+  "Plagar": {
+    "security": 21,
+    "planets": 4,
+    "stargates": {
+      "Arama": 4,
+      "Vosu": 4
+    },
+    "stations": [
+      3
+    ]
+  },
+  "Vosu": {
+    "security": 4,
+    "planets": 5,
+    "stargates": {
+      "Plagar": 4
+    },
+    "stations": [
+      3
+    ]
+  }
+}

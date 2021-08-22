@@ -1,0 +1,8 @@
+{
+  "modsRookieArmorRepair": {
+    "requiredCpu": 5,
+    "requiredPowergrid": 15,
+    "energyConsumption": 5,
+    "armorRepair": 5
+  }
+}

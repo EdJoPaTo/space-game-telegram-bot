@@ -1,0 +1,52 @@
+{
+  "guardianLaser": {
+    "requiredCpu": 800,
+    "requiredPowergrid": 1400,
+    "effectsOrigin": [],
+    "effectsTarget": [
+      {
+        "type": "capacitorDrain",
+        "amount": 200
+      },
+      {
+        "type": "damage",
+        "amount": 20
+      },
+      {
+        "type": "warpDisruption"
+      }
+    ]
+  },
+  "rookieLaser": {
+    "requiredCpu": 10,
+    "requiredPowergrid": 15,
+    "effectsOrigin": [
+      {
+        "type": "capacitorDrain",
+        "amount": 5
+      }
+    ],
+    "effectsTarget": [
+      {
+        "type": "damage",
+        "amount": 10
+      }
+    ]
+  },
+  "rookieMiner": {
+    "requiredCpu": 10,
+    "requiredPowergrid": 10,
+    "effectsOrigin": [
+      {
+        "type": "capacitorDrain",
+        "amount": 5
+      }
+    ],
+    "effectsTarget": [
+      {
+        "type": "mine",
+        "amount": 3
+      }
+    ]
+  }
+}

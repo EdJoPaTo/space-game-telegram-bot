@@ -1,0 +1,12 @@
+{
+  "station": {
+    "services": [
+      "dock"
+    ]
+  },
+  "stargate": {
+    "services": [
+      "jump"
+    ]
+  }
+}

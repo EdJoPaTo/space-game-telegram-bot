@@ -1,0 +1,64 @@
+{
+  "Paladin": {
+    "class": "cruiser",
+    "cpu": 1337,
+    "powergrid": 1337,
+    "slotsTargeted": 8,
+    "slotsUntargeted": 0,
+    "slotsPassive": 0,
+    "oreBay": 0,
+    "capacitor": 1337,
+    "hitpointsArmor": 1337,
+    "hitpointsStructure": 1337,
+    "roundEffects": [
+      {
+        "type": "capacitorRecharge",
+        "amount": 400
+      },
+      {
+        "type": "armorRepair",
+        "amount": 10000
+      },
+      {
+        "type": "structureRepair",
+        "amount": 10000
+      }
+    ]
+  },
+  "Abis": {
+    "class": "rookieShip",
+    "cpu": 30,
+    "powergrid": 50,
+    "slotsTargeted": 2,
+    "slotsUntargeted": 1,
+    "slotsPassive": 1,
+    "oreBay": 20,
+    "capacitor": 40,
+    "hitpointsArmor": 20,
+    "hitpointsStructure": 10,
+    "roundEffects": [
+      {
+        "type": "capacitorRecharge",
+        "amount": 5
+      }
+    ]
+  },
+  "Hecate": {
+    "class": "frigate",
+    "cpu": 80,
+    "powergrid": 100,
+    "slotsTargeted": 3,
+    "slotsUntargeted": 2,
+    "slotsPassive": 2,
+    "oreBay": 0,
+    "capacitor": 100,
+    "hitpointsArmor": 25,
+    "hitpointsStructure": 15,
+    "roundEffects": [
+      {
+        "type": "capacitorRecharge",
+        "amount": 7
+      }
+    ]
+  }
+}
