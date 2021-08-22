@@ -1,3 +1,3 @@
-# Karvis Space Game Telegram Bot
+# Space Game Telegram Bot
 
 Currently, these are just experiments.
