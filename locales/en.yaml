@@ -21,6 +21,7 @@ static:
   station.title: Station
 
   asteroid.title: Asteroid
+  smallWreck.title: Small Wreck
 
   cruiser.title: Cruiser
   frigate.title: Frigate
