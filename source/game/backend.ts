@@ -80,10 +80,10 @@ export const FAKE_SHIP: Ship = {
 		slotsUntargeted: ['rookieArmorRepair'],
 		slotsPassive: ['rookieArmorPlate'],
 	},
-	status: {
+	collateral: {
 		capacitor: 40,
-		hitpointsArmor: 20,
-		hitpointsStructure: 10,
+		armor: 20,
+		structure: 10,
 	},
 	cargo: {
 		ore: 0,

@@ -1,9 +1,9 @@
 {
   "asteroid": {
-    "hitpointsStructure": 42,
+    "structure": 42,
     "ore": 40
   },
   "smallWreck": {
-    "hitpointsStructure": 5
+    "structure": 5
   }
 }

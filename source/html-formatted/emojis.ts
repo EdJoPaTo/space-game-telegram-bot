@@ -14,8 +14,8 @@ const BASE_EMOJIS = {
 
 	capacitor: '🔋',
 	damage: '💥',
-	hitpointsArmor: '🛡',
-	hitpointsStructure: '⚙',
+	armor: '🛡',
+	structure: '⚙',
 	mine: '🪨',
 	warpDisruption: '🔗',
 
@@ -29,8 +29,8 @@ const BASE_EMOJIS = {
 
 export const EMOJIS = {
 	...BASE_EMOJIS,
-	armorRepair: BASE_EMOJIS.hitpointsArmor + GROWING,
-	structureRepair: BASE_EMOJIS.hitpointsStructure + GROWING,
+	armorRepair: BASE_EMOJIS.armor + GROWING,
+	structureRepair: BASE_EMOJIS.structure + GROWING,
 	capacitorRecharge: BASE_EMOJIS.capacitor + GROWING,
 	capacitorDrain: BASE_EMOJIS.capacitor + BEATING,
 };

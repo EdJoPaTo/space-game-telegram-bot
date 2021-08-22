@@ -27,7 +27,7 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 
 	const ownPlayerId = getOwnIdentifier(ctx);
 	const location = await getPlayerLocation(ownPlayerId);
-	const {fitting, status: shipStatus, cargo} = await getPlayerShip(ownPlayerId);
+	const {fitting, collateral, cargo} = await getPlayerShip(ownPlayerId);
 	let text = '';
 
 	if (options.shipstats) {
@@ -39,9 +39,9 @@ export async function menuBody(ctx: MyContext, options: Options = {}) {
 		text += ')';
 		text += '\n';
 		const ship = getShipQuickstats(fitting);
-		text += infoline(EMOJIS.hitpointsArmor + 'Armor', quickstatsValue(shipStatus.hitpointsArmor, ship.armor));
-		text += infoline(EMOJIS.hitpointsStructure + 'Structure', quickstatsValue(shipStatus.hitpointsStructure, ship.structure));
-		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(shipStatus.capacitor, ship.capacitor, ship.capacitorRecharge));
+		text += infoline(EMOJIS.armor + 'Armor', quickstatsValue(collateral.armor, ship.armor));
+		text += infoline(EMOJIS.structure + 'Structure', quickstatsValue(collateral.structure, ship.structure));
+		text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(collateral.capacitor, ship.capacitor, ship.capacitorRecharge));
 		text += infoline(EMOJIS.asteroidField + 'Ore', quickstatsValue(cargo.ore, layout.oreBay));
 		text += '\n';
 	}
@@ -75,7 +75,7 @@ function infoline(title: string, value: string): string {
 	return format.italic(title) + ': ' + value + '\n';
 }
 
-function quickstatsValue(current: number, max: number, recharge?: number) {
+function quickstatsValue(current = 0, max = 0, recharge = 0) {
 	const percentage = current / max;
 	const percentageHuman = (percentage * 100).toFixed(1) + '%';
 	let text = '';

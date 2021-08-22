@@ -66,13 +66,13 @@ function entityLine(id: number, total: number, type: string, shipclassLabel: str
 	if (armor) {
 		text += ' ';
 		text += percentageFraction(armor);
-		text += EMOJIS.hitpointsArmor;
+		text += EMOJIS.armor;
 	}
 
 	if (structure) {
 		text += ' ';
 		text += percentageFraction(structure);
-		text += EMOJIS.hitpointsStructure;
+		text += EMOJIS.structure;
 	}
 
 	if (owner) {
