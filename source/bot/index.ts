@@ -15,7 +15,7 @@ if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)');
 }
 
-const ALLOWED = readFileSync('persist/allowed.txt', 'utf8').split('\n').filter(o => o).map(o => Number(o));
+const ALLOWED = readFileSync('persist/allowed.txt', 'utf8').split('\n').map(o => Number(/^\d+/.exec(o)?.[0])).filter(o => o);
 console.log('ALLOWED', ALLOWED);
 
 const bot = new Telegraf<MyContext>(token);
