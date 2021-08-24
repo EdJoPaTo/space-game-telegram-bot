@@ -1,6 +1,6 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import { addOpenOverviews } from '../../persist-data/overviews.js';
+import {addOpenOverviews} from '../../persist-data/overviews.js';
 import {EMOJIS} from '../../html-formatted/emojis.js';
 import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
 import {MyContext} from '../my-context.js';

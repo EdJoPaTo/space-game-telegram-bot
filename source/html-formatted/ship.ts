@@ -26,7 +26,7 @@ export function shipStatsPart(ctx: I18nContextFlavour, ship: Ship) {
 	text += infoline(EMOJIS.asteroidField + 'Ore', quickstatsValue(cargo.ore, layout.oreBay));
 	text += '\n';
 
-	return text;
+	return text.trim();
 }
 
 function quickstatsValue(current = 0, max = 0, recharge = 0) {

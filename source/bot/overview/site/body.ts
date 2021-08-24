@@ -12,28 +12,40 @@ export interface Options {
 }
 
 export async function siteBody(ctx: MyContext, options: Options = {}) {
-	let text = '';
 	const {location, ownPlayerId} = ctx.game;
 	if (!isLocationSite(location)) {
 		throw new Error('siteBody called out of site');
 	}
 
-	if (options.planned) {
-		const planned = await getSiteInstructions(ownPlayerId);
+	const parts: string[] = [];
+
+	const planned = await getSiteInstructions(ownPlayerId);
+	if (options.planned && planned.length > 0) {
+		let text = '';
 		text += '📝planned actions:\n';
-		text += planned.length > 0 ? planned.map(o => format.monospace(JSON.stringify(o))).join('\n') : 'none';
-		text += '\n\n';
+		text += planned.map(o => format.monospace(JSON.stringify(o))).join('\n');
+		parts.push(text);
 	}
 
 	if (options.menuPosition?.length) {
 		const lines = options.menuPosition.map((o, i) => '  '.repeat(i) + format.bold(o));
-		text += lines.join('\n');
-		text += '\n\n';
+		parts.push(lines.join('\n'));
 	}
 
 	if (options.text) {
-		text += options.text;
+		parts.push(options.text);
 	}
 
-	return {text, parse_mode: format.parse_mode};
+	if (options.planned && planned.length > 0 && parts.length === 1) {
+		parts.push('These actions will be executed soon…');
+	}
+
+	if (parts.length === 0) {
+		parts.push('What do you want to do?');
+	}
+
+	return {
+		text: parts.join('\n\n'),
+		parse_mode: format.parse_mode,
+	};
 }

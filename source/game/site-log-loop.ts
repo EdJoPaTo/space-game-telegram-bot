@@ -61,17 +61,18 @@ async function handlePlayer(telegram: Telegram, player: Player) {
 		const {location} = game;
 		const textParts: string[] = [
 			await generateHtmlLog(ctx, log),
-			await locationPart(ctx, location),
 		];
+
+		if (isLocationSite(location) || isLocationWarp(location)) {
+			textParts.push(await locationPart(ctx, location));
+
+			const ship = await game.getShip();
+			textParts.push(shipStatsPart(ctx, ship));
+		}
 
 		if (isLocationSite(location)) {
 			const entities = await getSiteEntities(location.solarsystem, location.site);
 			textParts.push((await entityPart(ctx, entities)));
-		}
-
-		if (isLocationSite(location) || isLocationWarp(location)) {
-			const ship = await game.getShip();
-			textParts.push(shipStatsPart(ctx, ship));
 		}
 
 		const text = textParts.join('\n\n');

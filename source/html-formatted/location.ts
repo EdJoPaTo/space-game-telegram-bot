@@ -3,13 +3,13 @@ import {html as format} from 'telegram-format';
 import {getSites} from '../game/backend.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
 import {isLocationSite, isLocationStation} from '../game/typing-checks.js';
-import {PlayerLocation, Site} from '../game/typings.js';
+import {PlayerLocationSite, PlayerLocationWarp, Site} from '../game/typings.js';
 import {SOLARSYSTEMS} from '../game/statics.js';
 
 import {EMOJIS, getRomanNumber} from './emojis.js';
 import {siteLabel} from './site.js';
 
-export async function locationPart(ctx: I18nContextFlavour, location: PlayerLocation) {
+export async function locationPart(ctx: I18nContextFlavour, location: PlayerLocationSite | PlayerLocationWarp) {
 	let text = '';
 
 	const solarsystemInfo = SOLARSYSTEMS[location.solarsystem]!;
