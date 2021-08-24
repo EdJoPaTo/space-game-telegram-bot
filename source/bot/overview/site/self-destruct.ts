@@ -1,18 +1,16 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {addSiteInstructions} from '../../../game/backend.js';
 import {backButtons} from '../../general.js';
 import {EMOJIS} from '../../../html-formatted/emojis.js';
-import {getOwnIdentifier} from '../general.js';
-import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
+
+import {siteBody} from './body.js';
 
 export const menu = new MenuTemplate<MyContext>(async ctx => {
 	const text = 'Are you sure you want to self destruct?!';
 
-	return menuBody(ctx, {
+	return siteBody(ctx, {
 		menuPosition: [EMOJIS.damage + 'Self Destruct'],
-		shipstats: true,
 		text,
 	});
 });
@@ -24,7 +22,7 @@ menu.navigate(EMOJIS.stop + 'Stop!', '..');
 menu.interact(EMOJIS.damage, 'boom', {
 	joinLastRow: true,
 	do: async ctx => {
-		await addSiteInstructions(getOwnIdentifier(ctx), [{
+		await ctx.game.addSiteInstructions([{
 			type: 'selfDestruct',
 			args: null,
 		}]);

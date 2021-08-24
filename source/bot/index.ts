@@ -5,6 +5,7 @@ import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
 import TelegrafSessionLocal from 'telegraf-session-local';
 
+import {ContextGameProperty} from './overview/context-game-property.js';
 import {i18n} from './i18n.js';
 import {menu as overviewMenu} from './overview/index.js';
 import {menu as settingsMenu} from './settings/index.js';
@@ -44,14 +45,23 @@ if (process.env['NODE_ENV'] !== 'production') {
 
 bot.command('help', async context => context.reply(context.i18n.t('help')));
 
-const overviewMiddleware = new MenuMiddleware('overview/', overviewMenu);
-bot.command('start', async context => overviewMiddleware.replyToContext(context));
-bot.action('/', async context => overviewMiddleware.replyToContext(context));
-bot.use(overviewMiddleware.middleware());
-
 const settingsMenuMiddleware = new MenuMiddleware('settings/', settingsMenu);
 bot.command('settings', async context => settingsMenuMiddleware.replyToContext(context));
 bot.use(settingsMenuMiddleware.middleware());
+
+bot.use(async (ctx, next) => {
+	if (ctx.from) {
+		const game = await ContextGameProperty.generate(ctx.from.id);
+		// @ts-expect-error set readonly value
+		ctx.game = game;
+	}
+
+	return next();
+});
+
+const stationMiddleware = new MenuMiddleware('overview/', overviewMenu);
+bot.command('start', async context => stationMiddleware.replyToContext(context));
+bot.use(stationMiddleware);
 
 bot.catch(error => {
 	console.error('telegraf error occured', error);

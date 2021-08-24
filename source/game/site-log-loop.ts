@@ -2,15 +2,17 @@ import {generateSendMenuToChatFunction} from 'telegraf-inline-menu';
 import {Telegram} from 'telegraf';
 
 import {addOpenOverviews, popOpenOverviews} from '../persist-data/overviews.js';
+import {ContextGameProperty} from '../bot/overview/context-game-property.js';
 import {entityPart} from '../html-formatted/site.js';
 import {generateHtmlLog} from '../html-formatted/site-log.js';
 import {i18n} from '../bot/i18n.js';
 import {locationPart} from '../html-formatted/location.js';
 import {menu as overviewMenu} from '../bot/overview/index.js';
+import {shipStatsPart} from '../html-formatted/ship.js';
 import {sleep} from '../javascript-helper.js';
 
-import {getPlayerLocation, getPlayersWithSiteLog, getSiteEntities, getSiteLog} from './backend.js';
-import {isLocationSite} from './typing-checks.js';
+import {getPlayersWithSiteLog, getSiteEntities, getSiteLog} from './backend.js';
+import {isLocationSite, isLocationWarp} from './typing-checks.js';
 import {Player} from './typings.js';
 
 export async function startSiteLogLoop(telegram: Telegram) {
@@ -50,11 +52,13 @@ async function handlePlayer(telegram: Telegram, player: Player) {
 			} catch {}
 		}));
 
+		const game = await ContextGameProperty.generate(player.id);
 		const ctx = {
 			from: {id: player.id},
 			i18n: i18n.createContext('en', {}),
+			game,
 		};
-		const location = await getPlayerLocation(player);
+		const {location} = game;
 		const textParts: string[] = [
 			await generateHtmlLog(ctx, log),
 			await locationPart(ctx, location),
@@ -63,6 +67,11 @@ async function handlePlayer(telegram: Telegram, player: Player) {
 		if (isLocationSite(location)) {
 			const entities = await getSiteEntities(location.solarsystem, location.site);
 			textParts.push((await entityPart(ctx, entities)));
+		}
+
+		if (isLocationSite(location) || isLocationWarp(location)) {
+			const ship = await game.getShip();
+			textParts.push(shipStatsPart(ctx, ship));
 		}
 
 		const text = textParts.join('\n\n');

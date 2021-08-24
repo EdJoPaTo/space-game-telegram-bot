@@ -1,18 +1,18 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {addSiteInstructions, getSiteEntities} from '../../../game/backend.js';
 import {backButtons, choicesByArrayIndex} from '../../general.js';
 import {EMOJIS} from '../../../html-formatted/emojis.js';
 import {entityButtonLabel} from '../../../html-formatted/site.js';
-import {getOwnIdentifier, getOwnLocation, getOwnShip} from '../general.js';
+import {getSiteEntities} from '../../../game/backend.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
-import {menuBody} from '../body.js';
 import {MODULE_TARGETED} from '../../../game/statics.js';
 import {MyContext} from '../../my-context.js';
 import {RoundEffect} from '../../../game/typings.js';
 
+import {siteBody} from './body.js';
+
 async function getModules(ctx: MyContext) {
-	const {fitting} = await getOwnShip(ctx);
+	const {fitting} = await ctx.game.getShip();
 	return fitting.slotsTargeted;
 }
 
@@ -28,9 +28,8 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	text += '\n\n';
 	text += module.effectsTarget.map(o => roundEffect(ctx, o)).join('\n');
 
-	return menuBody(ctx, {
+	return siteBody(ctx, {
 		menuPosition: [EMOJIS.target + moduleName],
-		shipstats: true,
 		text,
 	});
 });
@@ -48,8 +47,7 @@ function roundEffect(_ctx: MyContext, effect: RoundEffect): string {
 }
 
 async function getTargets(ctx: MyContext) {
-	const location = await getOwnLocation(ctx);
-	const ownPlayerId = getOwnIdentifier(ctx);
+	const {location, ownPlayerId} = ctx.game;
 	if (!isLocationSite(location)) {
 		throw new Error('not in a site');
 	}
@@ -79,7 +77,7 @@ menu.choose('t', getTargets, {
 		const path = ctx.callbackQuery.data;
 		const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 
-		await addSiteInstructions(getOwnIdentifier(ctx), [{
+		await ctx.game.addSiteInstructions([{
 			type: 'moduleTargeted',
 			args: {
 				moduleIndex,

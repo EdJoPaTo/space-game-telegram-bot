@@ -1,18 +1,18 @@
 import {html as format} from 'telegram-format';
 import {MenuTemplate} from 'telegraf-inline-menu';
 
-import {addSiteInstructions, getSites} from '../../../game/backend.js';
 import {backButtons} from '../../general.js';
-import {getOwnIdentifier, getOwnLocation} from '../general.js';
+import {getSites} from '../../../game/backend.js';
 import {isLocationSite} from '../../../game/typing-checks.js';
-import {menuBody} from '../body.js';
 import {MyContext} from '../../my-context.js';
 import {Site, Solarsystem} from '../../../game/typings.js';
 import {siteLabel} from '../../../html-formatted/site.js';
 import {SOLARSYSTEMS} from '../../../game/statics.js';
 
+import {siteBody} from './body.js';
+
 async function warpMenuBody(ctx: MyContext) {
-	const location = await getOwnLocation(ctx);
+	const {location} = ctx.game;
 	const allSites = await getSites(location.solarsystem);
 
 	let text = '';
@@ -28,7 +28,7 @@ async function warpMenuBody(ctx: MyContext) {
 		}
 	}
 
-	return menuBody(ctx, {
+	return siteBody(ctx, {
 		menuPosition: ['Initiate Warp'],
 		text,
 	});
@@ -39,14 +39,13 @@ async function getSiteChoices(ctx: MyContext) {
 		throw new Error('that shouldnt happen');
 	}
 
-	const currentLocation = await getOwnLocation(ctx);
+	const {location: currentLocation} = ctx.game;
 	if (!isLocationSite(currentLocation)) {
 		// Not in a site → cant warp anyway
 		return [];
 	}
 
-	const location = await getOwnLocation(ctx);
-	const allSites = await getSites(location.solarsystem);
+	const allSites = await getSites(currentLocation.solarsystem);
 	const sites = Object.values(allSites)
 		.flat()
 		.filter((o): o is Site => Boolean(o))
@@ -54,7 +53,7 @@ async function getSiteChoices(ctx: MyContext) {
 	const result: Record<string, string> = {};
 	for (const site of sites) {
 		const key = `${site.kind}-${site.unique}`;
-		result[key] = siteLabel(ctx, location.solarsystem, site, false);
+		result[key] = siteLabel(ctx, currentLocation.solarsystem, site, false);
 	}
 
 	return result;
@@ -75,7 +74,7 @@ menu.choose('site', getSiteChoices, {
 			? splitted[1] as Solarsystem
 			: Number(splitted[1]);
 
-		await addSiteInstructions(getOwnIdentifier(ctx), [{
+		await ctx.game.addSiteInstructions([{
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			type: 'warp', args: {target: {kind, unique: unique as any}},
 		}]);
