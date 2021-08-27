@@ -27,6 +27,11 @@ export interface FacilityDetails {
 }
 export type Service = "dock" | "jump";
 export type Facility = "station" | "stargate";
+export type Item =
+  | { kind: "modulePassive"; item: ModulePassive }
+  | { kind: "moduleTargeted"; item: ModuleTargeted }
+  | { kind: "moduleUntargeted"; item: ModuleUntargeted }
+  | { kind: "ore"; item: null };
 export interface LifelessDetails {
   readonly structure: number;
   readonly armor: number;
@@ -77,6 +82,7 @@ export interface PlayerLocationWarp {
 }
 export interface PlayerStationAssets {
   readonly ships: readonly Ship[];
+  readonly storage: Storage;
 }
 export type Player = { platform: "telegram"; id: number };
 export type RoundEffect =
@@ -87,12 +93,6 @@ export type RoundEffect =
   | { type: "damage"; amount: number }
   | { type: "mine"; amount: number }
   | { type: "warpDisruption"; amount: null };
-export interface CargoAmounts {
-  readonly ore: number;
-}
-export interface ShipCargo {
-  readonly ore: number;
-}
 export type ShipClass = "rookieShip" | "frigate" | "cruiser" | "battleship";
 export interface ShipFitting {
   readonly layout: ShipLayout;
@@ -107,7 +107,7 @@ export interface ShipLayoutDetails {
   readonly slotsTargeted: number;
   readonly slotsUntargeted: number;
   readonly slotsPassive: number;
-  readonly oreBay: number;
+  readonly cargoSlots: number;
   readonly structure: number;
   readonly armor: number;
   readonly capacitor: number;
@@ -117,7 +117,7 @@ export type ShipLayout = "Paladin" | "Abis" | "Hecate";
 export interface Ship {
   readonly fitting: ShipFitting;
   readonly collateral: Collateral;
-  readonly cargo: ShipCargo;
+  readonly cargo: Storage;
 }
 export interface SiteEntityFacility {
   readonly id: Facility;
@@ -194,3 +194,4 @@ export type Solarsystem =
   | "Plagar"
   | "Vosu";
 export type StationInstruction = "repair" | "undock" | "sellOre";
+export type Storage = [Item, number][];

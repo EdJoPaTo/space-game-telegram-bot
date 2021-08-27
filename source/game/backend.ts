@@ -85,9 +85,9 @@ export const FAKE_SHIP: Ship = {
 		armor: 20,
 		structure: 10,
 	},
-	cargo: {
-		ore: 0,
-	},
+	cargo: [
+		[{kind: 'ore', item: null}, 2],
+	],
 };
 
 export const FAKE_SITE_INNERS: readonly SiteEntity[] = [

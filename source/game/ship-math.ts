@@ -1,5 +1,5 @@
 import {SHIP_LAYOUTS, MODULE_PASSIVE} from './statics.js';
-import {ShipFitting} from './typings.js';
+import {ShipFitting, Storage} from './typings.js';
 
 export function getShipQuickstats(fitting: ShipFitting) {
 	const layout = SHIP_LAYOUTS[fitting.layout]!;
@@ -19,4 +19,14 @@ export function getShipQuickstats(fitting: ShipFitting) {
 		capacitor,
 		capacitorRecharge,
 	};
+}
+
+export function getCargoSlotsUsed(storage: Storage) {
+	let used = 0;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	for (const [_item, amount] of storage) {
+		used += amount;
+	}
+
+	return used;
 }

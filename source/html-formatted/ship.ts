@@ -1,6 +1,6 @@
 import {html as format} from 'telegram-format';
 
-import {getShipQuickstats} from '../game/ship-math.js';
+import {getCargoSlotsUsed, getShipQuickstats} from '../game/ship-math.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
 import {Ship} from '../game/typings.js';
 import {SHIP_LAYOUTS} from '../game/statics.js';
@@ -23,7 +23,7 @@ export function shipStatsPart(ctx: I18nContextFlavour, ship: Ship) {
 	text += infoline(EMOJIS.armor + 'Armor', quickstatsValue(collateral.armor, max.armor));
 	text += infoline(EMOJIS.structure + 'Structure', quickstatsValue(collateral.structure, max.structure));
 	text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(collateral.capacitor, max.capacitor, max.capacitorRecharge));
-	text += infoline(EMOJIS.asteroidField + 'Ore', quickstatsValue(cargo.ore, layout.oreBay));
+	text += infoline(EMOJIS.storage + 'Cargo', quickstatsValue(getCargoSlotsUsed(cargo), layout.cargoSlots));
 	text += '\n';
 
 	return text.trim();

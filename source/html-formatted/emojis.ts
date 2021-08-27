@@ -11,6 +11,7 @@ const BASE_EMOJIS = {
 	repair: '🔧',
 	undock: '🚪',
 	paperclip: '📎',
+	storage: '📦',
 
 	capacitor: '🔋',
 	damage: '💥',
