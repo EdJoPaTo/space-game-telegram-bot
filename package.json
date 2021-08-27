@@ -15,7 +15,7 @@
 		"@edjopato/datastore": "^0.4.1",
 		"@grammyjs/i18n": "^0.3.0",
 		"array-filter-unique": "^2.2.0",
-		"got": "^12.0.0-beta.1",
+		"got": "^12.0.0-beta.4",
 		"source-map-support": "^0.5.19",
 		"telegraf": "^4.0.1",
 		"telegraf-inline-menu": "^6.0.0",
@@ -24,7 +24,7 @@
 		"telegram-format": "^2.0.1"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^1.0.1",
+		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/node": "^16.0.0",
 		"ava": "^3.0.0",
 		"del-cli": "^4.0.0",
