@@ -2,8 +2,7 @@ import {html as format} from 'telegram-format';
 
 import {getSites} from '../game/backend.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
-import {isLocationSite, isLocationStation} from '../game/typing-checks.js';
-import {PlayerLocationSite, PlayerLocationWarp, Site} from '../game/typings.js';
+import {isPlayerLocationSite, isPlayerLocationStation, PlayerLocationSite, PlayerLocationWarp, Site} from '../game/typings.js';
 import {SOLARSYSTEMS} from '../game/statics.js';
 
 import {EMOJIS, getRomanNumber} from './emojis.js';
@@ -16,9 +15,9 @@ export async function locationPart(ctx: I18nContextFlavour, location: PlayerLoca
 	text += infoline(EMOJIS.solarsystem + 'Solarsystem', format.underline(location.solarsystem));
 	text += infoline(EMOJIS.security + 'Security', `${solarsystemInfo.security}%`);
 
-	if (isLocationStation(location)) {
+	if (isPlayerLocationStation(location)) {
 		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${getRomanNumber(location.station + 1)}`);
-	} else if (isLocationSite(location)) {
+	} else if (isPlayerLocationSite(location)) {
 		const allSites = await getSites(location.solarsystem);
 		const site = Object.values(allSites).flat()
 			.filter((o): o is Site => Boolean(o))

@@ -3,7 +3,7 @@ import {html as format} from 'telegram-format';
 import {EMOJIS, getRomanNumber} from '../../../html-formatted/emojis.js';
 import {getPlayerGenerals} from '../../../game/backend.js';
 import {infoline} from '../../../html-formatted/general.js';
-import {isLocationStation} from '../../../game/typing-checks.js';
+import {isPlayerLocationStation} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
 
 export interface Options {
@@ -13,7 +13,7 @@ export interface Options {
 
 export async function stationBody(ctx: MyContext, options: Options = {}) {
 	const {location, ownPlayerId} = ctx.game;
-	if (!isLocationStation(location)) {
+	if (!isPlayerLocationStation(location)) {
 		throw new TypeError('not in station');
 	}
 

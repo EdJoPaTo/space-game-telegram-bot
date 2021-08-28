@@ -21,11 +21,10 @@ export function getShipQuickstats(fitting: ShipFitting) {
 	};
 }
 
-export function getCargoSlotsUsed(storage: Storage) {
+export function getCargoSlotsUsed(storage: Storage | undefined) {
 	let used = 0;
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	for (const [_item, amount] of storage) {
-		used += amount;
+	for (const amount of Object.values(storage ?? {})) {
+		used += amount ?? 0;
 	}
 
 	return used;

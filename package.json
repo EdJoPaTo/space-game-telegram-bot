@@ -42,19 +42,8 @@
 				"ignorePackages"
 			]
 		},
-		"overrides": [
-			{
-				"files": [
-					"**/typings.ts"
-				],
-				"rules": {
-					"@typescript-eslint/array-type": "off",
-					"@typescript-eslint/consistent-indexed-object-style": "off",
-					"@typescript-eslint/indent": "off",
-					"@typescript-eslint/object-curly-spacing": "off",
-					"@typescript-eslint/quotes": "off"
-				}
-			}
+		"ignores": [
+			"**/typings.ts"
 		]
 	}
 }

@@ -16,12 +16,10 @@ settings:
   language: Select your language
 
 static:
+  asteroid.title: Asteroid
   asteroidField.title: Asteroid Field
   stargate.title: Stargate
   station.title: Station
-
-  asteroid.title: Asteroid
-  smallWreck.title: Small Wreck
 
   cruiser.title: Cruiser
   frigate.title: Frigate

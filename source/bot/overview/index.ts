@@ -2,7 +2,7 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {addOpenOverviews} from '../../persist-data/overviews.js';
 import {EMOJIS} from '../../html-formatted/emojis.js';
-import {isLocationSite, isLocationStation} from '../../game/typing-checks.js';
+import {isPlayerLocationSite, isPlayerLocationStation} from '../../game/typings.js';
 import {MyContext} from '../my-context.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
@@ -19,13 +19,13 @@ export const menu = new MenuTemplate<MyContext>(async ctx => {
 		await addOpenOverviews(ctx.from.id, message_id);
 	}
 
-	if (isLocationSite(ctx.game.location)) {
+	if (isPlayerLocationSite(ctx.game.location)) {
 		return siteBody(ctx, {
 			planned: true,
 		});
 	}
 
-	if (isLocationStation(ctx.game.location)) {
+	if (isPlayerLocationStation(ctx.game.location)) {
 		return stationBody(ctx);
 	}
 
@@ -83,9 +83,9 @@ menu.interact(EMOJIS.undock + 'Undock', 'undock', {
 });
 
 function hideSite(ctx: MyContext) {
-	return !isLocationSite(ctx.game.location);
+	return !isPlayerLocationSite(ctx.game.location);
 }
 
 function hideStation(ctx: MyContext) {
-	return !isLocationStation(ctx.game.location);
+	return !isPlayerLocationStation(ctx.game.location);
 }

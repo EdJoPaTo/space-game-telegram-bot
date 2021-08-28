@@ -85,44 +85,37 @@ export const FAKE_SHIP: Ship = {
 		armor: 20,
 		structure: 10,
 	},
-	cargo: [
-		[{kind: 'ore', item: null}, 2],
-	],
+	cargo: {
+		Aromit: 2,
+	},
 };
 
 export const FAKE_SITE_INNERS: readonly SiteEntity[] = [
 	{
-		type: 'facility',
-		id: 'station',
+		facility: 'station',
 	}, {
-		type: 'lifeless',
-		id: 'asteroid',
+		ore: 'Aromit',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
-		type: 'lifeless',
-		id: 'asteroid',
+		ore: 'Solmit',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
-		type: 'npc',
 		faction: 'pirates',
 		shiplayout: 'Abis',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
-		type: 'lifeless',
-		id: 'asteroid',
+		ore: 'Tormit',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
-		type: 'player',
-		id: {platform: 'telegram', id: 666},
+		player: {platform: 'telegram', id: 666},
 		shiplayout: 'Abis',
 		armor: 0.2,
 		structure: 0.6,
 	}, {
-		type: 'npc',
 		faction: 'guards',
 		shiplayout: 'Hecate',
 		armor: 0.2,

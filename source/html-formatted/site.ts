@@ -2,8 +2,9 @@ import {html as format} from 'telegram-format';
 
 import {getPlayerPretty} from '../game/backend.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
+import {isSiteEntityAsteroid, isSiteEntityFacility, isSiteEntityNpc, isSiteEntityPlayer, Site, SiteEntity, Solarsystem} from '../game/typings.js';
 import {SHIP_LAYOUTS} from '../game/statics.js';
-import {Site, SiteEntity, Solarsystem} from '../game/typings.js';
+import {unreachable} from '../javascript-helper.js';
 
 import {EMOJIS, getRomanNumber, percentageFraction} from './emojis.js';
 
@@ -113,15 +114,19 @@ async function entityDetails(ctx: I18nContextFlavour, entity: SiteEntity) {
 		const shipclass = SHIP_LAYOUTS[entity.shiplayout]!.class;
 		shipclassLabel = ctx.i18n.t(`static.${shipclass}.title`);
 		type = entity.shiplayout;
+	} else if (isSiteEntityFacility(entity)) {
+		type = ctx.i18n.t(`static.${entity.facility}.title`);
+	} else if (isSiteEntityAsteroid(entity)) {
+		type = entity.ore + ' ' + ctx.i18n.t('static.asteroid.title');
 	} else {
-		type = ctx.i18n.t(`static.${entity.id}.title`);
+		unreachable(entity);
 	}
 
 	let owner: string | undefined;
-	if (entity.type === 'npc') {
+	if (isSiteEntityNpc(entity)) {
 		owner = EMOJIS[entity.faction] + ctx.i18n.t(`npcFaction.${entity.faction}.title`);
-	} else if (entity.type === 'player') {
-		owner = await getPlayerPretty(entity.id);
+	} else if (isSiteEntityPlayer(entity)) {
+		owner = await getPlayerPretty(entity.player);
 	}
 
 	return {type, shipclassLabel, owner};

@@ -3,7 +3,6 @@ import {I18n} from '@grammyjs/i18n';
 
 import {
 	FACILITIES,
-	LIFELESS_THINGIES,
 	MODULE_PASSIVE,
 	MODULE_TARGETED,
 	MODULE_UNTARGETED,
@@ -34,10 +33,6 @@ test('facilities', t => {
 
 test('facilities services', t => {
 	checkKeysExisting(t, 'en', Object.values(FACILITIES).flatMap(o => o.services).map(o => `service.${o}`));
-});
-
-test('lifeless', t => {
-	checkKeysExisting(t, 'en', typedKeys(LIFELESS_THINGIES).map(o => `static.${o}.title`));
 });
 
 test('passive modules', t => {

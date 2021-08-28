@@ -1,9 +1,0 @@
-{
-  "asteroid": {
-    "structure": 42,
-    "ore": 40
-  },
-  "smallWreck": {
-    "structure": 5
-  }
-}

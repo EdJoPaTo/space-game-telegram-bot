@@ -1,14 +1,12 @@
 import {EMOJIS} from '../../../html-formatted/emojis.js';
 import {FACILITIES} from '../../../game/statics.js';
 import {getSiteEntities} from '../../../game/backend.js';
+import {isPlayerLocationSite, isSiteEntityFacility, Service} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
-import {Service} from '../../../game/typings.js';
-
-import {isLocationSite} from '../../../game/typing-checks.js';
 
 async function getFacilities(ctx: MyContext) {
 	const {location} = ctx.game;
-	if (!isLocationSite(location)) {
+	if (!isPlayerLocationSite(location)) {
 		throw new Error('not in a site');
 	}
 
@@ -16,9 +14,9 @@ async function getFacilities(ctx: MyContext) {
 	const list = entities
 		.map((o, i) => ({entity: o, index: i}))
 		.flatMap(({entity, index}) => {
-			if (entity.type === 'facility') {
-				const f = FACILITIES[entity.id]!;
-				return f.services.map(s => ({entityIndex: index, facilityId: entity.id, service: s}));
+			if (isSiteEntityFacility(entity)) {
+				const f = FACILITIES[entity.facility]!;
+				return f.services.map(s => ({entityIndex: index, facilityId: entity.facility, service: s}));
 			}
 
 			return [];

@@ -12,8 +12,7 @@ import {shipStatsPart} from '../html-formatted/ship.js';
 import {sleep} from '../javascript-helper.js';
 
 import {getPlayersWithSiteLog, getSiteEntities, getSiteLog} from './backend.js';
-import {isLocationSite, isLocationWarp} from './typing-checks.js';
-import {Player} from './typings.js';
+import {isPlayerLocationSite, isPlayerLocationWarp, Player} from './typings.js';
 
 export async function startSiteLogLoop(telegram: Telegram) {
 	await once(telegram);
@@ -29,7 +28,7 @@ async function theLoop(telegram: Telegram) {
 		// eslint-disable-next-line no-await-in-loop
 			await once(telegram);
 		} catch (error: unknown) {
-			console.error('site-log-loop ERROR', error instanceof Error ? error.message : error);
+			console.error('site-log-loop ERROR', error);
 		}
 	}
 }
@@ -63,14 +62,14 @@ async function handlePlayer(telegram: Telegram, player: Player) {
 			await generateHtmlLog(ctx, log),
 		];
 
-		if (isLocationSite(location) || isLocationWarp(location)) {
+		if (isPlayerLocationSite(location) || isPlayerLocationWarp(location)) {
 			textParts.push(await locationPart(ctx, location));
 
 			const ship = await game.getShip();
 			textParts.push(shipStatsPart(ctx, ship));
 		}
 
-		if (isLocationSite(location)) {
+		if (isPlayerLocationSite(location)) {
 			const entities = await getSiteEntities(location.solarsystem, location.site);
 			textParts.push((await entityPart(ctx, entities)));
 		}

@@ -3,9 +3,8 @@ import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons} from '../../general.js';
 import {getSites} from '../../../game/backend.js';
-import {isLocationSite} from '../../../game/typing-checks.js';
+import {isPlayerLocationSite, Site, Solarsystem} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
-import {Site, Solarsystem} from '../../../game/typings.js';
 import {siteLabel} from '../../../html-formatted/site.js';
 import {SOLARSYSTEMS} from '../../../game/statics.js';
 
@@ -40,7 +39,7 @@ async function getSiteChoices(ctx: MyContext) {
 	}
 
 	const {location: currentLocation} = ctx.game;
-	if (!isLocationSite(currentLocation)) {
+	if (!isPlayerLocationSite(currentLocation)) {
 		// Not in a site → cant warp anyway
 		return [];
 	}

@@ -1,7 +1,7 @@
 import {html as format} from 'telegram-format';
 
 import {getSiteInstructions} from '../../../game/backend.js';
-import {isLocationSite} from '../../../game/typing-checks.js';
+import {isPlayerLocationSite} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
 
 export interface Options {
@@ -13,7 +13,7 @@ export interface Options {
 
 export async function siteBody(ctx: MyContext, options: Options = {}) {
 	const {location, ownPlayerId} = ctx.game;
-	if (!isLocationSite(location)) {
+	if (!isPlayerLocationSite(location)) {
 		throw new Error('siteBody called out of site');
 	}
 

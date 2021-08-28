@@ -1,9 +1,9 @@
 import {html as format} from 'telegram-format';
 
 import {getPlayerPretty} from '../game/backend.js';
-import {isPlayer} from '../game/typing-checks.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
-import {NpcFaction, Player, ShipLayout, SiteLog, SiteLogActor} from '../game/typings.js';
+import {isFacility, isPlayer} from '../game/typing-checks.js';
+import {NpcFaction, Ore, Player, ShipLayout, SiteLog, SiteLogActor} from '../game/typings.js';
 import {SHIP_LAYOUTS} from '../game/statics.js';
 import {unreachable} from '../javascript-helper.js';
 
@@ -37,6 +37,12 @@ function getHtmlNpc(ctx: I18nContextFlavour, faction: NpcFaction) {
 	return `${EMOJIS[faction]}${factionLabel}`;
 }
 
+function asteroidLabel(ctx: I18nContextFlavour, ore: Ore) {
+	return format.italic(format.escape(
+		ore + ' ' + ctx.i18n.t('static.asteroid.title'),
+	));
+}
+
 function getHtmlLayoutClass(ctx: I18nContextFlavour, layout: ShipLayout) {
 	const details = SHIP_LAYOUTS[layout];
 	const classLabel = ctx.i18n.t(`static.${details.class}.title`);
@@ -52,9 +58,13 @@ async function actorPart(ctx: I18nContextFlavour, actor: SiteLogActor) {
 		return `${layoutLabel} (${name}, ${classLabel})`;
 	}
 
-	return format.italic(format.escape(
-		ctx.i18n.t(`static.${actor}.title`),
-	));
+	if (isFacility(actor)) {
+		return format.italic(format.escape(
+			ctx.i18n.t(`static.${actor}.title`),
+		));
+	}
+
+	return asteroidLabel(ctx, actor);
 }
 
 export async function generateHtmlLog(ctx: I18nContextFlavour, log: readonly SiteLog[]): Promise<string> {

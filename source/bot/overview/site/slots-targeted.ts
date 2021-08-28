@@ -4,10 +4,9 @@ import {backButtons, choicesByArrayIndex} from '../../general.js';
 import {EMOJIS} from '../../../html-formatted/emojis.js';
 import {entityButtonLabel} from '../../../html-formatted/site.js';
 import {getSiteEntities} from '../../../game/backend.js';
-import {isLocationSite} from '../../../game/typing-checks.js';
+import {isPlayerLocationSite, isSiteEntityPlayer, RoundEffect} from '../../../game/typings.js';
 import {MODULE_TARGETED} from '../../../game/statics.js';
 import {MyContext} from '../../my-context.js';
-import {RoundEffect} from '../../../game/typings.js';
 
 import {siteBody} from './body.js';
 
@@ -48,14 +47,14 @@ function roundEffect(_ctx: MyContext, effect: RoundEffect): string {
 
 async function getTargets(ctx: MyContext) {
 	const {location, ownPlayerId} = ctx.game;
-	if (!isLocationSite(location)) {
+	if (!isPlayerLocationSite(location)) {
 		throw new Error('not in a site');
 	}
 
 	const entities = await getSiteEntities(location.solarsystem, location.site);
 	const list = entities
 		.map((o, i) => ({entity: o, index: i}))
-		.filter(o => o.entity.type !== 'player' || o.entity.id.platform !== ownPlayerId.platform || o.entity.id.id !== ownPlayerId.id);
+		.filter(o => !isSiteEntityPlayer(o.entity) || o.entity.player.platform !== ownPlayerId.platform || o.entity.player.id !== ownPlayerId.id);
 
 	const result: Record<number, string> = {};
 	for (const {index, entity} of list) {
