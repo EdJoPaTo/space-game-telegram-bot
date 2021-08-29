@@ -6,7 +6,8 @@ import {isSiteEntityAsteroid, isSiteEntityFacility, isSiteEntityNpc, isSiteEntit
 import {SHIP_LAYOUTS} from '../game/statics.js';
 import {unreachable} from '../javascript-helper.js';
 
-import {EMOJIS, getRomanNumber, percentageFraction} from './emojis.js';
+import {EMOJIS, percentageFraction} from './emojis.js';
+import {formatStation} from './location.js';
 
 export function siteLabel(ctx: I18nContextFlavour, solarsystem: Solarsystem, site: Site, includeFormat: boolean) {
 	let label = '';
@@ -16,8 +17,7 @@ export function siteLabel(ctx: I18nContextFlavour, solarsystem: Solarsystem, sit
 	label += ' ';
 
 	if (site.kind === 'station') {
-		const value = `${solarsystem} ${getRomanNumber(site.unique + 1)}`;
-		label += includeFormat ? format.underline(value) : value;
+		label += formatStation(solarsystem, site.unique, includeFormat);
 	} else if (site.kind === 'stargate') {
 		label += includeFormat ? format.underline(site.unique) : site.unique;
 	} else {

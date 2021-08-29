@@ -4,6 +4,7 @@ import {I18nContext} from '@grammyjs/i18n';
 import {ContextGameProperty} from './overview/context-game-property.js';
 
 export interface Session {
+	marketFilterSameStation?: boolean;
 	page?: number;
 }
 

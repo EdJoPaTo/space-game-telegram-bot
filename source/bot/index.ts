@@ -5,6 +5,7 @@ import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
 import TelegrafSessionLocal from 'telegraf-session-local';
 
+import {bot as marketBot} from './market/index.js';
 import {ContextGameProperty} from './overview/context-game-property.js';
 import {i18n} from './i18n.js';
 import {menu as overviewMenu} from './overview/index.js';
@@ -59,6 +60,8 @@ bot.use(async (ctx, next) => {
 	return next();
 });
 
+bot.use(marketBot);
+
 const stationMiddleware = new MenuMiddleware('overview/', overviewMenu);
 bot.command('start', async context => stationMiddleware.replyToContext(context));
 bot.use(stationMiddleware);
@@ -69,7 +72,8 @@ bot.catch(error => {
 
 export async function initBot() {
 	await bot.telegram.setMyCommands([
-		{command: 'start', description: 'open the menu'},
+		{command: 'start', description: 'open the overview'},
+		{command: 'market', description: '{item} - open the market for a given item'},
 		{command: 'help', description: 'show the help'},
 		{command: 'settings', description: 'open the settings'},
 	]);

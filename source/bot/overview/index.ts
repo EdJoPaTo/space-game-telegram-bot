@@ -57,18 +57,12 @@ menu.submenu(EMOJIS.damage + 'Self Destruct', 'selfDestruct', selfDestructMenu, 
 	hide: hideSite,
 });
 
-menu.interact(EMOJIS.asteroidField + 'Sell Ore', 'ore', {
-	hide: hideStation,
-	do: async ctx => {
-		await ctx.game.setStationInstructions(['sellOre']);
-		return true;
-	},
-});
-
 menu.interact(EMOJIS.repair + 'Repair', 'repair', {
 	hide: hideStation,
 	do: async ctx => {
-		await ctx.game.setStationInstructions(['repair']);
+		await ctx.game.setStationInstructions([{
+			type: 'repair',
+		}]);
 		return true;
 	},
 });
@@ -77,7 +71,9 @@ menu.interact(EMOJIS.undock + 'Undock', 'undock', {
 	joinLastRow: true,
 	hide: hideStation,
 	do: async ctx => {
-		await ctx.game.setStationInstructions(['undock']);
+		await ctx.game.setStationInstructions([{
+			type: 'undock',
+		}]);
 		return true;
 	},
 });

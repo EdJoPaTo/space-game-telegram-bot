@@ -2,7 +2,7 @@ import {html as format} from 'telegram-format';
 
 import {getSites} from '../game/backend.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
-import {isPlayerLocationSite, isPlayerLocationStation, PlayerLocationSite, PlayerLocationWarp, Site} from '../game/typings.js';
+import {isPlayerLocationSite, isPlayerLocationStation, PlayerLocationSite, PlayerLocationWarp, Site, Solarsystem} from '../game/typings.js';
 import {SOLARSYSTEMS} from '../game/statics.js';
 
 import {EMOJIS, getRomanNumber} from './emojis.js';
@@ -16,7 +16,7 @@ export async function locationPart(ctx: I18nContextFlavour, location: PlayerLoca
 	text += infoline(EMOJIS.security + 'Security', `${solarsystemInfo.security}%`);
 
 	if (isPlayerLocationStation(location)) {
-		text += infoline(EMOJIS.station + 'Station', `${location.solarsystem} ${getRomanNumber(location.station + 1)}`);
+		text += infoline(EMOJIS.station + 'Station', formatStation(location.solarsystem, location.station, true));
 	} else if (isPlayerLocationSite(location)) {
 		const allSites = await getSites(location.solarsystem);
 		const site = Object.values(allSites).flat()
@@ -33,4 +33,9 @@ export async function locationPart(ctx: I18nContextFlavour, location: PlayerLoca
 
 function infoline(title: string, value: string): string {
 	return format.italic(title) + ': ' + value + '\n';
+}
+
+export function formatStation(solarsystem: Solarsystem, station: number, html: boolean) {
+	const text = `${solarsystem} ${getRomanNumber(station + 1)}`;
+	return html ? format.underline(text) : text;
 }

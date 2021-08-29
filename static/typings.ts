@@ -58,6 +58,27 @@ export interface FacilityDetails {
 export type Facility = "station" | "stargate";
 export type Ore = "Aromit" | "Solmit" | "Tormit" | "Vesmit";
 export type Item = ModulePassive | ModuleTargeted | ModuleUntargeted | Ore;
+export interface Order {
+  readonly date: `${number}-${number}-${number}T${number}:${number}:${number}${string}Z`;
+  readonly solarsystem: Solarsystem;
+  readonly station: number;
+  readonly trader: Trader;
+  readonly amount: number;
+  readonly paperclips: number;
+}
+export interface Trade {
+  readonly solarsystem: Solarsystem;
+  readonly station: number;
+  readonly buyer: Trader;
+  readonly seller: Trader;
+  readonly amount: number;
+  readonly paperclips: number;
+}
+export type Trader = NpcFaction | Player;
+export interface ItemMarket {
+  readonly buy: readonly Order[];
+  readonly sell: readonly Order[];
+}
 export interface ModulePassiveDetails {
   readonly requiredCpu: number;
   readonly requiredPowergrid: number;
@@ -111,7 +132,7 @@ export type RoundEffect =
   | { type: "structureRepair"; amount: number }
   | { type: "damage"; amount: number }
   | { type: "mine"; amount: number }
-  | { type: "warpDisruption"; amount: null };
+  | { type: "warpDisruption"; amount?: null };
 export type ShipClass = "rookieShip" | "frigate" | "cruiser" | "battleship";
 export interface ShipLayoutDetails {
   readonly class: ShipClass;
@@ -180,7 +201,7 @@ export interface SiteInstructionWarp {
 export type SiteInstruction =
   | { type: "moduleUntargeted"; args: SiteInstructionModuleUntargeted }
   | { type: "moduleTargeted"; args: SiteInstructionModuleTargeted }
-  | { type: "selfDestruct"; args: null }
+  | { type: "selfDestruct"; args?: null }
   | { type: "facility"; args: SiteInstructionFacility }
   | { type: "warp"; args: SiteInstructionWarp };
 export type SiteLogActor = Ore | Facility | [NpcFaction, ShipLayout] | [
@@ -217,5 +238,14 @@ export type Solarsystem =
   | "Liagi"
   | "Plagar"
   | "Vosu";
-export type StationInstruction = "repair" | "undock" | "sellOre";
+export interface PlaceOrder {
+  readonly item: Item;
+  readonly amount: number;
+  readonly paperclips: number;
+}
+export type StationInstruction =
+  | { type: "repair"; args?: null }
+  | { type: "undock"; args?: null }
+  | { type: "buy"; args: PlaceOrder }
+  | { type: "sell"; args: PlaceOrder };
 export type Storage = Readonly<Partial<Record<Item, number>>>;

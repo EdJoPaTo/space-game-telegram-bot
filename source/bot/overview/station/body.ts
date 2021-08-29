@@ -1,6 +1,7 @@
 import {html as format} from 'telegram-format';
 
-import {EMOJIS, getRomanNumber} from '../../../html-formatted/emojis.js';
+import {EMOJIS} from '../../../html-formatted/emojis.js';
+import {formatStation} from '../../../html-formatted/location.js';
 import {getPlayerGenerals} from '../../../game/backend.js';
 import {infoline} from '../../../html-formatted/general.js';
 import {isPlayerLocationStation} from '../../../game/typings.js';
@@ -20,7 +21,7 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 	const generals = await getPlayerGenerals(ownPlayerId);
 	let text = '';
 
-	text += infoline(EMOJIS.station + 'Station', format.underline(`${location.solarsystem} ${getRomanNumber(location.station + 1)}`));
+	text += infoline(EMOJIS.station + 'Station', formatStation(location.solarsystem, location.station, true));
 	text += '\n';
 
 	text += infoline(EMOJIS.paperclip + 'Paperclips', generals.paperclips.toFixed(0));

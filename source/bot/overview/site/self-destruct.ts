@@ -24,7 +24,6 @@ menu.interact(EMOJIS.damage, 'boom', {
 	do: async ctx => {
 		await ctx.game.addSiteInstructions([{
 			type: 'selfDestruct',
-			args: null,
 		}]);
 		return '..';
 	},

@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral} from './typings.js';
+import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral, ItemMarket, Item} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -66,6 +66,11 @@ export async function setStationInstructions(player: Player, instructions: reado
 		headers: {'Content-Type': 'application/json'},
 		body,
 	});
+}
+
+export async function getItemMarket(item: Item): Promise<ItemMarket> {
+	const url = `${BACKEND}/market/${item}`;
+	return got(url).json<ItemMarket>();
 }
 
 export const FAKE_PLAYER_LOCATION_IN_SITE: PlayerLocation = {
@@ -186,3 +191,57 @@ export const FAKE_SITE_LOG: SiteLog[] = [
 		],
 	},
 ];
+
+export const FAKE_ITEM_MARKET: ItemMarket = {
+	buy: [{
+		date: '1997-12-19T08:14:32Z',
+		solarsystem: 'Wabinihwa',
+		station: 0,
+		trader: 'guards',
+		amount: 42,
+		paperclips: 42,
+	}],
+	sell: [{
+		date: '1998-12-19T15:00:00Z',
+		solarsystem: 'Wabinihwa',
+		station: 1,
+		trader: 'guards',
+		amount: 666,
+		paperclips: 42,
+	}, {
+		date: '1998-12-19T15:00:00Z',
+		solarsystem: 'Wabinihwa',
+		station: 0,
+		trader: 'pirates',
+		amount: 42,
+		paperclips: 666,
+	}, {
+		date: '2012-12-19T15:00:00Z',
+		solarsystem: 'Arama',
+		station: 0,
+		trader: 'pirates',
+		amount: 1337,
+		paperclips: 666,
+	}, {
+		date: '1998-12-19T15:00:00Z',
+		solarsystem: 'Wabinihwa',
+		station: 0,
+		trader: 'guards',
+		amount: 42,
+		paperclips: 1337,
+	}, {
+		date: '1998-12-19T15:00:00Z',
+		solarsystem: 'Wabinihwa',
+		station: 2,
+		trader: 'guards',
+		amount: 13,
+		paperclips: 421_337,
+	}, {
+		date: '1998-12-19T15:00:00Z',
+		solarsystem: 'Wabinihwa',
+		station: 0,
+		trader: 'guards',
+		amount: 1,
+		paperclips: 10_000_000,
+	}],
+};
