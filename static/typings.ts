@@ -245,6 +245,7 @@ export interface PlaceOrder {
 }
 export type StationInstruction =
   | { type: "repair"; args?: null }
+  | { type: "shipCargosToStation"; args?: null }
   | { type: "undock"; args?: null }
   | { type: "buy"; args: PlaceOrder }
   | { type: "sell"; args: PlaceOrder };

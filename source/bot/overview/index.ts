@@ -67,8 +67,17 @@ menu.interact(EMOJIS.repair + 'Repair', 'repair', {
 	},
 });
 
+menu.interact(EMOJIS.storage + 'Transfer Ship Cargo to Station Hangar', 'cargotohangar', {
+	hide: hideStation,
+	do: async ctx => {
+		await ctx.game.setStationInstructions([{
+			type: 'shipCargosToStation',
+		}]);
+		return true;
+	},
+});
+
 menu.interact(EMOJIS.undock + 'Undock', 'undock', {
-	joinLastRow: true,
 	hide: hideStation,
 	do: async ctx => {
 		await ctx.game.setStationInstructions([{

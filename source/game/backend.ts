@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral, ItemMarket, Item} from './typings.js';
+import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral, ItemMarket, Item, PlayerStationAssets} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -12,6 +12,11 @@ export async function getPlayerPretty(player: Player): Promise<string> {
 export async function getPlayerGenerals(player: Player): Promise<PlayerGeneral> {
 	const url = `${BACKEND}/player/${player.platform}-${player.id}/generals`;
 	return got(url).json<PlayerGeneral>();
+}
+
+export async function getPlayerStationAssets(player: Player, solarsystem: Solarsystem, station: number): Promise<PlayerStationAssets> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/station-assets/${solarsystem}/${station}`;
+	return got(url).json<PlayerStationAssets>();
 }
 
 export async function getPlayerLocation(player: Player): Promise<PlayerLocation> {

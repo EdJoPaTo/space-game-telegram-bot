@@ -66,14 +66,15 @@ bot.hears(/^\/wtb.(\w+).(\d+).(\d+)$/, async (ctx, next) => {
 		const paperclips = Number(ctx.match[3]);
 
 		if (paperclips <= 1) {
-			return ctx.reply(ctx.i18n.t('help.wtbPrice1'));
+			await ctx.reply(ctx.i18n.t('help.wtbPrice1'));
+			return;
 		}
 
 		await ctx.game.setStationInstructions([{
 			type: 'buy',
 			args: {item, amount, paperclips},
 		}]);
-		return ctx.reply(ctx.i18n.t('help.wtbSuccessful'));
+		await ctx.reply(ctx.i18n.t('help.wtbSuccessful'));
 	} catch (error: unknown) {
 		console.log('Market command error. Command:', ctx.message.text, 'Error:', error instanceof Error ? error.message : error);
 		return next();
@@ -94,7 +95,7 @@ bot.hears(/^\/wts.(\w+).(\d+).(\d+)$/, async (ctx, next) => {
 			type: 'sell',
 			args: {item, amount, paperclips},
 		}]);
-		return ctx.reply(ctx.i18n.t('help.wtbSuccessful'));
+		await ctx.reply(ctx.i18n.t('help.wtbSuccessful'));
 	} catch (error: unknown) {
 		console.log('Market command error. Command:', ctx.message.text, 'Error:', error instanceof Error ? error.message : error);
 		return next();
