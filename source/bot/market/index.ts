@@ -65,6 +65,10 @@ bot.hears(/^\/wtb.(\w+).(\d+).(\d+)$/, async (ctx, next) => {
 		const amount = Number(ctx.match[2]);
 		const paperclips = Number(ctx.match[3]);
 
+		if (paperclips <= 1) {
+			return ctx.reply(ctx.i18n.t('help.wtbPrice1'));
+		}
+
 		await ctx.game.setStationInstructions([{
 			type: 'buy',
 			args: {item, amount, paperclips},

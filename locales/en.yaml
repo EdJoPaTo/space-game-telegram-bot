@@ -12,7 +12,8 @@ help:
 
     /market_Aromit
 
-    When you want to create buy or sell orders use /wts or /wtb.
+
+    When you want to create buy or sell orders, use /wts or /wtb.
   marketDocked: You have to be docked to buy or sell something.
   wtbCommand: >
     With this command you 'want to buy/sell' something on the /market.
@@ -23,8 +24,7 @@ help:
     It should look like one of the following examples:
 
     <code>/wtb Aromit 1 1</code>
-
-    /wtb_Aromit_1_1
+  wtbPrice1: Trying to buy something for 1 paperclip is kinda lame… I'll just assume you don't want to be lame.
   wtbSuccessful: The beaurocrats are going to handle your order soon.
 
 menu:
