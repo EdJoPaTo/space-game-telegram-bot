@@ -7,8 +7,13 @@ import {isPlayerLocationStation, Item} from '../../game/typings.js';
 import {itemMarketPart} from '../../html-formatted/market.js';
 import {MyContext} from '../my-context.js';
 
+export const MARKET_MENU_TRIGGER = /^market([^/]+)\//;
+export function getItemFromPath(path: string) {
+	return MARKET_MENU_TRIGGER.exec(path)![1]!.replace(/_/g, '').trim() as Item;
+}
+
 async function menuBody(ctx: MyContext, path: string): Promise<Body> {
-	const item = menuTrigger.exec(path)![1]!.replace(/_/g, '').trim() as Item;
+	const item = getItemFromPath(path);
 	const {location} = ctx.game;
 	const headline = format.bold('Market') + ' ' + item;
 
@@ -35,8 +40,7 @@ menu.toggle('Same Station', 'same', {
 });
 
 export const bot = new Composer<MyContext>();
-const menuTrigger = /^market([^/]+)\//;
-const menuMiddleware = new MenuMiddleware(menuTrigger, menu);
+const menuMiddleware = new MenuMiddleware(MARKET_MENU_TRIGGER, menu);
 bot.use(menuMiddleware);
 
 bot.hears(/^\/market(.+)/, async ctx => {
