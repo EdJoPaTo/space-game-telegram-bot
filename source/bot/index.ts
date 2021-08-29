@@ -3,6 +3,7 @@ import {readFileSync} from 'fs';
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
 import {MenuMiddleware} from 'telegraf-inline-menu';
 import {Telegraf} from 'telegraf';
+import {RequestError} from 'got';
 import TelegrafSessionLocal from 'telegraf-session-local';
 
 import {bot as marketBot} from './market/index.js';
@@ -66,8 +67,16 @@ const stationMiddleware = new MenuMiddleware('overview/', overviewMenu);
 bot.command('start', async context => stationMiddleware.replyToContext(context));
 bot.use(stationMiddleware);
 
-bot.catch(error => {
-	console.error('telegraf error occured', error);
+bot.catch(async (error, ctx) => {
+	if (error instanceof RequestError) {
+		console.log('backend error occured', error.message);
+	} else {
+		console.error('telegraf error occured', error);
+	}
+
+	try {
+		await ctx.reply('Ouh… some Error happened. Everyone still alive?');
+	} catch {}
 });
 
 export async function initBot() {

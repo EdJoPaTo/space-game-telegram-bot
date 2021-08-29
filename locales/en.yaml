@@ -18,11 +18,13 @@ help:
     With this command you 'want to buy/sell' something on the /market.
     You have to be docked and you need the parts of the order.
 
+
+    This command has 3 arguments: The Item you want to trade, the amount of items you want to trade and the paperclips per item.
+    It should look like one of the following examples:
+
     <code>/wtb Aromit 1 1</code>
 
     /wtb_Aromit_1_1
-
-    Spacers dont matter. The 3 Arguments are Item, Amount and Paperclips per Item.
   wtbSuccessful: The beaurocrats are going to handle your order soon.
 
 menu:
