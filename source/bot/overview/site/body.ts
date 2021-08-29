@@ -2,6 +2,7 @@ import {html as format} from 'telegram-format';
 
 import {getSiteInstructions} from '../../../game/backend.js';
 import {isPlayerLocationSite} from '../../../game/typings.js';
+import {menuPositionPart} from '../../../html-formatted/general.js';
 import {MyContext} from '../../my-context.js';
 
 export interface Options {
@@ -28,8 +29,7 @@ export async function siteBody(ctx: MyContext, options: Options = {}) {
 	}
 
 	if (options.menuPosition?.length) {
-		const lines = options.menuPosition.map((o, i) => '  '.repeat(i) + format.bold(o));
-		parts.push(lines.join('\n'));
+		parts.push(menuPositionPart(options.menuPosition));
 	}
 
 	if (options.text) {

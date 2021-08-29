@@ -3,7 +3,7 @@ import {html as format} from 'telegram-format';
 import {EMOJIS} from '../../../html-formatted/emojis.js';
 import {formatStation} from '../../../html-formatted/location.js';
 import {getPlayerGenerals} from '../../../game/backend.js';
-import {infoline} from '../../../html-formatted/general.js';
+import {infoline, menuPositionPart} from '../../../html-formatted/general.js';
 import {isPlayerLocationStation} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
 
@@ -27,8 +27,7 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 	text += infoline(EMOJIS.paperclip + 'Paperclips', generals.paperclips.toFixed(0));
 
 	if (options.menuPosition?.length) {
-		const lines = options.menuPosition.map((o, i) => '  '.repeat(i) + format.bold(o));
-		text += lines.join('\n');
+		text += menuPositionPart(options.menuPosition);
 		text += '\n\n';
 	}
 

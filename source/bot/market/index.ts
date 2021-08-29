@@ -12,7 +12,7 @@ async function menuBody(ctx: MyContext, path: string): Promise<Body> {
 	const {location} = ctx.game;
 	const headline = format.bold('Market') + ' ' + item;
 
-	const market = await getItemMarket(item)
+	const market = await getItemMarket(item);
 
 	const parts: string[] = [
 		headline,
