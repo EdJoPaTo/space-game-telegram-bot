@@ -44,7 +44,7 @@ if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware());
 }
 
-bot.command('help', async context => context.reply(context.i18n.t('help')));
+bot.command('help', async context => context.reply(context.i18n.t('help.main')));
 
 const settingsMenuMiddleware = new MenuMiddleware('settings/', settingsMenu);
 bot.command('settings', async context => settingsMenuMiddleware.replyToContext(context));
@@ -73,9 +73,12 @@ bot.catch(error => {
 export async function initBot() {
 	await bot.telegram.setMyCommands([
 		{command: 'start', description: 'open the overview'},
-		{command: 'market', description: '{item} - open the market for a given item'},
 		{command: 'help', description: 'show the help'},
 		{command: 'settings', description: 'open the settings'},
+		// TODO: privacy
+		{command: 'market', description: '{item} - open the market for a given item'},
+		{command: 'wtb', description: '{item} {amount} {price} - place a buy order at your current station'},
+		{command: 'wts', description: '{item} {amount} {price} - place a sell order at your current station'},
 	]);
 
 	return bot.telegram;

@@ -43,19 +43,50 @@ export const bot = new Composer<MyContext>();
 const menuMiddleware = new MenuMiddleware(MARKET_MENU_TRIGGER, menu);
 bot.use(menuMiddleware);
 
-bot.hears(/^\/market(.+)/, async ctx => {
-	const item = ctx.match[1]!.replace(/_/g, '').trim() as Item;
-	return menuMiddleware.replyToContext(ctx, `market${item}/`);
+bot.hears(/^\/market.(\w+)$/, async (ctx, next) => {
+	try {
+		const item = ctx.match[1]!.trim() as Item;
+		await menuMiddleware.replyToContext(ctx, `market${item}/`);
+	} catch (error: unknown) {
+		console.log('Market command error. Command:', ctx.message.text, 'Error:', error instanceof Error ? error.message : error);
+		return next();
+	}
 });
 
-bot.command('market', async ctx => {
-	let text = '';
-	text += 'You can inspect the market of a specific item with this command.';
-	text += '\n';
-	text += 'Here you can buy items. If you wish to sell items go to your hangar in your station';
-	text += '\n\n';
-	text += 'Supply one argument with the item name you want to inspect. This will look somewhat like this:';
-	text += '\n';
-	text += '/market_Aromit';
-	return ctx.reply(text);
+bot.command('market', async ctx => ctx.reply(ctx.i18n.t('help.marketCommand')));
+
+bot.hears(/^\/wtb.(\w+).(\d+).(\d+)$/, async ctx => {
+	if (!isPlayerLocationStation(ctx.game.location)) {
+		return ctx.reply(ctx.i18n.t('help.marketDocked'));
+	}
+
+	const item = ctx.match[1]!.trim() as Item;
+	const amount = Number(ctx.match[2]);
+	const paperclips = Number(ctx.match[3]);
+
+	await ctx.game.setStationInstructions([{
+		type: 'buy',
+		args: {item, amount, paperclips},
+	}]);
+
+	return ctx.reply(ctx.i18n.t('help.wtbSuccessful'));
 });
+
+bot.hears(/^\/wts.(\w+).(\d+).(\d+)$/, async ctx => {
+	if (!isPlayerLocationStation(ctx.game.location)) {
+		return ctx.reply(ctx.i18n.t('help.marketDocked'));
+	}
+
+	const item = ctx.match[1]!.trim() as Item;
+	const amount = Number(ctx.match[2]);
+	const paperclips = Number(ctx.match[3]);
+
+	await ctx.game.setStationInstructions([{
+		type: 'sell',
+		args: {item, amount, paperclips},
+	}]);
+
+	return ctx.reply(ctx.i18n.t('help.wtbSuccessful'));
+});
+
+bot.hears(/^\/wt/, async ctx => ctx.reply(ctx.i18n.t('help.wtbCommand'), {parse_mode: 'HTML'}));

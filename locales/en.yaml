@@ -2,7 +2,29 @@ welcome: >
   Hey ${from.first_name}!
 
   Writing translations for your bot is relativly easy once you know how to write propper yaml files.
-help: This is some example help text.
+help:
+  main: This is some example help text.
+  marketCommand: >
+    You can inspect the market of a specific item with this command.
+
+    This commands takes one argument which is the item.
+    For example take a look on the current Aromit market like this:
+
+    /market_Aromit
+
+    When you want to create buy or sell orders use /wts or /wtb.
+  marketDocked: You have to be docked to buy or sell something.
+  wtbCommand: >
+    With this command you 'want to buy/sell' something on the /market.
+    You have to be docked and you need the parts of the order.
+
+    <code>/wtb Aromit 1 1</code>
+
+    /wtb_Aromit_1_1
+
+    Spacers dont matter. The 3 Arguments are Item, Amount and Paperclips per Item.
+  wtbSuccessful: The beaurocrats are going to handle your order soon.
+
 menu:
   back: back…
   main: main…
