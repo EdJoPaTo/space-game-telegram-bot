@@ -25,7 +25,7 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 	text += infoline(EMOJIS.station + 'Station', formatStation(location.solarsystem, location.station, true));
 	text += '\n';
 
-	text += infoline(EMOJIS.paperclip + 'Paperclips', generals.paperclips.toFixed(0));
+	text += infoline('Money', generals.paperclips.toFixed(0) + EMOJIS.paperclip);
 	text += '\n';
 
 	if (options.menuPosition?.length) {

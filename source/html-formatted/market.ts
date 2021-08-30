@@ -7,11 +7,11 @@ import {formatStation} from './location.js';
 
 export function itemMarketPart(market: ItemMarket, currentLocation: PlayerLocation, filterSameStation: boolean) {
 	let text = '';
-	text += format.bold('Sell');
+	text += format.bold('➕Buy from others');
 	text += '\n';
 	text += ordersPart(market.sell, currentLocation, filterSameStation);
 	text += '\n\n';
-	text += format.bold('Buy');
+	text += format.bold('➖Sell to others');
 	text += '\n';
 	text += ordersPart(market.buy, currentLocation, filterSameStation);
 	return text;
