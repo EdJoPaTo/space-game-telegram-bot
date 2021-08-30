@@ -1,4 +1,5 @@
 import {generateSendMenuToChatFunction} from 'telegraf-inline-menu';
+import {html as format} from 'telegram-format';
 import {Telegram} from 'telegraf';
 
 import {addOpenOverviews, popOpenOverviews} from '../persist-data/overviews.js';
@@ -10,11 +11,12 @@ import {locationPart} from '../html-formatted/location.js';
 import {menu as overviewMenu} from '../bot/overview/index.js';
 import {shipStatsPart} from '../html-formatted/ship.js';
 import {sleep} from '../javascript-helper.js';
+import {tradePart} from '../html-formatted/market.js';
 
-import {getPlayersWithSiteLog, getSiteEntities, getSiteLog} from './backend.js';
+import {getPlayersWithNotifications, getSiteEntities, getNotifications} from './backend.js';
 import {isPlayerLocationSite, isPlayerLocationWarp, Player} from './typings.js';
 
-export async function startSiteLogLoop(telegram: Telegram) {
+export async function startNotificationLoop(telegram: Telegram) {
 	await once(telegram);
 
 	void theLoop(telegram);
@@ -25,16 +27,16 @@ async function theLoop(telegram: Telegram) {
 		// eslint-disable-next-line no-await-in-loop
 		await sleep(1000);
 		try {
-		// eslint-disable-next-line no-await-in-loop
+			// eslint-disable-next-line no-await-in-loop
 			await once(telegram);
 		} catch (error: unknown) {
-			console.error('site-log-loop ERROR', error);
+			console.error('notification-loop ERROR', error);
 		}
 	}
 }
 
 async function once(telegram: Telegram) {
-	const players = await getPlayersWithSiteLog();
+	const players = await getPlayersWithNotifications();
 	for (const player of players) {
 		// eslint-disable-next-line no-await-in-loop
 		await handlePlayer(telegram, player);
@@ -42,8 +44,16 @@ async function once(telegram: Telegram) {
 }
 
 async function handlePlayer(telegram: Telegram, player: Player) {
-	const log = await getSiteLog(player);
-	if (log.length > 0) {
+	const {trades, siteLog} = await getNotifications(player);
+
+	if (trades?.length) {
+		const header = format.bold('Successful Trades');
+		const parts = trades.map(([item, trade]) => tradePart(item, trade, trade.buyer === player ? 'buy' : 'sell'));
+		const text = header + '\n' + parts.join('\n');
+		await sendHtmlWithRetry(telegram, player.id, text);
+	}
+
+	if (siteLog?.length) {
 		const openOverviews = await popOpenOverviews(player.id);
 		await Promise.all(openOverviews.map(async o => {
 			try {
@@ -59,7 +69,7 @@ async function handlePlayer(telegram: Telegram, player: Player) {
 		};
 		const {location} = game;
 		const textParts: string[] = [
-			await generateHtmlLog(ctx, log),
+			await generateHtmlLog(ctx, siteLog),
 		];
 
 		if (isPlayerLocationSite(location) || isPlayerLocationWarp(location)) {
@@ -86,7 +96,7 @@ async function sendHtmlWithRetry(telegram: Telegram, target: number, html: strin
 	try {
 		await telegram.sendMessage(target, html, {parse_mode: 'HTML'});
 	} catch (error: unknown) {
-		console.log('site-log-loop sendHtmlWithRetry ERROR', error instanceof Error ? error.message : error);
+		console.log('notification-loop sendHtmlWithRetry ERROR', error instanceof Error ? error.message : error);
 	}
 }
 
@@ -97,6 +107,6 @@ async function sendOverviewWithRetry(telegram: Telegram, target: number, ctx: an
 		const message = await sendMenu(target, ctx);
 		await addOpenOverviews(target, message.message_id);
 	} catch (error: unknown) {
-		console.log('site-log-loop sendOverviewWithRetry ERROR', error instanceof Error ? error.message : error);
+		console.log('notification-loop sendOverviewWithRetry ERROR', error instanceof Error ? error.message : error);
 	}
 }

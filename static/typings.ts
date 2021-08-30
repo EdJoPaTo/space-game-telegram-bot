@@ -115,14 +115,18 @@ export type PlayerLocation =
   | PlayerLocationSite
   | PlayerLocationStation
   | PlayerLocationWarp;
-export interface PlayerStationAssets {
-  readonly ships: readonly Ship[];
-  readonly storage: Storage;
-}
 export interface PlayerGeneral {
   readonly homeSolarsystem: Solarsystem;
   readonly homeStation: number;
   readonly paperclips: number;
+}
+export interface PlayerNotifications {
+  readonly siteLog: readonly SiteLog[];
+  readonly trades: readonly [Item, Trade][];
+}
+export interface PlayerStationAssets {
+  readonly ships: readonly Ship[];
+  readonly storage: Storage;
 }
 export type Player = { platform: "telegram"; id: number };
 export type RoundEffect =

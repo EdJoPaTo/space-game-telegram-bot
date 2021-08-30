@@ -1,6 +1,6 @@
 import got from 'got';
 
-import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral, ItemMarket, Item, PlayerStationAssets} from './typings.js';
+import {SiteInstruction, Player, PlayerLocation, Ship, SiteEntity, SitesNearPlanet, Solarsystem, StationInstruction, Site, SiteLog, ShipLayout, NpcFaction, PlayerGeneral, ItemMarket, Item, PlayerStationAssets, PlayerNotifications} from './typings.js';
 
 const BACKEND = 'http://localhost:8080';
 
@@ -54,13 +54,13 @@ export async function addSiteInstructions(player: Player, instructions: readonly
 	});
 }
 
-export async function getSiteLog(player: Player): Promise<SiteLog[]> {
-	const url = `${BACKEND}/player/${player.platform}-${player.id}/site-log`;
-	return got(url).json<SiteLog[]>();
+export async function getNotifications(player: Player): Promise<PlayerNotifications> {
+	const url = `${BACKEND}/player/${player.platform}-${player.id}/notifications`;
+	return got(url).json<PlayerNotifications>();
 }
 
-export async function getPlayersWithSiteLog(): Promise<Player[]> {
-	const url = `${BACKEND}/platform/telegram/site-log-players`;
+export async function getPlayersWithNotifications(): Promise<Player[]> {
+	const url = `${BACKEND}/platform/telegram/notification-players`;
 	return got(url).json<Player[]>();
 }
 

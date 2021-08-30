@@ -1,6 +1,6 @@
 import {html as format} from 'telegram-format';
 
-import {isPlayerLocationStation, ItemMarket, Order, PlayerLocation} from '../game/typings.js';
+import {isPlayerLocationStation, Item, ItemMarket, Order, PlayerLocation, Trade} from '../game/typings.js';
 
 import {EMOJIS} from './emojis.js';
 import {formatStation} from './location.js';
@@ -23,7 +23,7 @@ function ordersPart(orders: readonly Order[], currentLocation: PlayerLocation, f
 		filterSameStation = false;
 	}
 
-	let lines = orders
+	const lines = orders
 		.filter(o => !filterSameStation || isSameStation(o, currentLocation))
 		.filter((_o, i) => i < 5)
 		.map(o => orderPart(o, currentLocation, filterSameStation));
@@ -55,4 +55,21 @@ function isSameStation(order: Order, location: PlayerLocation) {
 	return isPlayerLocationStation(location)
 	&& order.solarsystem === location.solarsystem
 	&& order.station === location.station;
+}
+
+export function tradePart(item: Item, trade: Trade, kind: 'buy' | 'sell') {
+	let text = '';
+	text += kind === 'buy' ? '➕Bought' : '➖Sold';
+	text += ': ';
+	text += item;
+	text += ' ';
+	text += trade.amount;
+	text += 'x';
+	text += ' ';
+	text += trade.paperclips;
+	text += EMOJIS.paperclip;
+	text += '\n';
+	text += '      ';
+	text += formatStation(trade.solarsystem, trade.station, true);
+	return text;
 }
