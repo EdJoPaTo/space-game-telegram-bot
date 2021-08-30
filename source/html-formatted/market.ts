@@ -18,15 +18,21 @@ export function itemMarketPart(market: ItemMarket, currentLocation: PlayerLocati
 }
 
 function ordersPart(orders: readonly Order[], currentLocation: PlayerLocation, filterSameStation: boolean) {
-	if (orders.length === 0) {
+	const isDocked = isPlayerLocationStation(currentLocation);
+	if (!isDocked) {
+		filterSameStation = false;
+	}
+
+	let lines = orders
+		.filter(o => !filterSameStation || isSameStation(o, currentLocation))
+		.filter((_o, i) => i < 5)
+		.map(o => orderPart(o, currentLocation, filterSameStation));
+
+	if (lines.length === 0) {
 		return format.italic('none');
 	}
 
-	return orders
-		.filter(o => !filterSameStation || isSameStation(o, currentLocation))
-		.filter((_o, i) => i < 5)
-		.map(o => orderPart(o, currentLocation, filterSameStation))
-		.join('\n');
+	return lines.join('\n');
 }
 
 function orderPart(order: Order, currentLocation: PlayerLocation, filterSameStation: boolean) {
