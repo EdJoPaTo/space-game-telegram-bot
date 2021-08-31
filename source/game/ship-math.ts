@@ -1,7 +1,7 @@
 import {SHIP_LAYOUTS, MODULE_PASSIVE} from './statics.js';
 import {ShipFitting, Storage} from './typings.js';
 
-export function getShipQuickstats(fitting: ShipFitting) {
+export function getShipMaxStats(fitting: ShipFitting) {
 	const layout = SHIP_LAYOUTS[fitting.layout]!;
 	const passiveModules = fitting.slotsPassive
 		.map(o => MODULE_PASSIVE[o]!);
@@ -18,6 +18,7 @@ export function getShipQuickstats(fitting: ShipFitting) {
 		structure,
 		capacitor,
 		capacitorRecharge,
+		cargo: layout.cargoSlots,
 	};
 }
 

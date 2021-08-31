@@ -1,29 +1,36 @@
 import {html as format} from 'telegram-format';
 
-import {getCargoSlotsUsed, getShipQuickstats} from '../game/ship-math.js';
+import {getCargoSlotsUsed, getShipMaxStats} from '../game/ship-math.js';
 import {I18nContextFlavour} from '../bot/my-context.js';
-import {Ship} from '../game/typings.js';
+import {Ship, ShipLayout} from '../game/typings.js';
 import {SHIP_LAYOUTS} from '../game/statics.js';
 
 import {EMOJIS} from './emojis.js';
 import {infoline} from './general.js';
 
+export function shipLayoutLine(ctx: I18nContextFlavour, layout: ShipLayout) {
+	let text = '';
+
+	const details = SHIP_LAYOUTS[layout]!;
+	const shipclass = details.class;
+	text += format.bold(layout);
+	text += ' (';
+	text += ctx.i18n.t(`static.${shipclass}.title`);
+	text += ')';
+	return text;
+}
+
 export function shipStatsPart(ctx: I18nContextFlavour, ship: Ship) {
 	const {fitting, collateral, cargo} = ship;
 	let text = '';
 
-	const layout = SHIP_LAYOUTS[fitting.layout]!;
-	const shipclass = layout.class;
-	text += format.bold(fitting.layout);
-	text += ' (';
-	text += ctx.i18n.t(`static.${shipclass}.title`);
-	text += ')';
+	text += shipLayoutLine(ctx, fitting.layout);
 	text += '\n';
-	const max = getShipQuickstats(fitting);
+	const max = getShipMaxStats(fitting);
 	text += infoline(EMOJIS.armor + 'Armor', quickstatsValue(collateral.armor, max.armor));
 	text += infoline(EMOJIS.structure + 'Structure', quickstatsValue(collateral.structure, max.structure));
 	text += infoline(EMOJIS.capacitor + 'Capacitor', quickstatsValue(collateral.capacitor, max.capacitor, max.capacitorRecharge));
-	text += infoline(EMOJIS.storage + 'Cargo', quickstatsValue(getCargoSlotsUsed(cargo), layout.cargoSlots));
+	text += infoline(EMOJIS.storage + 'Cargo', quickstatsValue(getCargoSlotsUsed(cargo), max.cargo));
 	text += '\n';
 
 	return text.trim();
