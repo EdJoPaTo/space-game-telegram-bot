@@ -25,7 +25,11 @@ help:
 
     <code>/wtb Aromit 1 1</code>
   wtbPrice1: Trying to buy something for 1 paperclip is kinda lame… I'll just assume you don't want to be lame.
-  wtbSuccessful: The beaurocrats are going to handle your order soon.
+  wtbSuccessful: >
+    The bureaucrats are going to handle your order soon.
+
+    But dont wait for them.
+    They are probably sleeping anyway.
 
 menu:
   back: back…
