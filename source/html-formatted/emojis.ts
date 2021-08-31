@@ -12,13 +12,13 @@ const BASE_EMOJIS = {
 	undock: '🚪',
 	paperclip: '📎',
 	storage: '📦',
+	warp: '🚀',
 
 	capacitor: '🔋',
 	damage: '💥',
 	armor: '🛡',
 	structure: '⚙',
 	mine: '🪨',
-	warpDisruption: '🔗',
 
 	asteroidField: '🪨',
 	stargate: '💫',
@@ -34,6 +34,7 @@ export const EMOJIS = {
 	structureRepair: BASE_EMOJIS.structure + GROWING,
 	capacitorRecharge: BASE_EMOJIS.capacitor + GROWING,
 	capacitorDrain: BASE_EMOJIS.capacitor + BEATING,
+	warpDisruption: BASE_EMOJIS.warp + '🔗',
 };
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];

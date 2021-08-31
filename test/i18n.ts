@@ -32,7 +32,8 @@ test('facilities', t => {
 });
 
 test('facilities services', t => {
-	checkKeysExisting(t, 'en', Object.values(FACILITIES).flatMap(o => o.services).map(o => `service.${o}`));
+	checkKeysExisting(t, 'en', Object.values(FACILITIES).flatMap(o => o.services).map(o => `service.${o}.button`));
+	checkKeysExisting(t, 'en', Object.values(FACILITIES).flatMap(o => o.services).map(o => `service.${o}.starting`));
 });
 
 test('passive modules', t => {

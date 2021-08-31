@@ -2,6 +2,7 @@ import {html as format} from 'telegram-format';
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons} from '../../general.js';
+import {EMOJIS} from '../../../html-formatted/emojis.js';
 import {getSites} from '../../../game/backend.js';
 import {isPlayerLocationSite, Site, Solarsystem} from '../../../game/typings.js';
 import {MyContext} from '../../my-context.js';
@@ -28,7 +29,7 @@ async function warpMenuBody(ctx: MyContext) {
 	}
 
 	return siteBody(ctx, {
-		menuPosition: ['Initiate Warp'],
+		menuPosition: [EMOJIS.warp + ctx.i18n.t('warp.initiate')],
 		text,
 	});
 }
@@ -67,6 +68,7 @@ menu.choose('site', getSiteChoices, {
 			throw new Error('that shouldnt happen');
 		}
 
+		await ctx.answerCbQuery();
 		const splitted = key.split('-');
 		const kind = splitted[0] as Site['kind'];
 		const unique = (splitted[1] && Object.keys(SOLARSYSTEMS).includes(splitted[1]))
@@ -77,8 +79,8 @@ menu.choose('site', getSiteChoices, {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			type: 'warp', args: {target: {kind, unique: unique as any}},
 		}]);
-		await ctx.answerCbQuery('added to planned actions');
-		return '..';
+		await ctx.editMessageText(ctx.i18n.t('warp.starting'));
+		return false;
 	},
 });
 

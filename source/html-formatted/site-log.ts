@@ -13,8 +13,8 @@ const PREFIX_IN = '➡️';
 const PREFIX_OUT = '⬅️';
 
 const PREFIXES = {
-	warpIn: '🚀' + PREFIX_IN,
-	warpOut: '🚀' + PREFIX_OUT,
+	warpIn: EMOJIS.warp + PREFIX_IN,
+	warpOut: EMOJIS.warp + PREFIX_OUT,
 	dock: EMOJIS.station + PREFIX_OUT,
 	undock: EMOJIS.station + PREFIX_IN,
 

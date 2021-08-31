@@ -30,7 +30,7 @@ export const menu = new MenuTemplate<MyContext>(async ctx => {
 		return stationBody(ctx);
 	}
 
-	return 'You are in warp. It will take a moment to land at the destination.';
+	return ctx.i18n.t('warp.warping');
 });
 
 menu.chooseIntoSubmenu('slot-targeted', getSlotTargetedChoices, slotTargetedMenu, {
@@ -50,7 +50,7 @@ menu.choose('facility', getFacilityChoices, {
 	do: doFacilityButton,
 });
 
-menu.submenu('Initiate Warp', 'warp', warpMenu, {
+menu.submenu(ctx => EMOJIS.warp + ctx.i18n.t('warp.initiate'), 'warp', warpMenu, {
 	hide: hideSite,
 });
 

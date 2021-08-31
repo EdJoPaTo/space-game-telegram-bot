@@ -39,6 +39,18 @@ settings:
     Feel free to add the things you want users to adjust.
   language: Select your language
 
+warp:
+  initiate: Initiate Warp
+  starting: >
+    Your warp core is charging up.
+    This will only take a few seconds.
+
+
+    … if no one disturbs us, of course.
+  warping: >
+    You are in warp.
+    It will take a moment to land at the destination.
+
 static:
   asteroid.title: Asteroid
   asteroidField.title: Asteroid Field
@@ -50,8 +62,18 @@ static:
   rookieShip.title: Rookie Ship
 
 service:
-  jump: Jump
-  dock: Dock
+  jump:
+    button: Jump
+    starting: >
+      The jump in being prepared as we speak.
+      Please stay put while the stargate is accelerating.
+  dock:
+    button: Dock
+    starting: >
+      Just chatted with the station master.
+      The docking procedure is ongoing.
+
+      Please mind the gaps while the ship is still moving.
 
 item:
   Aromit:
