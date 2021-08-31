@@ -53,7 +53,24 @@ service:
   jump: Jump
   dock: Dock
 
-module:
+item:
+  Aromit:
+    title: Aromit
+    description: >
+      Abundant ore which can be found in many asteroid fields.
+      Mainly used for mass produces goods.
+  Solmit:
+    title: Solmit
+    description: Common ore which can be found in many asteroid fields.
+  Tormit:
+    title: Tormit
+    description: Common ore which can be found in many asteroid fields.
+  Vesmit:
+    title: Vesmit
+    description: >
+      Rare ore.
+      For some reason no one is interested in this one exept for some pirates…
+
   guardianLaser.title: Guardian Laser
   rookieArmorPlate.title: Rookie Armor Plate
   rookieArmorRepair.title: Rookie Armor Repair

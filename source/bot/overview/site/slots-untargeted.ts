@@ -9,7 +9,7 @@ async function getModules(ctx: MyContext) {
 
 export async function getSlotUntargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
-	const names = modules.map(m => EMOJIS.self + ctx.i18n.t(`module.${m}.title`));
+	const names = modules.map(m => EMOJIS.self + ctx.i18n.t(`item.${m}.title`));
 	return choicesByArrayIndex(names);
 }
 

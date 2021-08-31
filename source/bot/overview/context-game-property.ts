@@ -51,6 +51,8 @@ export class ContextGameProperty {
 
 	public async setStationInstructions(instructions: readonly StationInstruction[]) {
 		await setStationInstructions(this.ownPlayerId, instructions);
+		this.#ship = undefined;
+		this.#currentStationAssets = undefined;
 		this.#location = await getPlayerLocation(this.ownPlayerId);
 	}
 }

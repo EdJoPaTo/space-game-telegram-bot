@@ -20,7 +20,7 @@ export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
 	const moduleKey = modules[moduleIndex]!;
 	const module = MODULE_TARGETED[moduleKey]!;
-	const moduleName = ctx.i18n.t(`module.${moduleKey}.title`);
+	const moduleName = ctx.i18n.t(`item.${moduleKey}.title`);
 
 	let text = '';
 	text += module.effectsOrigin.map(o => roundEffect(ctx, o)).join('\n');
@@ -93,6 +93,6 @@ menu.manualRow(backButtons);
 
 export async function getSlotTargetedChoices(ctx: MyContext) {
 	const modules = await getModules(ctx);
-	const names = modules.map(m => EMOJIS.target + ctx.i18n.t(`module.${m}.title`));
+	const names = modules.map(m => EMOJIS.target + ctx.i18n.t(`item.${m}.title`));
 	return choicesByArrayIndex(names);
 }

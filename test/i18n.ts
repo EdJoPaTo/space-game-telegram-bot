@@ -36,15 +36,15 @@ test('facilities services', t => {
 });
 
 test('passive modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_PASSIVE).map(o => `module.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(MODULE_PASSIVE).map(o => `item.${o}.title`));
 });
 
 test('targeted modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_TARGETED).map(o => `module.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(MODULE_TARGETED).map(o => `item.${o}.title`));
 });
 
 test('untargeted modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_UNTARGETED).map(o => `module.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(MODULE_UNTARGETED).map(o => `item.${o}.title`));
 });
 
 test('ship classes', t => {

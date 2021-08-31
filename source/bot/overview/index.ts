@@ -7,6 +7,7 @@ import {MyContext} from '../my-context.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
 import {doSlotUntargetedButton, getSlotUntargetedChoices} from './site/slots-untargeted.js';
+import {menu as itemMenu} from './station/items.js';
 import {menu as selfDestructMenu} from './site/self-destruct.js';
 import {menu as slotTargetedMenu, getSlotTargetedChoices} from './site/slots-targeted.js';
 import {menu as warpMenu} from './site/warp.js';
@@ -67,14 +68,8 @@ menu.interact(EMOJIS.repair + 'Repair', 'repair', {
 	},
 });
 
-menu.interact(EMOJIS.storage + 'Transfer Ship Cargo to Station Hangar', 'cargotohangar', {
+menu.submenu(EMOJIS.storage + 'Items', 'items', itemMenu, {
 	hide: hideStation,
-	do: async ctx => {
-		await ctx.game.setStationInstructions([{
-			type: 'shipCargosToStation',
-		}]);
-		return true;
-	},
 });
 
 menu.interact(EMOJIS.undock + 'Undock', 'undock', {

@@ -248,11 +248,16 @@ export interface PlaceOrder {
   readonly amount: number;
   readonly paperclips: number;
 }
+export interface TransferItems {
+  readonly item: Item;
+  readonly amount: number;
+}
 export type StationInstruction =
-  | { type: "repair"; args?: null }
-  | { type: "shipCargosToStation"; args?: null }
   | { type: "switchShip"; args: number }
+  | { type: "repair"; args?: null }
   | { type: "undock"; args?: null }
+  | { type: "loadItemsIntoShip"; args: TransferItems }
+  | { type: "unloadItemsFromShip"; args: TransferItems }
   | { type: "buy"; args: PlaceOrder }
   | { type: "sell"; args: PlaceOrder };
 export type Storage = Readonly<Partial<Record<Item, number>>>;

@@ -25,9 +25,6 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 	text += infoline(EMOJIS.station + 'Station', formatStation(location.solarsystem, location.station, true));
 	text += '\n';
 
-	text += infoline('Money', generals.paperclips.toFixed(0) + EMOJIS.paperclip);
-	text += '\n';
-
 	if (options.menuPosition?.length) {
 		text += menuPositionPart(options.menuPosition);
 		text += '\n\n';
@@ -36,23 +33,21 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 	if (options.text) {
 		text += options.text;
 	} else {
+		text += infoline('Money', generals.paperclips.toFixed(0) + EMOJIS.paperclip);
+		text += '\n';
+
 		text += format.italic('Current Ship');
-		text += ': '
+		text += ': ';
 		text += shipStatsPart(ctx, await ctx.game.getShip());
-		text += '\n\n'
+		text += '\n\n';
 
 		const assets = await ctx.game.getStationAssets();
 
-		text += infoline('Other Ships in Stationhangar', assets.ships?.length ?? 0)
-		text += '\n'
-
-		const storage = Object.entries(assets.storage ?? {});
-		if (storage.length > 0) {
-			text += format.bold('Items in Stationhangar');
-			text += '\n';
-			text += storage.map(([item, amount]) => `${amount}x ${item}`).join('\n');
-			text += '\n\n';
-		}
+		text += format.bold('Stationhangar');
+		text += '\n';
+		text += infoline('Stored Ships', assets.ships?.length ?? 0);
+		const totalItems = Object.values(assets.storage ?? {}).reduce((a, b) => a + b);
+		text += infoline('Items', totalItems);
 	}
 
 	return {text, parse_mode: format.parse_mode};

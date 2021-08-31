@@ -114,7 +114,7 @@ export async function generateHtmlLog(ctx: I18nContextFlavour, log: readonly Sit
 				actorPart(ctx, target),
 			]);
 			const moduleLabel = format.italic(format.escape(
-				ctx.i18n.t(`module.${module}.title`),
+				ctx.i18n.t(`item.${module}.title`),
 			));
 			return prefix + `${originLabel} used ${moduleLabel} in the direction of ${targetLabel}`;
 		}
