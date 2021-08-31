@@ -36,17 +36,17 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 	if (options.text) {
 		text += options.text;
 	} else {
+		text += format.italic('Current Ship');
+		text += ': '
+		text += shipStatsPart(ctx, await ctx.game.getShip());
+		text += '\n\n'
+
 		const assets = await ctx.game.getStationAssets();
 
-		const ships = assets?.ships ?? [];
-		if (ships.length > 0) {
-			text += format.bold('Ships in Stationhangar');
-			text += '\n';
-			text += ships.map(ship => shipStatsPart(ctx, ship)).join('\n\n');
-			text += '\n\n';
-		}
+		text += infoline('Other Ships in Stationhangar', assets.ships?.length ?? 0)
+		text += '\n'
 
-		const storage = Object.entries(assets?.storage ?? {});
+		const storage = Object.entries(assets.storage ?? {});
 		if (storage.length > 0) {
 			text += format.bold('Items in Stationhangar');
 			text += '\n';

@@ -1,7 +1,7 @@
 import {html as format} from 'telegram-format';
 
-export function infoline(title: string, value: string): string {
-	return format.italic(title) + ': ' + value + '\n';
+export function infoline(title: string, value: string | number): string {
+	return `${format.italic(title)}: ${value}\n`;
 }
 
 export function menuPositionPart(menuPosition: readonly string[]) {

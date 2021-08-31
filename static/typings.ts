@@ -125,6 +125,7 @@ export interface PlayerNotifications {
   readonly trades: readonly [Item, Trade][];
 }
 export interface PlayerStationAssets {
+  readonly currentShip?: Ship;
   readonly ships: readonly Ship[];
   readonly storage: Storage;
 }
@@ -250,6 +251,7 @@ export interface PlaceOrder {
 export type StationInstruction =
   | { type: "repair"; args?: null }
   | { type: "shipCargosToStation"; args?: null }
+  | { type: "switchShip"; args: number }
   | { type: "undock"; args?: null }
   | { type: "buy"; args: PlaceOrder }
   | { type: "sell"; args: PlaceOrder };
