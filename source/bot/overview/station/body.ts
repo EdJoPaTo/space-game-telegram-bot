@@ -46,7 +46,7 @@ export async function stationBody(ctx: MyContext, options: Options = {}) {
 		text += format.bold('Stationhangar');
 		text += '\n';
 		text += infoline('Stored Ships', assets.ships?.length ?? 0);
-		const totalItems = Object.values(assets.storage ?? {}).reduce((a, b) => a + b);
+		const totalItems = Object.values(assets.storage ?? {}).reduce((a, b) => a + b, 0);
 		text += infoline('Items', totalItems);
 	}
 
