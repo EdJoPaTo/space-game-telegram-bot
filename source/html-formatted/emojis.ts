@@ -15,6 +15,8 @@ const BASE_EMOJIS = {
 	warp: '🚀',
 	add: '➕',
 	remove: '➖',
+	cpu: '👾',
+	powergrid: '🔌',
 
 	mineral: '💎',
 	module: '🦾',

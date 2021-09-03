@@ -51,11 +51,18 @@ ship:
   equipModuleHelp: >
     Modules in your station hangar are shown below.
     Modules can be produced (soon) or bought on the market.
-  equipModuleFailed: Your engineers babbled something about 'that wont work' but you stopped listening.
+  equipModuleFailed: Your engineers are babbling something about 'that wont work' but you stopped listening.
   removeModule: Remove Module
   targeted: Targeted Modules
   untargeted: Untargeted Modules
   passive: Passive Modules
+  powergrid: Powergrid
+  cpu: CPU
+  requiredPowergrid: Required Powergrid
+  requiredCpu: Required CPU
+  module:
+    effectsOrigin: Effects on on my ship
+    effectsTarget: Effects on target entity
 
 warp:
   initiate: Initiate Warp

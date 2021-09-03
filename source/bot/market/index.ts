@@ -3,9 +3,10 @@ import {Body, MenuMiddleware, MenuTemplate} from 'telegraf-inline-menu';
 import {html as format} from 'telegram-format';
 
 import {getItemMarket} from '../../game/backend.js';
-import {isPlayerLocationStation, Item} from '../../game/typings.js';
 import {infoline} from '../../html-formatted/general.js';
-import {itemLabel, itemMarketPart} from '../../html-formatted/market.js';
+import {isPlayerLocationStation, Item} from '../../game/typings.js';
+import {itemLabel} from '../../html-formatted/item.js';
+import {itemMarketPart} from '../../html-formatted/market.js';
 import {MyContext} from '../my-context.js';
 
 export const MARKET_MENU_TRIGGER = /^market([^/]+)\//;

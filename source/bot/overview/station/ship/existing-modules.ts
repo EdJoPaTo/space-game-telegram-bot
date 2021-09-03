@@ -1,6 +1,7 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons} from '../../../general.js';
+import {itemDescriptionPart} from '../../../../html-formatted/item.js';
 import {Module} from '../../../../game/typings.js';
 import {MyContext} from '../../../my-context.js';
 
@@ -37,10 +38,11 @@ const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const ship = await ctx.game.getShip();
 	const slots = type === 'targeted' ? ship.fitting.slotsTargeted : (type === 'untargeted' ? ship.fitting.slotsUntargeted : ship.fitting.slotsPassive);
 	const module = slots[index]!;
-	const text = ctx.i18n.t(`item.${module}.description`);
 	return shipBody(ctx, {
 		menuPosition: [ctx.i18n.t('ship.' + type), ctx.i18n.t(`item.${module}.title`)],
-		text,
+		text: itemDescriptionPart(ctx, module, {
+			hideRecycle: true,
+		}),
 	});
 });
 

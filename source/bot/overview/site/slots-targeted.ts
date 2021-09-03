@@ -4,8 +4,8 @@ import {backButtons, choicesByArrayIndex} from '../../general.js';
 import {EMOJIS} from '../../../html-formatted/emojis.js';
 import {entityButtonLabel} from '../../../html-formatted/site.js';
 import {getSiteEntities} from '../../../game/backend.js';
-import {isPlayerLocationSite, isSiteEntityPlayer, RoundEffect} from '../../../game/typings.js';
-import {MODULE_TARGETED} from '../../../game/statics.js';
+import {isPlayerLocationSite, isSiteEntityPlayer} from '../../../game/typings.js';
+import {itemDescriptionPart} from '../../../html-formatted/item.js';
 import {MyContext} from '../../my-context.js';
 
 import {siteBody} from './body.js';
@@ -18,32 +18,16 @@ async function getModules(ctx: MyContext) {
 export const menu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const modules = await getModules(ctx);
 	const moduleIndex = Number(path.split('slot-targeted:')[1]!.split('/')[0]);
-	const moduleKey = modules[moduleIndex]!;
-	const module = MODULE_TARGETED[moduleKey]!;
-	const moduleName = ctx.i18n.t(`item.${moduleKey}.title`);
-
-	let text = '';
-	text += module.effectsOrigin.map(o => roundEffect(ctx, o)).join('\n');
-	text += '\n\n';
-	text += module.effectsTarget.map(o => roundEffect(ctx, o)).join('\n');
-
+	const module = modules[moduleIndex]!;
+	const moduleName = ctx.i18n.t(`item.${module}.title`);
 	return siteBody(ctx, {
 		menuPosition: [EMOJIS.target + moduleName],
-		text,
+		text: itemDescriptionPart(ctx, module, {
+			hideInfrastructure: true,
+			hideRecycle: true,
+		}),
 	});
 });
-
-function roundEffect(_ctx: MyContext, effect: RoundEffect): string {
-	let line = '';
-	line += EMOJIS[effect.type];
-	line += effect.type;
-
-	if (effect.amount) {
-		line += ': ' + String(effect.amount);
-	}
-
-	return line;
-}
 
 async function getTargets(ctx: MyContext) {
 	const {location, ownPlayerId} = ctx.game;

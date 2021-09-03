@@ -1,22 +1,9 @@
 import {html as format} from 'telegram-format';
 
-import {I18nContextFlavour} from '../bot/my-context.js';
 import {isPlayerLocationStation, Item, ItemMarket, Order, PlayerLocation, Trade} from '../game/typings.js';
-import {ITEMS} from '../game/statics.js';
 
 import {EMOJIS} from './emojis.js';
 import {formatStation} from './location.js';
-
-export function itemLabel(ctx: I18nContextFlavour, item: Item) {
-	const details = ITEMS[item]!;
-	const emoji = EMOJIS[details.category];
-	const text = ctx.i18n.t(`item.${item}.title`);
-	return emoji + text;
-}
-
-export function itemAmountLabel(ctx: I18nContextFlavour, item: Item, amount: number) {
-	return `${amount}x ${itemLabel(ctx, item)}`;
-}
 
 export function itemMarketPart(market: ItemMarket, currentLocation: PlayerLocation, filterSameStation: boolean) {
 	let text = '';

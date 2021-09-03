@@ -6,7 +6,7 @@ import {backButtons} from '../../general.js';
 import {getCargoSlotsUsed} from '../../../game/ship-math.js';
 import {infoline} from '../../../html-formatted/general.js';
 import {Item} from '../../../game/typings.js';
-import {itemAmountLabel, itemLabel} from '../../../html-formatted/market.js';
+import {itemAmountLabel, itemDescriptionPart, itemLabel} from '../../../html-formatted/item.js';
 import {ITEMS, SHIP_LAYOUTS} from '../../../game/statics.js';
 import {MyContext} from '../../my-context.js';
 import {shipLayoutLine} from '../../../html-formatted/ship.js';
@@ -61,16 +61,16 @@ const itemMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const title = itemLabel(ctx, item);
 
 	let text = '';
-	text += ctx.i18n.t(`item.${item}.description`).trim();
-	text += '\n\n';
-
 	text += infoline('Ship Cargo', `${getCargoSlotsUsed(ship.cargo)} / ${layoutDetails.cargoSlots}`);
 	text += '\n';
 
 	text += infoline('In Ship', inShip);
 	text += infoline('In Station', inStation);
-
 	text += '\n';
+
+	text += itemDescriptionPart(ctx, item);
+	text += '\n\n';
+
 	text += 'Market: ';
 	text += '/market_' + item;
 

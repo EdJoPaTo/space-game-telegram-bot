@@ -1,6 +1,7 @@
 import {MenuTemplate} from 'telegraf-inline-menu';
 
 import {backButtons} from '../../../general.js';
+import {itemDescriptionPart} from '../../../../html-formatted/item.js';
 import {ITEMS} from '../../../../game/statics.js';
 import {Module} from '../../../../game/typings.js';
 import {MyContext} from '../../../my-context.js';
@@ -24,7 +25,9 @@ const moduleMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	const module = getModule(path);
 	return shipBody(ctx, {
 		menuPosition: [ctx.i18n.t('ship.equipModule'), ctx.i18n.t(`item.${module}.title`)],
-		text: ctx.i18n.t(`ctx.${module}.description`),
+		text: itemDescriptionPart(ctx, module, {
+			hideRecycle: true,
+		}),
 	});
 });
 
@@ -59,11 +62,11 @@ moduleMenu.interact(ctx => ctx.i18n.t('ship.equipModule'), 'e', {
 				type: 'moduleAdd',
 				args: module,
 			}]);
+			return '..';
 		} catch {
 			await ctx.reply(ctx.i18n.t('ship.equipModuleFailed'));
+			return true;
 		}
-
-		return true;
 	},
 });
 moduleMenu.manualRow(backButtons);
