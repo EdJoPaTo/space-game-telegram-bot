@@ -7,6 +7,7 @@ import {MyContext} from '../my-context.js';
 
 import {doFacilityButton, getFacilityChoices} from './site/facilities.js';
 import {doSlotUntargetedButton, getSlotUntargetedChoices} from './site/slots-untargeted.js';
+import {menu as shipMenu} from './station/ship/index.js';
 import {menu as itemMenu} from './station/items.js';
 import {menu as selfDestructMenu} from './site/self-destruct.js';
 import {menu as slotTargetedMenu, getSlotTargetedChoices} from './site/slots-targeted.js';
@@ -58,14 +59,8 @@ menu.submenu(EMOJIS.damage + 'Self Destruct', 'selfDestruct', selfDestructMenu, 
 	hide: hideSite,
 });
 
-menu.interact(EMOJIS.repair + 'Repair', 'repair', {
+menu.submenu(ctx => EMOJIS.ship + ctx.i18n.t('ship.ship'), 'ship', shipMenu, {
 	hide: hideStation,
-	do: async ctx => {
-		await ctx.game.setStationInstructions([{
-			type: 'repair',
-		}]);
-		return true;
-	},
 });
 
 menu.submenu(EMOJIS.storage + 'Items', 'items', itemMenu, {

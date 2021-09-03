@@ -20,11 +20,11 @@ export function itemAmountLabel(ctx: I18nContextFlavour, item: Item, amount: num
 
 export function itemMarketPart(market: ItemMarket, currentLocation: PlayerLocation, filterSameStation: boolean) {
 	let text = '';
-	text += format.bold('➕Buy from others');
+	text += format.bold(EMOJIS.add + 'Buy from others');
 	text += '\n';
 	text += ordersPart(market.sell, currentLocation, filterSameStation);
 	text += '\n\n';
-	text += format.bold('➖Sell to others');
+	text += format.bold(EMOJIS.remove + 'Sell to others');
 	text += '\n';
 	text += ordersPart(market.buy, currentLocation, filterSameStation);
 	return text;
@@ -72,7 +72,7 @@ function isSameStation(order: Order, location: PlayerLocation) {
 
 export function tradePart(item: Item, trade: Trade, kind: 'buy' | 'sell') {
 	let text = '';
-	text += kind === 'buy' ? '➕Bought' : '➖Sold';
+	text += kind === 'buy' ? `${EMOJIS.add}Bought` : `${EMOJIS.remove}Sold`;
 	text += ': ';
 	text += item;
 	text += ' ';

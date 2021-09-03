@@ -13,6 +13,8 @@ const BASE_EMOJIS = {
 	paperclip: '📎',
 	storage: '📦',
 	warp: '🚀',
+	add: '➕',
+	remove: '➖',
 
 	mineral: '💎',
 	module: '🦾',

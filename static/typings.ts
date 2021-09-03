@@ -270,6 +270,10 @@ export type StationInstruction =
   | { type: "switchShip"; args: number }
   | { type: "repair"; args?: null }
   | { type: "undock"; args?: null }
+  | { type: "moduleAdd"; args: Module }
+  | { type: "modulePassiveRemove"; args: number }
+  | { type: "moduleTargetedRemove"; args: number }
+  | { type: "moduleUntargetedRemove"; args: number }
   | { type: "shipCargoLoad"; args: TransferItems }
   | { type: "shipCargoUnload"; args: TransferItems }
   | { type: "buy"; args: PlaceOrder }

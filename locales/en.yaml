@@ -43,6 +43,20 @@ settings:
     Feel free to add the things you want users to adjust.
   language: Select your language
 
+ship:
+  ship: Ship
+  repair: Repair
+  fitting: Fitting
+  equipModule: Equip Module
+  equipModuleHelp: >
+    Modules in your station hangar are shown below.
+    Modules can be produced (soon) or bought on the market.
+  equipModuleFailed: Your engineers babbled something about 'that wont work' but you stopped listening.
+  removeModule: Remove Module
+  targeted: Targeted Modules
+  untargeted: Untargeted Modules
+  passive: Passive Modules
+
 warp:
   initiate: Initiate Warp
   starting: >
