@@ -63,12 +63,7 @@ export interface ItemDetails {
 }
 export type Mineral = "Derite" | "Fylite" | "Ragite";
 export type Ore = "Aromit" | "Solmit" | "Tormit" | "Vesmit";
-export type Item =
-  | Mineral
-  | ModulePassive
-  | ModuleTargeted
-  | ModuleUntargeted
-  | Ore;
+export type Item = Mineral | Module | Ore;
 export interface Order {
   readonly date: `${number}-${number}-${number}T${number}:${number}:${number}${string}Z`;
   readonly solarsystem: Solarsystem;
@@ -90,25 +85,26 @@ export interface ItemMarket {
   readonly buy: readonly Order[];
   readonly sell: readonly Order[];
 }
+export type ModulePassive = "rookieArmorPlate";
 export interface ModulePassiveDetails {
   readonly requiredCpu: number;
   readonly requiredPowergrid: number;
   readonly hitpointsArmor: number;
 }
-export type ModulePassive = "rookieArmorPlate";
+export type ModuleTargeted = "guardianLaser" | "rookieLaser" | "rookieMiner";
 export interface ModuleTargetedDetails {
   readonly requiredCpu: number;
   readonly requiredPowergrid: number;
   readonly effectsOrigin: readonly RoundEffect[];
   readonly effectsTarget: readonly RoundEffect[];
 }
-export type ModuleTargeted = "guardianLaser" | "rookieLaser" | "rookieMiner";
+export type ModuleUntargeted = "rookieArmorRepair";
 export interface ModuleUntargetedDetails {
   readonly requiredCpu: number;
   readonly requiredPowergrid: number;
   readonly effects: readonly RoundEffect[];
 }
-export type ModuleUntargeted = "rookieArmorRepair";
+export type Module = ModulePassive | ModuleTargeted | ModuleUntargeted;
 export type NpcFaction = "guards" | "pirates";
 export interface PlayerLocationSite {
   readonly solarsystem: Solarsystem;
@@ -169,6 +165,13 @@ export interface ShipFitting {
   readonly slotsTargeted: readonly ModuleTargeted[];
   readonly slotsUntargeted: readonly ModuleUntargeted[];
   readonly slotsPassive: readonly ModulePassive[];
+}
+export interface ShipFittingInfrastructureUsage {
+  readonly cpu: number;
+  readonly powergrid: number;
+  readonly slotsPassive: number;
+  readonly slotsTargeted: number;
+  readonly slotsUntargeted: number;
 }
 export interface Ship {
   readonly fitting: ShipFitting;
@@ -267,8 +270,8 @@ export type StationInstruction =
   | { type: "switchShip"; args: number }
   | { type: "repair"; args?: null }
   | { type: "undock"; args?: null }
-  | { type: "loadItemsIntoShip"; args: TransferItems }
-  | { type: "unloadItemsFromShip"; args: TransferItems }
+  | { type: "shipCargoLoad"; args: TransferItems }
+  | { type: "shipCargoUnload"; args: TransferItems }
   | { type: "buy"; args: PlaceOrder }
   | { type: "sell"; args: PlaceOrder }
   | {

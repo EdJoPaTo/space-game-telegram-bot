@@ -148,7 +148,7 @@ itemMenu.choose('amount', TRANSFER_CHOICES, {
 		const path = ctx.callbackQuery.data;
 		const item = getItem(path);
 
-		const type = key.startsWith('l') ? 'loadItemsIntoShip' : 'unloadItemsFromShip';
+		const type = key.startsWith('l') ? 'shipCargoLoad' : 'shipCargoUnload';
 		const amount = Number(/\d+/.exec(key)?.[0]);
 
 		await ctx.game.setStationInstructions([{
