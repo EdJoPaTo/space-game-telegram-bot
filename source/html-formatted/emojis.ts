@@ -14,13 +14,16 @@ const BASE_EMOJIS = {
 	storage: '📦',
 	warp: '🚀',
 
+	mineral: '💎',
+	module: '🦾',
+	ore: '🪨',
+	ship: '🚀',
+
 	capacitor: '🔋',
 	damage: '💥',
 	armor: '🛡',
 	structure: '⚙',
-	mine: '🪨',
 
-	asteroidField: '🪨',
 	stargate: '💫',
 	station: '🛰️',
 
@@ -35,6 +38,8 @@ export const EMOJIS = {
 	capacitorRecharge: BASE_EMOJIS.capacitor + GROWING,
 	capacitorDrain: BASE_EMOJIS.capacitor + BEATING,
 	warpDisruption: BASE_EMOJIS.warp + '🔗',
+	mine: BASE_EMOJIS.ore,
+	asteroidField: BASE_EMOJIS.ore,
 };
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];

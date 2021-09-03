@@ -3,9 +3,7 @@ import {I18n} from '@grammyjs/i18n';
 
 import {
 	FACILITIES,
-	MODULE_PASSIVE,
-	MODULE_TARGETED,
-	MODULE_UNTARGETED,
+	ITEMS,
 	SHIP_LAYOUTS,
 } from '../source/game/statics.js';
 import {typedKeys} from '../source/javascript-helper.js';
@@ -36,16 +34,8 @@ test('facilities services', t => {
 	checkKeysExisting(t, 'en', Object.values(FACILITIES).flatMap(o => o.services).map(o => `service.${o}.starting`));
 });
 
-test('passive modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_PASSIVE).map(o => `item.${o}.title`));
-});
-
-test('targeted modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_TARGETED).map(o => `item.${o}.title`));
-});
-
-test('untargeted modules', t => {
-	checkKeysExisting(t, 'en', typedKeys(MODULE_UNTARGETED).map(o => `item.${o}.title`));
+test('items', t => {
+	checkKeysExisting(t, 'en', typedKeys(ITEMS).map(o => `item.${o}.title`));
 });
 
 test('ship classes', t => {

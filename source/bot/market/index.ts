@@ -4,7 +4,8 @@ import {html as format} from 'telegram-format';
 
 import {getItemMarket} from '../../game/backend.js';
 import {isPlayerLocationStation, Item} from '../../game/typings.js';
-import {itemMarketPart} from '../../html-formatted/market.js';
+import {infoline} from '../../html-formatted/general.js';
+import {itemLabel, itemMarketPart} from '../../html-formatted/market.js';
 import {MyContext} from '../my-context.js';
 
 export const MARKET_MENU_TRIGGER = /^market([^/]+)\//;
@@ -15,12 +16,17 @@ export function getItemFromPath(path: string) {
 async function menuBody(ctx: MyContext, path: string): Promise<Body> {
 	const item = getItemFromPath(path);
 	const {location} = ctx.game;
-	const headline = format.bold('Market') + ' ' + item;
+	let header = format.bold('Market') + ' ' + itemLabel(ctx, item);
+	if (isPlayerLocationStation(location)) {
+		const {storage} = await ctx.game.getStationAssets();
+		header += '\n';
+		header += infoline('In Station', storage[item] ?? 0);
+	}
 
 	const market = await getItemMarket(item);
 
 	const parts: string[] = [
-		headline,
+		header.trim(),
 		itemMarketPart(market, location, Boolean(ctx.session.marketFilterSameStation)),
 	];
 	const text = parts.join('\n\n');

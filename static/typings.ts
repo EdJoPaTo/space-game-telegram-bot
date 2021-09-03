@@ -56,8 +56,19 @@ export interface FacilityDetails {
   readonly services: readonly Service[];
 }
 export type Facility = "station" | "stargate";
+export type ItemCategory = "mineral" | "module" | "ore" | "ship";
+export interface ItemDetails {
+  readonly category: ItemCategory;
+  readonly recycle: Readonly<Partial<Record<Mineral, number>>>;
+}
+export type Mineral = "Derite" | "Fylite" | "Ragite";
 export type Ore = "Aromit" | "Solmit" | "Tormit" | "Vesmit";
-export type Item = ModulePassive | ModuleTargeted | ModuleUntargeted | Ore;
+export type Item =
+  | Mineral
+  | ModulePassive
+  | ModuleTargeted
+  | ModuleUntargeted
+  | Ore;
 export interface Order {
   readonly date: `${number}-${number}-${number}T${number}:${number}:${number}${string}Z`;
   readonly solarsystem: Solarsystem;
@@ -259,5 +270,12 @@ export type StationInstruction =
   | { type: "loadItemsIntoShip"; args: TransferItems }
   | { type: "unloadItemsFromShip"; args: TransferItems }
   | { type: "buy"; args: PlaceOrder }
-  | { type: "sell"; args: PlaceOrder };
+  | { type: "sell"; args: PlaceOrder }
+  | {
+    type: "recycle";
+    args: {
+      item: Item;
+      amount: number;
+    };
+  };
 export type Storage = Readonly<Partial<Record<Item, number>>>;

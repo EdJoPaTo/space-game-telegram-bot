@@ -80,11 +80,25 @@ service:
       Please mind the gaps while the ship is still moving.
 
 item:
+  Derite:
+    title: Derite
+    description: >
+      Most basic mineral.
+      Used to create basic structures in most produced goods.
+  Fylite:
+    title: Fylite
+    description: >
+      Common mineral.
+      Used for more complex produced goods.
+  Ragite:
+    title: Ragite
+    description: >
+      Rare mineral.
+      Used for high-tech goods.
+
   Aromit:
     title: Aromit
-    description: >
-      Abundant ore which can be found in many asteroid fields.
-      Mainly used for mass produces goods.
+    description: Abundant ore which can be found in many asteroid fields.
   Solmit:
     title: Solmit
     description: Common ore which can be found in many asteroid fields.
@@ -93,9 +107,7 @@ item:
     description: Common ore which can be found in many asteroid fields.
   Vesmit:
     title: Vesmit
-    description: >
-      Rare ore.
-      For some reason no one is interested in this one exept for some pirates…
+    description: Rare ore.
 
   guardianLaser.title: Guardian Laser
   rookieArmorPlate.title: Rookie Armor Plate

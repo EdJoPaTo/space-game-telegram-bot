@@ -1,0 +1,72 @@
+{
+  "Derite": {
+    "category": "mineral",
+    "recycle": {}
+  },
+  "Fylite": {
+    "category": "mineral",
+    "recycle": {}
+  },
+  "Ragite": {
+    "category": "mineral",
+    "recycle": {}
+  },
+  "rookieArmorPlate": {
+    "category": "module",
+    "recycle": {
+      "Derite": 1
+    }
+  },
+  "guardianLaser": {
+    "category": "module",
+    "recycle": {
+      "Derite": 100
+    }
+  },
+  "rookieLaser": {
+    "category": "module",
+    "recycle": {
+      "Derite": 1
+    }
+  },
+  "rookieMiner": {
+    "category": "module",
+    "recycle": {
+      "Derite": 1
+    }
+  },
+  "rookieArmorRepair": {
+    "category": "module",
+    "recycle": {
+      "Derite": 1
+    }
+  },
+  "Aromit": {
+    "category": "ore",
+    "recycle": {
+      "Derite": 12,
+      "Fylite": 4
+    }
+  },
+  "Solmit": {
+    "category": "ore",
+    "recycle": {
+      "Derite": 10,
+      "Fylite": 6
+    }
+  },
+  "Tormit": {
+    "category": "ore",
+    "recycle": {
+      "Derite": 8,
+      "Ragite": 1
+    }
+  },
+  "Vesmit": {
+    "category": "ore",
+    "recycle": {
+      "Fylite": 4,
+      "Ragite": 4
+    }
+  }
+}
