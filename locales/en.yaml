@@ -1,9 +1,41 @@
 welcome: >
   Hey ${from.first_name}!
-
-  Writing translations for your bot is relativly easy once you know how to write propper yaml files.
 help:
-  main: This is some example help text.
+  main: >
+    This is a game about exploration, fighting and economics in a sector of solar systems.
+
+
+    At the start of the game you are docked at a space station.
+    Space stations are safe harbors where you can store your assets, trade and produce goods.
+
+
+    Once you undock from the station you are in space next to the station.
+    Your menu shows the modules your ship has and some ship functions.
+    The first modules are targeted, so you need to choose a target for them.
+    The other modules are untargeted and work once activated.
+    You can also use facilities at the same site (for example docking at a station).
+    In order to get from one site to another you can warp.
+
+
+    One solar system contains multiple sites.
+    For example the one at the station is a site.
+    There are other sites like the ones at stargates or asteroid fields.
+    In the beginning it might be interesting to warp towards an asteroid field.
+
+
+    Asteroid fields contain asteroids.
+    Sometimes some pirates are just waiting there for explorers to be looted.
+    Use your Laser to attack the pirate.
+    Also, your armor repair is quite helpful.
+    If you don’t manage to kill the pirate your ship will explode and one of your many clones will wake up at your home station.
+    You will also get a new Rookie Ship as your old one is probably junked and looted already.
+    Don’t worry, Rookie Ships are free.
+
+
+    Once the pirates are gone you can mine the asteroids without getting disturbed.
+
+
+    Good luck!
 
 menu:
   back: back…
