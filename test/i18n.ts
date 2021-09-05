@@ -4,6 +4,7 @@ import {I18n} from '@grammyjs/i18n';
 import {
 	FACILITIES,
 	ITEMS,
+	ITEMS_BY_CATEGORY,
 	SHIP_LAYOUTS,
 } from '../source/game/statics.js';
 import {typedKeys} from '../source/javascript-helper.js';
@@ -36,6 +37,11 @@ test('facilities services', t => {
 
 test('items', t => {
 	checkKeysExisting(t, 'en', typedKeys(ITEMS).map(o => `item.${o}.title`));
+});
+
+test('item categories', t => {
+	checkKeysExisting(t, 'en', typedKeys(ITEMS_BY_CATEGORY).map(o => `itemCategory.${o}.title`));
+	checkKeysExisting(t, 'en', typedKeys(ITEMS_BY_CATEGORY).map(o => `itemCategory.${o}.description`));
 });
 
 test('ship classes', t => {

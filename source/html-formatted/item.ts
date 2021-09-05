@@ -47,10 +47,13 @@ export function itemDescriptionPart(ctx: I18nContextFlavour, item: Item, options
 	if (targetedDetails) {
 		const {effectsOrigin, effectsTarget} = targetedDetails;
 		let text = '';
-		text += format.bold(format.escape(ctx.i18n.t('ship.module.effectsOrigin')));
-		text += '\n';
-		text += effectsOrigin.map(o => roundEffect(ctx, o)).join('\n');
-		text += '\n\n';
+		if (effectsOrigin.length > 0) {
+			text += format.bold(format.escape(ctx.i18n.t('ship.module.effectsOrigin')));
+			text += '\n';
+			text += effectsOrigin.map(o => roundEffect(ctx, o)).join('\n');
+			text += '\n\n';
+		}
+
 		text += format.bold(format.escape(ctx.i18n.t('ship.module.effectsTarget')));
 		text += '\n';
 		text += effectsTarget.map(o => roundEffect(ctx, o)).join('\n');

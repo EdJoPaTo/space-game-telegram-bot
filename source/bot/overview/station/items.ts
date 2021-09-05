@@ -71,9 +71,6 @@ const itemMenu = new MenuTemplate<MyContext>(async (ctx, path) => {
 	text += itemDescriptionPart(ctx, item);
 	text += '\n\n';
 
-	text += 'Market: ';
-	text += '/market_' + item;
-
 	return stationBody(ctx, {
 		menuPosition: ['Items', title],
 		text,
@@ -159,7 +156,17 @@ itemMenu.choose('amount', TRANSFER_CHOICES, {
 	},
 });
 
+itemMenu.manual((ctx, path) => {
+	const item = getItem(path);
+	const {category} = ITEMS[item]!;
+	return {
+		text: ctx.i18n.t('market.market'),
+		callback_data: `m/c:${category}/i:${item}/`,
+	};
+});
+
 itemMenu.submenu('Recycle', 'recycle', recycleMenu, {
+	joinLastRow: true,
 	hide: async (_ctx, path) => {
 		const item = getItem(path);
 		const details = ITEMS[item]!;

@@ -4,32 +4,6 @@ welcome: >
   Writing translations for your bot is relativly easy once you know how to write propper yaml files.
 help:
   main: This is some example help text.
-  marketCommand: >
-    You can inspect the market of a specific item with this command.
-
-    This commands takes one argument which is the item.
-    For example take a look on the current Aromit market like this:
-
-    /market_Aromit
-
-
-    When you want to create buy or sell orders, use /wts or /wtb.
-  marketDocked: You have to be docked to buy or sell something.
-  wtbCommand: >
-    With this command you 'want to buy/sell' something on the /market.
-    You have to be docked and you need the parts of the order.
-
-
-    This command has 3 arguments: The Item you want to trade, the amount of items you want to trade and the paperclips per item.
-    It should look like one of the following examples:
-
-    <code>/wtb Aromit 1 1</code>
-  wtbPrice1: Trying to buy something for 1 paperclip is kinda lame… I'll just assume you don't want to be lame.
-  wtbSuccessful: >
-    The bureaucrats are going to handle your order soon.
-
-    But dont wait for them.
-    They are probably sleeping anyway.
 
 menu:
   back: back…
@@ -42,6 +16,33 @@ settings:
     Or as the developer:
     Feel free to add the things you want users to adjust.
   language: Select your language
+
+market:
+  market: Market
+  itemDescription: Item Description
+  docked: You have to be docked to buy or sell something.
+  help: >
+    Here you can inspect the market of items.
+
+    Items are sorted into their categories.
+    Feel free to take a look around.
+  itemHelp: >
+    When you want to create buy or sell orders, use /wtb or /wts.
+  wtbCommand: >
+    With this command you 'want to buy/sell' something on the /market.
+    You have to be docked and you need the parts of the order.
+
+
+    This command has 3 arguments: The Item you want to trade, the amount of items you want to trade and the price (paperclips) per item.
+    It should look like one of the following examples:
+
+    <code>/wtb Aromit 1 1</code>
+  wtbPrice1: Trying to buy something for 1 paperclip is kinda lame… I'll just assume you don't want to be lame.
+  wtbSuccessful: >
+    The bureaucrats are going to handle your order soon.
+
+    But dont wait for them.
+    They are probably sleeping anyway.
 
 ship:
   ship: Ship
@@ -61,7 +62,7 @@ ship:
   requiredPowergrid: Required Powergrid
   requiredCpu: Required CPU
   module:
-    effectsOrigin: Effects on on my ship
+    effectsOrigin: Effects on my ship
     effectsTarget: Effects on target entity
 
 warp:
@@ -99,6 +100,28 @@ service:
       The docking procedure is ongoing.
 
       Please mind the gaps while the ship is still moving.
+
+itemCategory:
+  mineral:
+    title: Minerals
+    description: >
+      Minerals are the most basic element in existence.
+      You can produce goods with them.
+  module:
+    title: Ship Modules
+    description: >
+      Ship modules can be fitted into ships.
+      They can fulfil different purposes like combat, exploration or just to defend yourself.
+  ore:
+    title: Ores
+    description: >
+      Ores are mined from asteroids.
+      They are an easy way to get minerals.
+  ship:
+    title: Ships
+    description: >
+      Ships are used to fly around the universe.
+      Some people like their spectacular light effects when shooting on them until they… well… do a spectacular light effect.
 
 item:
   Derite:
