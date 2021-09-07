@@ -6,6 +6,7 @@ import {Telegraf} from 'telegraf';
 import {RequestError} from 'got';
 import TelegrafSessionLocal from 'telegraf-session-local';
 
+import {bot as helpBot} from './help.js';
 import {bot as marketBot} from './market/index.js';
 import {ContextGameProperty} from './overview/context-game-property.js';
 import {i18n} from './i18n.js';
@@ -45,7 +46,7 @@ if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware());
 }
 
-bot.command('help', async context => context.reply(context.i18n.t('help.main')));
+bot.use(helpBot);
 
 const settingsMenuMiddleware = new MenuMiddleware('settings/', settingsMenu);
 bot.command('settings', async context => settingsMenuMiddleware.replyToContext(context));

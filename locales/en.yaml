@@ -1,41 +1,144 @@
 welcome: >
   Hey ${from.first_name}!
 help:
-  main: >
-    This is a game about exploration, fighting and economics in a sector of solar systems.
+  overview:
+    title: Help and Guides
+    text: >
+      Here you can find some guides and help on some topics in this game.
+  gettingStarted:
+    title: Getting started
+    text: >
+      This is a game about exploration, fighting and economics in a sector of solar systems.
 
 
-    At the start of the game you are docked at a space station.
-    Space stations are safe harbors where you can store your assets, trade and produce goods.
+      At the start of the game you are docked at a space station.
+      Space stations are safe harbors where you can store your assets, trade and produce goods.
 
 
-    Once you undock from the station you are in space next to the station.
-    Your menu shows the modules your ship has and some ship functions.
-    The first modules are targeted, so you need to choose a target for them.
-    The other modules are untargeted and work once activated.
-    You can also use facilities at the same site (for example docking at a station).
-    In order to get from one site to another you can warp.
+      Once you undock from the station you are in space next to the station.
+      Your menu shows the modules your ship has and some ship functions.
+      The first modules are targeted, so you need to choose a target for them.
+      The other modules are untargeted and work once activated.
+      You can also use facilities at the same site (for example docking at a station).
+      In order to get from one site to another you can warp.
 
 
-    One solar system contains multiple sites.
-    For example the one at the station is a site.
-    There are other sites like the ones at stargates or asteroid fields.
-    In the beginning it might be interesting to warp towards an asteroid field.
+      One solar system contains multiple sites.
+      For example the one at the station is a site.
+      There are other sites like the ones at stargates or asteroid fields.
+      In the beginning it might be interesting to warp towards an asteroid field.
 
 
-    Asteroid fields contain asteroids.
-    Sometimes some pirates are just waiting there for explorers to be looted.
-    Use your Laser to attack the pirate.
-    Also, your armor repair is quite helpful.
-    If you don’t manage to kill the pirate your ship will explode and one of your many clones will wake up at your home station.
-    You will also get a new Rookie Ship as your old one is probably junked and looted already.
-    Don’t worry, Rookie Ships are free.
+      Asteroid fields contain asteroids.
+      Sometimes some pirates are just waiting there for explorers to be looted.
+      Use your Laser to attack the pirate.
+      Also, your armor repair is quite helpful.
+      If you don’t manage to kill the pirate your ship will explode and one of your many clones will wake up at your home station.
+      You will also get a new Rookie Ship as your old one is probably junked and looted already.
+      Don’t worry, Rookie Ships are free.
 
 
-    Once the pirates are gone you can mine the asteroids without getting disturbed.
+      Once the pirates are gone you can mine the asteroids without getting disturbed.
 
 
-    Good luck!
+      Good luck!
+  beingInSpace:
+    title: Being in space
+    text: >
+      Once you undock you are in space.
+      This is either in a site or in warp.
+
+
+      While you are in a site you can choose of different actions like using modules or ship utilities.
+      Every few sections all actions of a site are executed and the next round in the site begins.
+      You will get a message for the new round and what has happened.
+      This message also contains your current location (solarsystem and site), ship stats and other entities in the same site.
+
+
+      Your current location is uniquely described as solarsystem and site.
+      Also the security of the current solarsystem is interesting.
+      Higher security means more guards but also less valuable resources.
+
+
+      You ship stats are looking somewhat like this:
+
+      Abis (Rookie Ship)
+
+      🛡Armor: 0.0% 0/30
+
+      ⚙️Structure: 50.0% 5/10
+
+      🔋Capacitor: 62.5% 25/40 (+5/r)
+
+      📦Cargo: 0.0% 0/20
+
+
+      First the name of the used ship layout and its ship class are stated.
+      In this case its the Abis which is a Rookie Ship.
+      Then other stats of the ship are listed.
+
+      Armor and structure are defensive.
+      Once your ship has no structure left, it breaks.
+
+      The capacitor is needed in order to active modules.
+      Modules cost energy which the capacitor provides.
+      Also your ship is generating energy each round, in this case 5 per round.
+
+      The last statistic is the cargo.
+      Your ship can fit a certain amount of items.
+      You will pack some items like ammunition and you will find some items like loot or ore.
+
+
+      The last part of the message are other entities in the same site.
+      This are other players, asteroids, facilities like stations, NPCs, …
+      You can use your targeted modules in their direction.
+      Try different things and remember, when something explodes, its called fun.
+  stations:
+    title: Stations
+    text: >
+      There are multiple stations all over the universe.
+      Many systems even have multiple stations.
+      Stations are a safe place.
+      Everything that is docked wont explode ;)
+
+
+      Stations are a place to store your goods and trade with them.
+      You can repair and store your ships.
+
+
+      Keep in mind that every station is unique.
+      Items stored in one stations wont be in another station.
+      This is also true for the market.
+      You can only buy and sell items at the same station.
+  shipFittings:
+    title: Ship Fittings
+    text: >
+      In order to get from one place to another you will need a ship.
+      Your beginner ship, the Rookie Ship is the Abis.
+      Its a fairly simple ship layout.
+
+
+      Imagine you want to mine ore or want to hunt pirates.
+      For certain activities you can adapt your ship to be even better suited.
+
+      This is possible with ship fittings.
+
+
+      You ship has 3 kinds of modules.
+      Targeted, untargeted and passive modules.
+      Targeted modules can be activated onto another entity in the same site.
+      Untargeted modules can be activated without targeted.
+      Passive modules are always active as long as they are fitted into your ship.
+
+
+      You are also limited by the amount of CPU and Powergrid a ship layout has to offer.
+      Different ship layouts can have more or less module slots or infrastructure.
+      You should choose the ship layout that fits your needs and budget.
+      Keep in mind that bigger ships will have more infrastructure but are also way easier to hit.
+      Larger isnt always better.
+      Also larger ships are probably more expensive to loose.
+
+
 
 menu:
   back: back…
