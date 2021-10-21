@@ -2,6 +2,12 @@ import {addSiteInstructions, getPlayerLocation, getPlayerShip, getPlayerStationA
 import {isPlayerLocationStation, Player, PlayerLocation, PlayerStationAssets, Ship, SiteInstruction, StationInstruction} from '../../game/typings.js';
 
 export class ContextGameProperty {
+	public static async generate(playerId: number) {
+		const player: Player = {platform: 'telegram', id: playerId};
+		const location = await getPlayerLocation(player);
+		return new ContextGameProperty(player, location);
+	}
+
 	#location: PlayerLocation;
 
 	#currentStationAssets?: PlayerStationAssets;
@@ -16,12 +22,6 @@ export class ContextGameProperty {
 		location: PlayerLocation,
 	) {
 		this.#location = location;
-	}
-
-	public static async generate(playerId: number) {
-		const player: Player = {platform: 'telegram', id: playerId};
-		const location = await getPlayerLocation(player);
-		return new ContextGameProperty(player, location);
 	}
 
 	public async getStationAssets() {

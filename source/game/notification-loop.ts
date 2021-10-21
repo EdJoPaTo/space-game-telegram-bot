@@ -23,6 +23,7 @@ export async function startNotificationLoop(telegram: Telegram) {
 }
 
 async function theLoop(telegram: Telegram) {
+	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		// eslint-disable-next-line no-await-in-loop
 		await sleep(1000);
