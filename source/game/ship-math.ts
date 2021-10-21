@@ -8,7 +8,8 @@ export function getShipMaxStats(fitting: ShipFitting) {
 
 	let {armor} = layout;
 	const {structure, capacitor} = layout;
-	const capacitorRecharge = layout.roundEffects.find(o => o.type === 'capacitorRecharge')?.amount ?? 0;
+	const capacitorRechargeEffect = layout.roundEffects.find(o => o.type === 'capacitorRecharge');
+	const capacitorRecharge = capacitorRechargeEffect && 'amount' in capacitorRechargeEffect ? capacitorRechargeEffect.amount : 0;
 	for (const m of passiveModules) {
 		armor += m.hitpointsArmor;
 	}

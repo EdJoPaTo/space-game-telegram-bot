@@ -5,6 +5,9 @@
  * https://github.com/EdJoPaTo/space-game-typings
  */
 
+export type SitesNearPlanet = Readonly<Partial<Record<number, Site[]>>>;
+export type Storage = Readonly<Partial<Record<Item, number>>>;
+
 export function isSiteEntityAsteroid(
   entity: SiteEntity,
 ): entity is SiteEntityAsteroid {
@@ -53,7 +56,7 @@ export interface Health {
 }
 export type Service = "dock" | "jump";
 export interface FacilityDetails {
-  readonly services: readonly Service[];
+  readonly services: ReadonlyArray<Service>;
 }
 export type Facility = "station" | "stargate";
 export type ItemCategory = "mineral" | "module" | "ore" | "ship";
@@ -82,8 +85,8 @@ export interface Trade {
 }
 export type Trader = NpcFaction | Player;
 export interface ItemMarket {
-  readonly buy: readonly Order[];
-  readonly sell: readonly Order[];
+  readonly buy: ReadonlyArray<Order>;
+  readonly sell: ReadonlyArray<Order>;
 }
 export type ModulePassive = "rookieArmorPlate";
 export interface ModulePassiveDetails {
@@ -95,14 +98,14 @@ export type ModuleTargeted = "guardianLaser" | "rookieLaser" | "rookieMiner";
 export interface ModuleTargetedDetails {
   readonly requiredCpu: number;
   readonly requiredPowergrid: number;
-  readonly effectsOrigin: readonly RoundEffect[];
-  readonly effectsTarget: readonly RoundEffect[];
+  readonly effectsOrigin: ReadonlyArray<RoundEffect>;
+  readonly effectsTarget: ReadonlyArray<RoundEffect>;
 }
 export type ModuleUntargeted = "rookieArmorRepair";
 export interface ModuleUntargetedDetails {
   readonly requiredCpu: number;
   readonly requiredPowergrid: number;
-  readonly effects: readonly RoundEffect[];
+  readonly effects: ReadonlyArray<RoundEffect>;
 }
 export type Module = ModulePassive | ModuleTargeted | ModuleUntargeted;
 export type NpcFaction = "guards" | "pirates";
@@ -128,12 +131,12 @@ export interface PlayerGeneral {
   readonly paperclips: number;
 }
 export interface PlayerNotifications {
-  readonly siteLog: readonly SiteLog[];
-  readonly trades: readonly [Item, Trade][];
+  readonly siteLog: ReadonlyArray<SiteLog>;
+  readonly trades: ReadonlyArray<[Item, Trade]>;
 }
 export interface PlayerStationAssets {
   readonly currentShip?: Ship;
-  readonly ships: readonly Ship[];
+  readonly ships: ReadonlyArray<Ship>;
   readonly storage: Storage;
 }
 export type Player = { platform: "telegram"; id: number };
@@ -144,7 +147,7 @@ export type RoundEffect =
   | { type: "structureRepair"; amount: number }
   | { type: "damage"; amount: number }
   | { type: "mine"; amount: number }
-  | { type: "warpDisruption"; amount?: null };
+  | { type: "warpDisruption" };
 export type ShipClass = "rookieShip" | "frigate" | "cruiser" | "battleship";
 export interface ShipLayoutDetails {
   readonly class: ShipClass;
@@ -157,14 +160,14 @@ export interface ShipLayoutDetails {
   readonly structure: number;
   readonly armor: number;
   readonly capacitor: number;
-  readonly roundEffects: readonly RoundEffect[];
+  readonly roundEffects: ReadonlyArray<RoundEffect>;
 }
 export type ShipLayout = "Paladin" | "Abis" | "Hecate";
 export interface ShipFitting {
   readonly layout: ShipLayout;
-  readonly slotsTargeted: readonly ModuleTargeted[];
-  readonly slotsUntargeted: readonly ModuleUntargeted[];
-  readonly slotsPassive: readonly ModulePassive[];
+  readonly slotsTargeted: ReadonlyArray<ModuleTargeted>;
+  readonly slotsUntargeted: ReadonlyArray<ModuleUntargeted>;
+  readonly slotsPassive: ReadonlyArray<ModulePassive>;
 }
 export interface ShipFittingInfrastructureUsage {
   readonly cpu: number;
@@ -220,7 +223,7 @@ export interface SiteInstructionWarp {
 export type SiteInstruction =
   | { type: "moduleUntargeted"; args: SiteInstructionModuleUntargeted }
   | { type: "moduleTargeted"; args: SiteInstructionModuleTargeted }
-  | { type: "selfDestruct"; args?: null }
+  | { type: "selfDestruct" }
   | { type: "facility"; args: SiteInstructionFacility }
   | { type: "warp"; args: SiteInstructionWarp };
 export type SiteLogActor = Ore | Facility | [NpcFaction, ShipLayout] | [
@@ -239,7 +242,6 @@ export type SiteLog =
   | { type: "undock"; details: SiteLogActor }
   | { type: "warpIn"; details: SiteLogActor }
   | { type: "warpOut"; details: SiteLogActor };
-export type SitesNearPlanet = Readonly<Partial<Record<number, Site[]>>>;
 export type Site = { kind: "station"; unique: number } | {
   readonly kind: "stargate";
   readonly unique: Solarsystem;
@@ -248,7 +250,7 @@ export interface SolarsystemDetails {
   readonly security: number;
   readonly planets: number;
   readonly stargates: Readonly<Partial<Record<Solarsystem, number>>>;
-  readonly stations: readonly number[];
+  readonly stations: ReadonlyArray<number>;
 }
 export type Solarsystem =
   | "Wabinihwa"
@@ -268,8 +270,8 @@ export interface TransferItems {
 }
 export type StationInstruction =
   | { type: "switchShip"; args: number }
-  | { type: "repair"; args?: null }
-  | { type: "undock"; args?: null }
+  | { type: "repair" }
+  | { type: "undock" }
   | { type: "moduleAdd"; args: Module }
   | { type: "modulePassiveRemove"; args: number }
   | { type: "moduleTargetedRemove"; args: number }
@@ -285,4 +287,4 @@ export type StationInstruction =
       amount: number;
     };
   };
-export type Storage = Readonly<Partial<Record<Item, number>>>;
+

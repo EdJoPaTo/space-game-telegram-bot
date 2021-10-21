@@ -97,7 +97,7 @@ function roundEffect(_ctx: I18nContextFlavour, effect: RoundEffect): string {
 	line += EMOJIS[effect.type];
 	line += effect.type;
 
-	if (effect.amount) {
+	if ('amount' in effect) {
 		line += ': ' + String(effect.amount);
 	}
 
